@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "lib": [
+      "es2020",
+      "esnext.asynciterable"
+    ]
+  },
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "index.js"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}

@@ -25,7 +25,7 @@ interface OfferData {
   totalAmount: number;
   interestPercentage: number;
   timeElapsed: string;
-  offers: [];
+  offers: Offer[];
   // Include other fields as needed
 }
 

@@ -17,7 +17,7 @@ const TransactionHistoryTax: React.FC = () => {
   const [transactionHistory, setTransactionHistory] = useState([]);
   const dispatch = useDispatch();
   const firstName = useSelector(
-    (state: AppState) => state.userFirstLast.firstName,
+    (state: AppState) => state.user.firstName,
   );
 
   const formatCurrency = (value: string) => {
@@ -111,7 +111,7 @@ const TransactionHistoryTax: React.FC = () => {
         // Assuming the response structure matches your logged data
         const transactionHistoryData = response.data.myTransactions;
 
-        console.log("this is Trnasaction", response.data.myTransactions)
+        console.log("this is Transaction", response.data.myTransactions)
 
         const mappedData = transactionHistoryData.map(transaction => {
           const isCurrentUserTheBorrower = transaction.borrowerFirstName === firstName;

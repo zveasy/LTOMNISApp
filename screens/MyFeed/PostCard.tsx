@@ -13,8 +13,10 @@ import {useNavigation} from '@react-navigation/native';
 
 export type PostCardProps = {
   avatar?: string;
-  firstName?: string;
-  lastName?: string;
+  user: {
+    firstName: string;
+    lastName: string;
+  };
   timeElapsed?: number;
   number?: number;
   totalAmount?: number;
@@ -29,8 +31,7 @@ export type PostCardProps = {
 
 export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   avatar,
-  firstName,
-  lastName,
+  user,
   timeElapsed,
   number,
   title,
@@ -51,8 +52,8 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   console.log('currentAmount:: ', currentAmount);
   console.log('totalAmount:: ', totalAmount);
 
-  const avatarTitle = `${firstName?.charAt(0) ?? ''}${
-    lastName?.charAt(0) ?? ''
+  const avatarTitle = `${user?.firstName?.charAt(0) ?? ''}${
+    user?.lastName?.charAt(0) ?? ''
   }`;
 
   console.log('total amount', totalAmount);
@@ -82,7 +83,10 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
             title={avatarTitle}
             containerStyle={{backgroundColor: GlobalStyles.Colors.primary800}}
           />
-          <Text style={styles.NameTitle}>{`${firstName} ${lastName}`}</Text>
+          <Text
+            style={
+              styles.NameTitle
+            }>{`${user?.firstName} ${user?.lastName}`}</Text>
           <Text style={styles.TimeText}>{timeElapsed}</Text>
         </Pressable>
         <Pressable

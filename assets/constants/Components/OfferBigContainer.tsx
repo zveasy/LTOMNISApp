@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
 import PostOfferList, {PostType} from './PostOfferList';
-import { AsyncLocalStorage } from 'async_hooks';
+import {AsyncLocalStorage} from 'async_hooks';
 
 type User = {
   firstNameLetter?: string;
@@ -80,6 +80,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
       const res = await axios(options);
       if (res.data && res.data.borrowerPostList) {
         setActiveData(res.data.borrowerPostList);
+        console.log('this object', activeData)
       } else {
         console.log('No data received');
       }
@@ -93,7 +94,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   }, []);
 
   const handleShowMore = () => {
-    setVisibleCount((prevCount) => prevCount + 4);
+    setVisibleCount(prevCount => prevCount + 4);
   };
 
   return (
@@ -102,7 +103,9 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
         <PostOfferList key={post.id} post={post} />
       ))}
       {visibleCount < activeData.length && (
-        <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
+        <TouchableOpacity
+          onPress={handleShowMore}
+          style={styles.showMoreButton}>
           <Text style={styles.showMoreText}>Show More</Text>
         </TouchableOpacity>
       )}

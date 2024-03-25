@@ -1,0 +1,622 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EB7B94542BAF782100DA5FCB /* LTOMNISAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B94532BAF782100DA5FCB /* LTOMNISAppApp.swift */; };
+		EB7B94562BAF782100DA5FCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B94552BAF782100DA5FCB /* ContentView.swift */; };
+		EB7B94582BAF782200DA5FCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB7B94572BAF782200DA5FCB /* Assets.xcassets */; };
+		EB7B945C2BAF782200DA5FCB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB7B945B2BAF782200DA5FCB /* Preview Assets.xcassets */; };
+		EB7B94662BAF782200DA5FCB /* LTOMNISAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B94652BAF782200DA5FCB /* LTOMNISAppTests.swift */; };
+		EB7B94702BAF782200DA5FCB /* LTOMNISAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B946F2BAF782200DA5FCB /* LTOMNISAppUITests.swift */; };
+		EB7B94722BAF782200DA5FCB /* LTOMNISAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B94712BAF782200DA5FCB /* LTOMNISAppUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EB7B94622BAF782200DA5FCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB7B94482BAF782100DA5FCB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB7B944F2BAF782100DA5FCB;
+			remoteInfo = LTOMNISApp;
+		};
+		EB7B946C2BAF782200DA5FCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB7B94482BAF782100DA5FCB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB7B944F2BAF782100DA5FCB;
+			remoteInfo = LTOMNISApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EB7B94502BAF782100DA5FCB /* LTOMNISApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LTOMNISApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB7B94532BAF782100DA5FCB /* LTOMNISAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTOMNISAppApp.swift; sourceTree = "<group>"; };
+		EB7B94552BAF782100DA5FCB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EB7B94572BAF782200DA5FCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EB7B94592BAF782200DA5FCB /* LTOMNISApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LTOMNISApp.entitlements; sourceTree = "<group>"; };
+		EB7B945B2BAF782200DA5FCB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EB7B94612BAF782200DA5FCB /* LTOMNISAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LTOMNISAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB7B94652BAF782200DA5FCB /* LTOMNISAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTOMNISAppTests.swift; sourceTree = "<group>"; };
+		EB7B946B2BAF782200DA5FCB /* LTOMNISAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LTOMNISAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB7B946F2BAF782200DA5FCB /* LTOMNISAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTOMNISAppUITests.swift; sourceTree = "<group>"; };
+		EB7B94712BAF782200DA5FCB /* LTOMNISAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTOMNISAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EB7B944D2BAF782100DA5FCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B945E2BAF782200DA5FCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B94682BAF782200DA5FCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EB7B94472BAF782100DA5FCB = {
+			isa = PBXGroup;
+			children = (
+				EB7B94522BAF782100DA5FCB /* LTOMNISApp */,
+				EB7B94642BAF782200DA5FCB /* LTOMNISAppTests */,
+				EB7B946E2BAF782200DA5FCB /* LTOMNISAppUITests */,
+				EB7B94512BAF782100DA5FCB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EB7B94512BAF782100DA5FCB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EB7B94502BAF782100DA5FCB /* LTOMNISApp.app */,
+				EB7B94612BAF782200DA5FCB /* LTOMNISAppTests.xctest */,
+				EB7B946B2BAF782200DA5FCB /* LTOMNISAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EB7B94522BAF782100DA5FCB /* LTOMNISApp */ = {
+			isa = PBXGroup;
+			children = (
+				EB7B94532BAF782100DA5FCB /* LTOMNISAppApp.swift */,
+				EB7B94552BAF782100DA5FCB /* ContentView.swift */,
+				EB7B94572BAF782200DA5FCB /* Assets.xcassets */,
+				EB7B94592BAF782200DA5FCB /* LTOMNISApp.entitlements */,
+				EB7B945A2BAF782200DA5FCB /* Preview Content */,
+			);
+			path = LTOMNISApp;
+			sourceTree = "<group>";
+		};
+		EB7B945A2BAF782200DA5FCB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EB7B945B2BAF782200DA5FCB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EB7B94642BAF782200DA5FCB /* LTOMNISAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				EB7B94652BAF782200DA5FCB /* LTOMNISAppTests.swift */,
+			);
+			path = LTOMNISAppTests;
+			sourceTree = "<group>";
+		};
+		EB7B946E2BAF782200DA5FCB /* LTOMNISAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EB7B946F2BAF782200DA5FCB /* LTOMNISAppUITests.swift */,
+				EB7B94712BAF782200DA5FCB /* LTOMNISAppUITestsLaunchTests.swift */,
+			);
+			path = LTOMNISAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EB7B944F2BAF782100DA5FCB /* LTOMNISApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB7B94752BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISApp" */;
+			buildPhases = (
+				EB7B944C2BAF782100DA5FCB /* Sources */,
+				EB7B944D2BAF782100DA5FCB /* Frameworks */,
+				EB7B944E2BAF782100DA5FCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LTOMNISApp;
+			productName = LTOMNISApp;
+			productReference = EB7B94502BAF782100DA5FCB /* LTOMNISApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EB7B94602BAF782200DA5FCB /* LTOMNISAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB7B94782BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISAppTests" */;
+			buildPhases = (
+				EB7B945D2BAF782200DA5FCB /* Sources */,
+				EB7B945E2BAF782200DA5FCB /* Frameworks */,
+				EB7B945F2BAF782200DA5FCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB7B94632BAF782200DA5FCB /* PBXTargetDependency */,
+			);
+			name = LTOMNISAppTests;
+			productName = LTOMNISAppTests;
+			productReference = EB7B94612BAF782200DA5FCB /* LTOMNISAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EB7B946A2BAF782200DA5FCB /* LTOMNISAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB7B947B2BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISAppUITests" */;
+			buildPhases = (
+				EB7B94672BAF782200DA5FCB /* Sources */,
+				EB7B94682BAF782200DA5FCB /* Frameworks */,
+				EB7B94692BAF782200DA5FCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EB7B946D2BAF782200DA5FCB /* PBXTargetDependency */,
+			);
+			name = LTOMNISAppUITests;
+			productName = LTOMNISAppUITests;
+			productReference = EB7B946B2BAF782200DA5FCB /* LTOMNISAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EB7B94482BAF782100DA5FCB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					EB7B944F2BAF782100DA5FCB = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					EB7B94602BAF782200DA5FCB = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = EB7B944F2BAF782100DA5FCB;
+					};
+					EB7B946A2BAF782200DA5FCB = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = EB7B944F2BAF782100DA5FCB;
+					};
+				};
+			};
+			buildConfigurationList = EB7B944B2BAF782100DA5FCB /* Build configuration list for PBXProject "LTOMNISApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EB7B94472BAF782100DA5FCB;
+			productRefGroup = EB7B94512BAF782100DA5FCB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EB7B944F2BAF782100DA5FCB /* LTOMNISApp */,
+				EB7B94602BAF782200DA5FCB /* LTOMNISAppTests */,
+				EB7B946A2BAF782200DA5FCB /* LTOMNISAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EB7B944E2BAF782100DA5FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB7B945C2BAF782200DA5FCB /* Preview Assets.xcassets in Resources */,
+				EB7B94582BAF782200DA5FCB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B945F2BAF782200DA5FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B94692BAF782200DA5FCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EB7B944C2BAF782100DA5FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB7B94562BAF782100DA5FCB /* ContentView.swift in Sources */,
+				EB7B94542BAF782100DA5FCB /* LTOMNISAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B945D2BAF782200DA5FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB7B94662BAF782200DA5FCB /* LTOMNISAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7B94672BAF782200DA5FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB7B94702BAF782200DA5FCB /* LTOMNISAppUITests.swift in Sources */,
+				EB7B94722BAF782200DA5FCB /* LTOMNISAppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EB7B94632BAF782200DA5FCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB7B944F2BAF782100DA5FCB /* LTOMNISApp */;
+			targetProxy = EB7B94622BAF782200DA5FCB /* PBXContainerItemProxy */;
+		};
+		EB7B946D2BAF782200DA5FCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB7B944F2BAF782100DA5FCB /* LTOMNISApp */;
+			targetProxy = EB7B946C2BAF782200DA5FCB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		EB7B94732BAF782200DA5FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EB7B94742BAF782200DA5FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		EB7B94762BAF782200DA5FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LTOMNISApp/LTOMNISApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LTOMNISApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EB7B94772BAF782200DA5FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LTOMNISApp/LTOMNISApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LTOMNISApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EB7B94792BAF782200DA5FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LTOMNISApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LTOMNISApp";
+			};
+			name = Debug;
+		};
+		EB7B947A2BAF782200DA5FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LTOMNISApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LTOMNISApp";
+			};
+			name = Release;
+		};
+		EB7B947C2BAF782200DA5FCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LTOMNISApp;
+			};
+			name = Debug;
+		};
+		EB7B947D2BAF782200DA5FCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2V5XSK477A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = LTOMNISApp.LTOMNISAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LTOMNISApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EB7B944B2BAF782100DA5FCB /* Build configuration list for PBXProject "LTOMNISApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB7B94732BAF782200DA5FCB /* Debug */,
+				EB7B94742BAF782200DA5FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB7B94752BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB7B94762BAF782200DA5FCB /* Debug */,
+				EB7B94772BAF782200DA5FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB7B94782BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB7B94792BAF782200DA5FCB /* Debug */,
+				EB7B947A2BAF782200DA5FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB7B947B2BAF782200DA5FCB /* Build configuration list for PBXNativeTarget "LTOMNISAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB7B947C2BAF782200DA5FCB /* Debug */,
+				EB7B947D2BAF782200DA5FCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EB7B94482BAF782100DA5FCB /* Project object */;
+}

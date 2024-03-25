@@ -78,21 +78,20 @@ export default function Featured({route, navigation}) {
 
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps; index: number}) => (
-    <PostCard
-      avatar={item.avatar}
-      firstName={item.user.firstName}
-      lastName={item.user.lastName}
-      timeElapsed={item.timeElapsed}
-      number={item.number}
-      totalAmount={item.totalAmount}
-      currentAmount={item.currentAmount}
-      title={item.title}
-      description={item.description}
-      imageUrl={item.imageUrl}
-      offerText={fromMyPosts ? 'Edit' : 'Offer'}
-      onOfferPress={() => handleOfferPress(item.id)}
-      id={item.id}
-    />
+<PostCard
+  avatar={item.avatar}
+  user={item.user}
+  timeElapsed={item.timeElapsed}
+  number={item.number}
+  totalAmount={item.totalAmount}
+  currentAmount={item.currentAmount}
+  title={item.title}
+  description={item.description}
+  imageUrl={item.imageUrl}
+  offerText={fromMyPosts ? 'Edit' : 'Offer'}
+  onOfferPress={() => handleOfferPress(item.id)}
+  id={item.id}
+/>
   );
 
   return (

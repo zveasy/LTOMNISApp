@@ -131,6 +131,7 @@ export interface AuthLinkTokenInitialState {
 
 
 export interface AppState {
+  user: any;
   app: AppInitialState;
   token: TokenInitialState;
   language: LanguageInitialState;

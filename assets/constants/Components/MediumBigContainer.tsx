@@ -7,17 +7,18 @@ import StarCircle from './Buttons/StarCircle';
 
 
 interface MediumBigContainerProps {
-    title: string;
-    firstName: string;
-    lastName: string;
-    avatarImage: string;
-    userName: string;
-    amount: number;
-    interest: number;
-    targetScreen: string;
-    timeElapsed: string;
-    offerId: string;
-};
+  targetScreen: string;
+  title: string;
+  firstName: string;
+  lastName: string;
+  avatarImage?: string; // Marked as optional
+  userName?: string; // Marked as optional
+  amount: number;
+  interest: number;
+  offerId: string;
+  timeElapsed: string;
+}
+
 
 const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
     title,

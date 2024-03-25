@@ -96,6 +96,7 @@ import MyPosts from './screens/MyFeed/MyPosts';
 import NewOffersLender from './screens/NewOffers/Lender/SentOffers/NewOffersLender';
 import Auth from './screens/SignUp/Auth';
 import CreateAuthLink from './screens/SignUp/CreateAuthLink';
+import Wallets from './screens/Wallets/Wallets';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -151,10 +152,7 @@ function CombinedStackNavigator() {
         name="IdentityVerificationScreen"
         component={IdentityVerificationScreen}
       />
-      <CombinedStack.Screen
-        name="Auth"
-        component={Auth}
-      />
+      <CombinedStack.Screen name="Auth" component={Auth} />
       <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
@@ -163,10 +161,7 @@ function CombinedStackNavigator() {
         name="CreateLinkToken"
         component={CreateLinkToken}
       />
-      <CombinedStack.Screen
-        name="CreateAuthLink"
-        component={CreateAuthLink}
-      />
+      <CombinedStack.Screen name="CreateAuthLink" component={CreateAuthLink} />
       <CombinedStack.Screen
         name="MainStackNavigator"
         component={MainStackNavigator}
@@ -245,6 +240,7 @@ export {App};
 
 export type HomeStackParamList = {
   HomeScreen: undefined;
+  Wallets: undefined;
   TransactionHistoryDetails: {transactionId: string};
   TransactionHistoryTax: {transactionId: string};
   OfferScreenLender: undefined;
@@ -336,6 +332,7 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         name="WithdrawMoneyScreen"
         component={WithdrawMoneyScreen}
       />
+      <HomeStack.Screen name="Wallets" component={Wallets} />
       <HomeStack.Screen
         name="OfferTransactionHistory"
         component={OfferTransactionHistory}

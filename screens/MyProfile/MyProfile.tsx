@@ -209,7 +209,20 @@ export default function MyProfile() {
           }}>
           <GrayBox iconName="settings" label="Settings" iconType="feather" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeStackNavigator', {screen: 'Wallets'});
+          }}>
+          <GrayBox
+            iconName="wallet-outline"
+            label="Wallet"
+            iconType="Ionicons"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeStackNavigator', {screen: 'Wallets'});
+          }}>
           <GrayBox
             iconName="exit-outline"
             label="Sign Out"

@@ -120,8 +120,8 @@ export default function OMNISScoreScreen() {
             color={'gray'}
           />
         </TouchableOpacity>
-        <CreditScoreBar scoreUpdate={scoreUpdate} score={score} />
-        <SmallCreditScoreBar creditScore={creditScore} />
+        {/* <CreditScoreBar scoreUpdate={scoreUpdate} score={score} />
+        <SmallCreditScoreBar creditScore={creditScore} /> */}
         <Pressable
           onPress={() => {
             navigation.navigate('ScoreBreakDown');

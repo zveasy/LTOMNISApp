@@ -31,7 +31,6 @@ export default function NewOffersScreen() {
       const res = await axios(options);
       if (res.data) {
         setPostData(res.data.myPostList); // Update the post data
-        console.log('this is borrower post', res.data.myPostList)
       }
     } catch (error) {
       console.error('An error occurred:', error);
@@ -86,7 +85,7 @@ console.log('postData askj', postData)
           onSelect={() => handleSelect(item)}
         />
       )}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
       refreshControl={

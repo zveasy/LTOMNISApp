@@ -11,8 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		466A2DA059150932F6E60319 /* libPods-LTOMNISApp-LTOMNISAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 875C8FDA8FF1BFDA9D4F3A36 /* libPods-LTOMNISApp-LTOMNISAppTests.a */; };
-		7FBA67D67A1C19B1E5FF4B28 /* libPods-LTOMNISApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1353ADDA62E27B794964770 /* libPods-LTOMNISApp.a */; };
+		153175736D5CC29CA52C57BB /* libPods-LTOMNISApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1973E0E58BD7E7B2B4BB0ADF /* libPods-LTOMNISApp.a */; };
+		3D35CF48AB5449502AEDD03E /* libPods-LTOMNISApp-LTOMNISAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB1EE5E8EC932F69371489 /* libPods-LTOMNISApp-LTOMNISAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		EBA7404F2B315546000A5FC3 /* client_812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBA7404E2B315546000A5FC3 /* client_812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com.plist */; };
 		EBEDBDAC2AE0AB3B007901AA /* RNLinksdk.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = EBEDBDAB2AE0AB3B007901AA /* RNLinksdk.xcworkspace */; };
@@ -39,11 +39,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LTOMNISApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LTOMNISApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LTOMNISApp/main.m; sourceTree = "<group>"; };
-		571DDC8558DC71228DB7EEB3 /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		16C26D102A12DB5226B5F71C /* Pods-LTOMNISApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp.release.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp.release.xcconfig"; sourceTree = "<group>"; };
+		1973E0E58BD7E7B2B4BB0ADF /* libPods-LTOMNISApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTOMNISApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30EB1EE5E8EC932F69371489 /* libPods-LTOMNISApp-LTOMNISAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTOMNISApp-LTOMNISAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		505EF8F46770344B8D9343D8 /* Pods-LTOMNISApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp.debug.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp.debug.xcconfig"; sourceTree = "<group>"; };
+		671E205D66410F898756175C /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LTOMNISApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		875C8FDA8FF1BFDA9D4F3A36 /* libPods-LTOMNISApp-LTOMNISAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTOMNISApp-LTOMNISAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0A917DA9B425275CDF729BF /* Pods-LTOMNISApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp.debug.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp.debug.xcconfig"; sourceTree = "<group>"; };
-		D44ACB06CED1DE9A9BCA6B09 /* Pods-LTOMNISApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp.release.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp.release.xcconfig"; sourceTree = "<group>"; };
 		EB35CE7E2A9AF20D005CFC2D /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		EB35CE7F2A9AF20D005CFC2D /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		EB35CE802A9AF20D005CFC2D /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -63,12 +64,11 @@
 		EB35CE8E2A9AF20D005CFC2D /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		EB35CE8F2A9AF20D005CFC2D /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
 		EB35CE902A9AF20D005CFC2D /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		EB3F46B41EEDA865580C1ED4 /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EBA7404E2B315546000A5FC3 /* client_812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "client_812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com.plist"; sourceTree = "<group>"; };
 		EBEDBDAB2AE0AB3B007901AA /* RNLinksdk.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; name = RNLinksdk.xcworkspace; path = "../node_modules/react-native-plaid-link-sdk/ios/RNLinksdk.xcworkspace"; sourceTree = "<group>"; };
 		EBEDBDB02AE0AD87007901AA /* libreact-native-plaid-link-sdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-plaid-link-sdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ED0467BF93A921F4EA97E1DA /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F1353ADDA62E27B794964770 /* libPods-LTOMNISApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LTOMNISApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				466A2DA059150932F6E60319 /* libPods-LTOMNISApp-LTOMNISAppTests.a in Frameworks */,
+				3D35CF48AB5449502AEDD03E /* libPods-LTOMNISApp-LTOMNISAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBEDBDB12AE0AD87007901AA /* libreact-native-plaid-link-sdk.a in Frameworks */,
-				7FBA67D67A1C19B1E5FF4B28 /* libPods-LTOMNISApp.a in Frameworks */,
+				153175736D5CC29CA52C57BB /* libPods-LTOMNISApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,8 +128,8 @@
 			children = (
 				EBEDBDB02AE0AD87007901AA /* libreact-native-plaid-link-sdk.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				F1353ADDA62E27B794964770 /* libPods-LTOMNISApp.a */,
-				875C8FDA8FF1BFDA9D4F3A36 /* libPods-LTOMNISApp-LTOMNISAppTests.a */,
+				1973E0E58BD7E7B2B4BB0ADF /* libPods-LTOMNISApp.a */,
+				30EB1EE5E8EC932F69371489 /* libPods-LTOMNISApp-LTOMNISAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -170,10 +170,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A0A917DA9B425275CDF729BF /* Pods-LTOMNISApp.debug.xcconfig */,
-				D44ACB06CED1DE9A9BCA6B09 /* Pods-LTOMNISApp.release.xcconfig */,
-				ED0467BF93A921F4EA97E1DA /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */,
-				571DDC8558DC71228DB7EEB3 /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */,
+				505EF8F46770344B8D9343D8 /* Pods-LTOMNISApp.debug.xcconfig */,
+				16C26D102A12DB5226B5F71C /* Pods-LTOMNISApp.release.xcconfig */,
+				EB3F46B41EEDA865580C1ED4 /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */,
+				671E205D66410F898756175C /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -212,12 +212,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "LTOMNISAppTests" */;
 			buildPhases = (
-				C972D61F58C9CC5CCA6BC699 /* [CP] Check Pods Manifest.lock */,
+				EDFF4A04DD14AEA9D43707DF /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				8131104C9500F6D6D9F9C490 /* [CP] Embed Pods Frameworks */,
-				1327F06C083CC6087BFF07A6 /* [CP] Copy Pods Resources */,
+				B2CF749C1332B31D11097E36 /* [CP] Embed Pods Frameworks */,
+				8506407D0973365BE0BA964C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -233,15 +233,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LTOMNISApp" */;
 			buildPhases = (
-				B44F6ED2944591FC3FE5A8D9 /* [CP] Check Pods Manifest.lock */,
+				538C95A13F58B2E89CD54664 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				DC310FDF58AB7206068B1B48 /* [CP] Embed Pods Frameworks */,
-				280840ECDE63AC564CD16FBB /* [CP] Copy Pods Resources */,
-				EBA650A42BAF721500A22D1A /* ShellScript */,
+				D3F99BE1B1EC65F45EB2D593 /* [CP] Embed Pods Frameworks */,
+				FD8A4F7CFC17DECB1FA753D9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -325,60 +324,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\nexport NODE_BINARY=/usr/local/bin/node\n\nexport ENTRY_FILE=index.js\n\n# Define paths to the scripts\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n# Now execute the react-native-xcode.sh script within the Node environment.\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		1327F06C083CC6087BFF07A6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		280840ECDE63AC564CD16FBB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8131104C9500F6D6D9F9C490 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B44F6ED2944591FC3FE5A8D9 /* [CP] Check Pods Manifest.lock */ = {
+		538C95A13F58B2E89CD54664 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -398,8 +346,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
-		C972D61F58C9CC5CCA6BC699 /* [CP] Check Pods Manifest.lock */ = {
+		8506407D0973365BE0BA964C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2CF749C1332B31D11097E36 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3F99BE1B1EC65F45EB2D593 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDFF4A04DD14AEA9D43707DF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -421,47 +421,12 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DC310FDF58AB7206068B1B48 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EBA650A42BAF721500A22D1A /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nsource=\"$(readlink -f \"${source}\")\"\nset -x\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n\n";
-		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/../node_modules/react-native/scripts/.packager.env",
 			);
 			inputPaths = (
 			);
@@ -473,6 +438,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FD8A4F7CFC17DECB1FA753D9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LTOMNISApp/Pods-LTOMNISApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -508,7 +490,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED0467BF93A921F4EA97E1DA /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */;
+			baseConfigurationReference = EB3F46B41EEDA865580C1ED4 /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -538,7 +520,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 571DDC8558DC71228DB7EEB3 /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */;
+			baseConfigurationReference = 671E205D66410F898756175C /* Pods-LTOMNISApp-LTOMNISAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -565,93 +547,14 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0A917DA9B425275CDF729BF /* Pods-LTOMNISApp.debug.xcconfig */;
+			baseConfigurationReference = 505EF8F46770344B8D9343D8 /* Pods-LTOMNISApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2V5XSK477A;
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/BEMCheckBox\"",
-					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
-					"$(SRCROOT)/../node_modules/react-native/React",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMAppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
-					"$(SRCROOT)/../node_modules/react-native/React/Base/**",
-					"\"${PODS_ROOT}/Headers/Public/RNAppleAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCCheckbox\"",
-					"\"${PODS_ROOT}/Headers/Public/RNDateTimePicker\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGoogleSignin\"",
-					"\"${PODS_ROOT}/Headers/Public/RNLocalize\"",
-					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
-					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
-					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/React-NativeModulesApple\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTAppDelegate\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
-					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
-					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-debug\"",
-					"\"${PODS_ROOT}/Headers/Public/React-hermes\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
-					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
-					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
-					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-runtimescheduler\"",
-					"\"${PODS_ROOT}/Headers/Public/React-utils\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
-					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
-					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
-					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
-					"\"${PODS_ROOT}/Headers/Public/fmt\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/libevent\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-react-native\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-image-picker\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-pager-view\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-plaid-link-sdk\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-skia\"",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/react-native-skia/Headers\"",
-					"\"$(PODS_ROOT)/DoubleConversion\"",
-					"\"$(PODS_ROOT)/boost\"",
-					"\"$(PODS_ROOT)/boost\"",
-					"\"$(PODS_ROOT)/boost-for-react-native\"",
-					"\"$(PODS_ROOT)/glog\"",
-					"\"$(PODS_ROOT)/RCT-Folly\"",
-					"\"$(PODS_ROOT)/Headers/Public/React-hermes\"",
-					"\"$(PODS_ROOT)/Headers/Public/hermes-engine\"",
-					"\"$(PODS_ROOT)/../../node_modules/react-native/ReactCommon\"",
-					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
-					"\"$(PODS_TARGET_SRCROOT)/include/\"/**",
-					"$(SRCROOT)/../node_modules/react-native/ReactCommon/jsi",
-				);
 				INFOPLIST_FILE = LTOMNISApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -672,92 +575,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D44ACB06CED1DE9A9BCA6B09 /* Pods-LTOMNISApp.release.xcconfig */;
+			baseConfigurationReference = 16C26D102A12DB5226B5F71C /* Pods-LTOMNISApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2V5XSK477A;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/BEMCheckBox\"",
-					"\"${PODS_ROOT}/Headers/Public/BVLinearGradient\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
-					"$(SRCROOT)/../node_modules/react-native/React",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Fmt\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
-					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMAppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
-					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
-					"$(SRCROOT)/../node_modules/react-native/React/Base/**",
-					"\"${PODS_ROOT}/Headers/Public/RNAppleAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
-					"\"${PODS_ROOT}/Headers/Public/RNCCheckbox\"",
-					"\"${PODS_ROOT}/Headers/Public/RNDateTimePicker\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
-					"\"${PODS_ROOT}/Headers/Public/RNGoogleSignin\"",
-					"\"${PODS_ROOT}/Headers/Public/RNLocalize\"",
-					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
-					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
-					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Codegen\"",
-					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
-					"\"${PODS_ROOT}/Headers/Public/React-NativeModulesApple\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTAppDelegate\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
-					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
-					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
-					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-debug\"",
-					"\"${PODS_ROOT}/Headers/Public/React-hermes\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
-					"\"${PODS_ROOT}/Headers/Public/React-logger\"",
-					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
-					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
-					"\"${PODS_ROOT}/Headers/Public/React-runtimescheduler\"",
-					"\"${PODS_ROOT}/Headers/Public/React-utils\"",
-					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
-					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
-					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
-					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
-					"\"${PODS_ROOT}/Headers/Public/fmt\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/libevent\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-react-native\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-image-picker\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-pager-view\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-plaid-link-sdk\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-skia\"",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/react-native-skia/Headers\"",
-					"\"$(PODS_ROOT)/DoubleConversion\"",
-					"\"$(PODS_ROOT)/boost\"",
-					"\"$(PODS_ROOT)/boost\"",
-					"\"$(PODS_ROOT)/boost-for-react-native\"",
-					"\"$(PODS_ROOT)/glog\"",
-					"\"$(PODS_ROOT)/RCT-Folly\"",
-					"\"$(PODS_ROOT)/Headers/Public/React-hermes\"",
-					"\"$(PODS_ROOT)/Headers/Public/hermes-engine\"",
-					"\"$(PODS_ROOT)/../../node_modules/react-native/ReactCommon\"",
-					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
-					"\"$(PODS_TARGET_SRCROOT)/include/\"/**",
-					"$(SRCROOT)/../node_modules/react-native/ReactCommon/jsi",
-				);
 				INFOPLIST_FILE = LTOMNISApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -780,7 +604,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -808,7 +632,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -844,13 +668,13 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				TARGET_TEMP_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_FILES_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_FILE_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -860,7 +684,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -888,7 +712,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -916,13 +740,13 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				TARGET_TEMP_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_FILES_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
-				TEMP_FILE_DIR = "/Users/omnisceo/Library/Developer/Xcode/DerivedData/LTOMNISApp-cwfcgdtjbcriiebtjljjrqwfrpja/Build/Intermediates.noindex/ArchiveIntermediates/LTOMNISApp/IntermediateBuildFilesPath/LTOMNISApp.build/Release-iphoneos/.build";
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};

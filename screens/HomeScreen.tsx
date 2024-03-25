@@ -6,10 +6,8 @@ import {
   Pressable,
   TextInput,
   NativeModules,
-  ScrollView,
-  RefreshControl,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
@@ -39,7 +37,6 @@ export default function HomeScreen({}: {}) {
   const [notificationCount, setNotificationCount] = useState(0); // Example count
   const [firstName, setFName] = useState('');
   const [lastName, setLName] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
 
   // borrowerNewOffers
 
@@ -95,15 +92,19 @@ export default function HomeScreen({}: {}) {
     navigation.navigate('OfferScreen');
   };
 
-  const fetchUserData = useCallback(async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/omnis/user/homefeed`, {
-        headers: {
-          Authorization: `Bearer ${token.token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/user/homefeed`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
 
         const userData = response.data;
         console.log('user Data', userData);
@@ -125,23 +126,11 @@ export default function HomeScreen({}: {}) {
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
-    }, []); // Add any dependencies if needed
-  
-    useEffect(() => {
-      fetchUserData();
-    }, [fetchUserData]);
-  
-    const onRefresh = useCallback(async () => {
-      setRefreshing(true);
-      try {
-        await fetchUserData();
-      } catch (error) {
-        console.error('Error on refresh:', error);
-      } finally {
-        setRefreshing(false);
-      }
-    }, [fetchUserData]);
-  
+    };
+
+    fetchUserData();
+  }, []);
+
   console.log('This is After the First UseEffect');
 
   console.log('this home firstName', firstName)
@@ -167,16 +156,8 @@ export default function HomeScreen({}: {}) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#1E1E1E',}}>
-      <ScrollView
-        contentContainerStyle={{alignItems: 'center',flex: 1}}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
+    <SafeAreaView style={styles.Background}>
+      {/* Profile Pic, Name, and Notifications */}
       <View style={styles.headerContainer}>
         <Pressable onPress={handleProfileScreen} style={{flexDirection: 'row'}}>
           <Avatar
@@ -318,7 +299,6 @@ export default function HomeScreen({}: {}) {
           </View>
         </View>
       </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

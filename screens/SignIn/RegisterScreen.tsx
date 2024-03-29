@@ -23,6 +23,8 @@ import appleAuth, {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {setToken} from '../../ReduxStore';
 
+// 03.28.2024
+
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');

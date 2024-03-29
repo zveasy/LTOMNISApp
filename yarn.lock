@@ -8010,7 +8010,7 @@ react-native-picker-select@^8.1.0:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
 
-react-native-plaid-link-sdk@^10.6.4:
+react-native-plaid-link-sdk@^10.13.1:
   version "10.13.1"
   resolved "https://registry.npmjs.org/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-10.13.1.tgz"
   integrity sha512-nM9FvtZ3Hgn2joqItxXALyo2BkEqkbMZP90xCf67JGI7m2FgMQGJ+MftSsWhXPOlAJ5MpjdZQCjFMR2+1ZHWJQ==

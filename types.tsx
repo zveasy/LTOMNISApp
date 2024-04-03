@@ -77,7 +77,7 @@ export type SignInActionTypes = SetIsSignedInAction;
 export type LanguageActionTypes = SetLanguageAction;
 export type LinkTokenActionTypes = SetLinkTokenAction;
 export type AuthTokenActionTypes = SetAuthTokenAction;
-export type userPhoneNumberTypes = SetuserPhoneNumberAction;
+export type userPhoneNumberTypes = SetUserPhoneNumberAction;
 export type TokenActionTypes = SetTokenAction | RemoveTokenAction;
 export type AppActionTypes = SetHasViewedOnboardingAction | SetIsSignedInAction;
 export type OnboardingScreen4NavigationProp = NativeStackNavigationProp<
@@ -92,6 +92,7 @@ export const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
 
 // Root Stack Param List Type
 export type RootStackParamList = {
+  Auth: undefined;
   Tabs: undefined;
   SignInScreen: undefined;
   RegisterScreen: undefined;
@@ -113,6 +114,15 @@ export type RootStackParamList = {
   };
   MainStackNavigator: NavigatorScreenParams<MainStackParamList>;
   TabsStackNavigator: undefined;
+  EditProfile: undefined;
+  NextScreenAfterOnboarding: undefined;
+  ForgotPassword: undefined;
+  Verification: undefined;
+  CreateNewPassword: undefined;
+  PlaidLink: undefined;
+  CreditScoreDisplay: undefined;
+  CreateLinkToken: undefined;
+  CreateAuthLink: undefined;
 };
 
 // Tabs Stack Navigator Props Type

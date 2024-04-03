@@ -15,7 +15,7 @@ interface OfferData {
   totalAmount: number;
   interestPercentage: number;
   timeElapsed: string;
-  offers: [];
+  offers: any[];
   // Include other fields as needed
 }
 
@@ -70,9 +70,9 @@ const ActiveOffersLender = () => {
           // userName={item.userName}
           amount={item.offers[0].amount}
           interest={item.offers[0].interestPercentage}
-          postId={item.id}
-          timeElapsed={item.timeElapsed}
-        />
+          //postId={item.id}
+          timeElapsed={item.timeElapsed} 
+          offerId={''}        />
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}

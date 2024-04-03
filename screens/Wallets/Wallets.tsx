@@ -4,10 +4,12 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
+import { AppState } from '../../ReduxStore';
 
 const Wallets = () => {
-  const [wallet, setWallet] = useState({ tokenBalance: [] });
-  const token = useSelector((state) => state.token);
+  const bugFix: any[] = [];
+  const [wallet, setWallet] = useState({ tokenBalance: bugFix });
+  const token = useSelector((state:AppState) => state.token);
 
   useEffect(() => {
     const fetchUserData = async () => {

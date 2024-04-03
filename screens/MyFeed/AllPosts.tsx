@@ -88,8 +88,10 @@ export default function AllPosts({route, navigation}) {
       imageUrl={item.imageUrl}
       offerText={fromMyPosts ? 'Edit' : 'Offer'}
       onOfferPress={() => handleOfferPress(item.id)}
-      id={item.id}
-    />
+      id={item.id} subtext={undefined} progress={undefined} hours={undefined} user={{
+        firstName: '',
+        lastName: ''
+      }}    />
   );
 
   return (

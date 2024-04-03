@@ -126,7 +126,8 @@ export interface LinkTokenInitialState {
 }
 
 export interface AuthLinkTokenInitialState {
-  authToken: string;
+  authToken: string | null;
+  LinkToken: string | null;
 }
 
 

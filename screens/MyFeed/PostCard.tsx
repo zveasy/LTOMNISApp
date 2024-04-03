@@ -12,6 +12,11 @@ import {useNavigation} from '@react-navigation/native';
 // };
 
 export type PostCardProps = {
+  subtext: any;
+  progress: any;
+  hours: any;
+  lastName: any;
+  firstName: any;
   avatar?: string;
   user: {
     firstName: string;

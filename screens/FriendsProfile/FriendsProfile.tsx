@@ -18,7 +18,8 @@ const FriendsProfile = () => {
   const route = useRoute<RouteProp<HomeStackParamList, 'FriendsProfile'>>();
   const {id} = route.params;
 
-  const [friendUserData, setFriendUserData] = useState();
+  const bugFix: any = null;
+  const [friendUserData, setFriendUserData] = useState(bugFix);
   const token = useSelector((state: AppState) => state.token);
   const [friendshipStatus, setFriendshipStatus] = useState('not_friends'); // Example initial value
 

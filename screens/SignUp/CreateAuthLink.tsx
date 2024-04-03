@@ -6,7 +6,6 @@ import {setAuthToken, setLinkToken} from '../../actions';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types';
 import {AppState} from '../../ReduxStore';
-import {link} from 'fs';
 import axios from 'axios';
 
 interface CreateAuthLinkProps {
@@ -16,7 +15,8 @@ interface CreateAuthLinkProps {
 
 const CreateAuthLink: React.FC<CreateAuthLinkProps> = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const id = useSelector((state: AppState) => state.id.id);
+  //                             Took out the second.id
+  const id = useSelector((state: AppState) => state.id);
   const linkToken = useSelector((state: AppState) => state.linkToken);
   const authToken = useSelector((state: AppState) => state.authToken);
   const token = useSelector((state: AppState) => state.token);

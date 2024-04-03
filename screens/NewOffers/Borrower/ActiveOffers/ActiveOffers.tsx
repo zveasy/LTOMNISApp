@@ -69,14 +69,7 @@ export default function ActiveOffers({route}) {
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
       data={postData}
       renderItem={({item}) => (
-        <OfferBigContainer
-          targetScreen="ActiveOfferMakePayment"
-          title={item.title}
-          offerNumber={item.offerNumber}
-          raiseNumber={item.raiseNumber}
-          fullNumber={item.fullNumber}
-          users={item.users}
-          // firstName={item.user.firstName}
+        <OfferBigContainer offerId={''} fullNumber={0} id={''} users={[]}          // firstName={item.user.firstName}
           // lastName={item.user.lastName}
         />
       )}

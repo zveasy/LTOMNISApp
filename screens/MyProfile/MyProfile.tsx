@@ -136,13 +136,13 @@ export default function MyProfile() {
           rightButtonText="Share Profile"
           onLeftButtonPress={() => {
             console.log(navigation.navigate('EditProfile'));
-          }}
+          } }
           onRightButtonPress={() => {
             console.log('Right button pressed');
-          }}
+          } }
           isLeftButtonActive={true} // or false based on your state
           isRightButtonActive={true} // or true based on your state
-        />
+          buttonState={'default'}        />
       </View>
       <View
         style={{

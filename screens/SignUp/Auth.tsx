@@ -52,13 +52,16 @@ const Auth = () => {
   };
 
   const onExit = (linkExit: LinkExit) => {
-    supportHandler.report({
-      error: linkExit.error,
-      institution: linkExit.metadata.institution,
-      linkSessionId: linkExit.metadata.linkSessionId,
-      requestId: linkExitlinkExit.metadata.requestId,
-      status: linkExit.metadata.status,
-    });
+    
+    //Not sure if this is doing anything
+
+    // supportHandler.report({
+    //   error: linkExit.error,
+    //   institution: linkExit.metadata.institution,
+    //   linkSessionId: linkExit.metadata.linkSessionId,
+    //   requestId: linkExit.metadata.requestId,
+    //   status: linkExit.metadata.status,
+    // });
   };
 
   usePlaidEmitter(event => {
@@ -72,11 +75,13 @@ const Auth = () => {
       {publicToken ? (
         <PlaidLink
           tokenConfig={{
-            token: publicToken.authToken,
+            token: publicToken.authToken? publicToken.authToken : '',
+            // not sure what it does so I put it false
+            noLoadingState: false
           }}
           onSuccess={onSuccess}
           onExit={onExit}
-          style={styles.plaidLink}>
+          /*style={styles.plaidLink}*/>
           <View style={styles.plaidLink}>
             <Text style={styles.buttonText}>Connect Account</Text>
           </View>

@@ -12,7 +12,6 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
 import PostOfferList, {PostType} from './PostOfferList';
-import {AsyncLocalStorage} from 'async_hooks';
 
 type User = {
   firstNameLetter?: string;
@@ -37,7 +36,7 @@ export type OfferBigContainerProps = {
   description?: string;
   imageUrl?: string;
   offerText?: string;
-  id?: string;
+  id: string;
   title?: number;
   monthDuration?: number;
   onSelect?: (planDetails: OfferBigContainerProps) => void;

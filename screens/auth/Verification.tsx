@@ -118,7 +118,7 @@ export default function Verification({route}) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({email: userEmail}), // userEmail should be the email address of the user
+          body: JSON.stringify({email: ''}), // userEmail should be the email address of the user
         },
       );
 
@@ -157,7 +157,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit1(text);
-                text && ref_input2.current.focus();
+                text && ref_input2.current?.focus();
               }}
               value={digit1}
               maxLength={1}
@@ -170,7 +170,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit2(text);
-                text ? ref_input3.current.focus() : ref_input1.current.focus();
+                text ? ref_input3.current?.focus() : ref_input1.current?.focus();
               }}
               value={digit2}
               maxLength={1}
@@ -183,7 +183,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit3(text);
-                text ? ref_input4.current.focus() : ref_input2.current.focus();
+                text ? ref_input4.current?.focus() : ref_input2.current?.focus();
               }}
               value={digit3}
               maxLength={1}
@@ -196,7 +196,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit4(text);
-                text ? ref_input5.current.focus() : ref_input3.current.focus();
+                text ? ref_input5.current?.focus() : ref_input3.current?.focus();
               }}
               value={digit4}
               maxLength={1}
@@ -209,7 +209,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit5(text);
-                text ? ref_input6.current.focus() : ref_input4.current.focus();
+                text ? ref_input6.current?.focus() : ref_input4.current?.focus();
               }}
               value={digit5}
               maxLength={1}
@@ -222,7 +222,7 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit6(text);
-                !text && ref_input5.current.focus();
+                !text && ref_input5.current?.focus();
               }}
               value={digit6}
               maxLength={1}

@@ -7,7 +7,7 @@ import ListItemWithRadial, {
 } from '../../../../assets/constants/Components/ListItemWithRadial';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideTabBar, setTabBarVisibility } from '../../../../tabBarSlice';
+import { hideTabBar} from '../../../../tabBarSlice';
 import { RootState } from '../../../../reduxTypes';
 
 const OfferTransactionHistory: React.FC = () => {

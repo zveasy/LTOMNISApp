@@ -318,6 +318,7 @@ export type HomeStackParamList = {
     postTotalAmount: number;
     postCurrentAmount: number;
   };
+  NewOffersLender: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();

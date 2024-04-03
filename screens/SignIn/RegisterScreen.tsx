@@ -17,8 +17,8 @@ import {useDispatch} from 'react-redux';
 import {setId} from '../../Redux/actions/idActions';
 import appleAuth, {
   AppleButton,
-  AppleAuthRequestScope,
-  AppleAuthRequestOperation,
+  AppleRequestScope,
+  AppleRequestOperation,
 } from '@invertase/react-native-apple-authentication';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {setToken} from '../../ReduxStore';
@@ -73,43 +73,43 @@ export default function RegisterScreen() {
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
       } else {
-        console.error('Error:', error.message);
+        console.error('Error:', Error);
       }
     } catch (error) {}
   };
 
-  const onAppleButtonPress = async () => {
-    try {
-      const appleAuthRequestResponse = await appleAuth.performRequest({
-        requestedOperation: AppleAuthRequestOperation.LOGIN,
-        requestedScopes: [
-          AppleAuthRequestScope.EMAIL,
-          AppleAuthRequestScope.FULL_NAME,
-        ],
-      });
+  // const onAppleButtonPress = async () => {
+  //   try {
+  //     const appleAuthRequestResponse = await appleAuth.performRequest({
+  //       requestedOperation: AppleAuthRequestOperation.LOGIN,
+  //       requestedScopes: [
+  //         AppleAuthRequestScope.EMAIL,
+  //         AppleAuthRequestScope.FULL_NAME,
+  //       ],
+  //     });
 
-      const credentialState = await appleAuth.getCredentialStateForUser(
-        appleAuthRequestResponse.user,
-      );
+  //     const credentialState = await appleAuth.getCredentialStateForUser(
+  //       appleAuthRequestResponse.user,
+  //     );
 
-      if (credentialState === appleAuth.State.AUTHORIZED) {
-        const {email, fullName} = appleAuthRequestResponse;
-        const userData = {
-          email,
-          fullName,
-          phoneNumber,
-          appleIdToken: appleAuthRequestResponse.identityToken, 
-        };
-        const res = await axios.post(
-          'http://localhost:8080/api/omnis/account/register_login',
-          userData,
-        );
-        const {sessionToken} = res.data;
-      }
-    } catch (error) {
+  //     if (credentialState === appleAuth.State.AUTHORIZED) {
+  //       const {email, fullName} = appleAuthRequestResponse;
+  //       const userData = {
+  //         email,
+  //         fullName,
+  //         phoneNumber,
+  //         appleIdToken: appleAuthRequestResponse.identityToken, 
+  //       };
+  //       const res = await axios.post(
+  //         'http://localhost:8080/api/omnis/account/register_login',
+  //         userData,
+  //       );
+  //       const {sessionToken} = res.data;
+  //     }
+  //   } catch (error) {
 
-    }
-  };
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.background}>
@@ -206,7 +206,7 @@ export default function RegisterScreen() {
                   style={styles.imageApple}
                   buttonStyle={AppleButton.Style.BLACK}
                   buttonType={AppleButton.Type.SIGN_IN}
-                  onPress={() => onAppleButtonPress()}
+                  onPress={() => {}}
                 />
               )}
             </View>

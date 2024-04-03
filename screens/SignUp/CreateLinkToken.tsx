@@ -6,11 +6,10 @@ import {setLinkToken} from '../../actions';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types';
 import {AppState} from '../../ReduxStore';
-import {link} from 'fs';
 import axios from 'axios';
 
 interface CreateLinkTokenProps {
-  navigation: NativeStackNavigationProp<RootStackParamList>;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'IdentityVerificationScreen'>;
   route: RouteProp<RootStackParamList, 'IdentityVerificationScreen'>;
 }
 
@@ -19,7 +18,9 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
   route,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const id = useSelector((state: AppState) => state.id.id);
+
+    //                             Took out the second.id
+  const id = useSelector((state: AppState) => state.id);
   const linkToken = useSelector((state: AppState) => state.linkToken);
   const token = useSelector((state: AppState) => state.token);
   const dispatch = useDispatch();
@@ -58,7 +59,9 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
 
   useEffect(() => {
     if (linkToken) {
-      navigation.navigate('IdentityVerificationScreen');
+      navigation.navigate('IdentityVerificationScreen', {
+        linkToken: linkToken.LinkToken, // Pass the friend's ID correctly here
+      })
     }
   }, [linkToken, navigation]);
 

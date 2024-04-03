@@ -1,13 +1,13 @@
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import TitleWithMeter from '../../../../assets/constants/Components/OMNISScoreComp/TitleWithMeter';
 import GlobalStyles from '../../../../assets/constants/colors';
-import {Divider} from 'react-native-elements';
+import { Divider } from 'react-native-elements';
 import TitleWithGraph from '../../../../assets/constants/Components/OMNISScoreComp/TitleWithGraph';
 import OmnisScoreChips from '../../../../assets/constants/Components/OmnisScoreChips';
 import axios from 'axios';
-import {AppState} from '../../../../ReduxStore';
-import {useSelector} from 'react-redux';
+import { AppState } from '../../../../ReduxStore';
+import { useSelector } from 'react-redux';
 
 const BorrowerScoreBreakdown = () => {
   const token = useSelector((state: AppState) => state.token);
@@ -40,17 +40,25 @@ const BorrowerScoreBreakdown = () => {
 
   return (
     <SafeAreaView style={styles.background}>
-      <TitleWithMeter title="Repayment Timeliness Meter" score={scoreBorrower} />
+      <TitleWithMeter title="Repayment Timeliness Meter" score={{
+        borrowerBehavior: {
+          lateRepayments: 0,
+          onTimeRepayments: 0,
+          pendingPayments: 0,
+          totalAmountBorrowed: 0,
+          totalAmountRepaid: 0,
+        }, message: '', success: false
+      }} />
       <Divider
         width={1}
-        style={{width: '95%', alignSelf: 'center'}}
+        style={{ width: '95%', alignSelf: 'center' }}
         color={GlobalStyles.Colors.accent250}
       />
-      <TitleWithGraph score={scoreBorrower} title="Amount Borrowed vs Repaid" />
+      <TitleWithGraph score={0} title="Amount Borrowed vs Repaid" />
       <OmnisScoreChips
         chips={[
-          {text: 'Borrowed', backgroundColor: GlobalStyles.Colors.primary800},
-          {text: 'Repaid', backgroundColor: GlobalStyles.Colors.primary200},
+          { text: 'Borrowed', backgroundColor: GlobalStyles.Colors.primary800 },
+          { text: 'Repaid', backgroundColor: GlobalStyles.Colors.primary200 },
         ]}
       />
     </SafeAreaView>

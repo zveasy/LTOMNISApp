@@ -96,8 +96,10 @@ export default function FriendsFeed() {
       subtext={item.subtext}
       imageUrl={item.imageUrl}
       offerText={item.offerText}
-      id={item.id}
-    />
+      id={item.id} user={{
+        firstName: '',
+        lastName: ''
+      }} onOfferPress={() => {}}    />
   );
 
   return (

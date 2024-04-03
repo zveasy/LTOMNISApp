@@ -54,8 +54,8 @@ export default function AddPostScreen() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    console.log('Amount before appending to FormData:', amount);
-    formData.append('amount', amount.toFixed(2));
+    console.log('Amount before appending to FormData:', (amount * 1.0875));
+    formData.append('amount', (amount * 1.0875).toFixed(2));
     formData.append('featured', String(featured)); // Convert boolean to string
 
     // if (imageFile) {

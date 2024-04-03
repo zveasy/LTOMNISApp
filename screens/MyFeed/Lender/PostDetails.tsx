@@ -38,8 +38,7 @@ export default function PostDetails() {
   console.log('Post ID for this post userstate', userstate);
 
   const fetchData = async () => {
-
-    console.log('we are in the fetch data')
+    console.log('we are in the fetch data');
     try {
       const response = await axios.post(
         'http://localhost:8080/api/omnis/offer/create',
@@ -58,7 +57,7 @@ export default function PostDetails() {
       );
       setOfferData(response.data);
       // Navigate to the OfferSent screen after setting the offer data
-      console.log('response.data for Offer details', response.data )
+      console.log('response.data for Offer details', response.data);
       console.log('response.data.newOffer', response.data.newOffer);
       console.log('response.data', response.data);
       navigation.navigate('OfferSent');
@@ -130,8 +129,6 @@ export default function PostDetails() {
     return loanAmount + interestAmount;
   };
 
-  // NAN
-
   const renderAmountDisplay = () => {
     const amount = calculateTotalAmount();
 
@@ -187,6 +184,26 @@ export default function PostDetails() {
         ${typeof amount === 'number' ? amount.toFixed(2) : amount}
       </Text>
     );
+  };
+
+  const renderPaymentDisplay = () => {
+    const amount = calculateTotalAmount();
+    const payment = typeof amount === 'number' ? amount * 0.03 : 0;
+
+    // Ensure we only show payment info for valid numerical amounts
+    if (typeof amount === 'number' && !isNaN(amount)) {
+      return (
+        <Text style={styles.paymentText}>
+         Loan Creation: $
+          {payment.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </Text>
+      );
+    }
+
+    return null; // Do not display the payment section if amount is "Gift" or invalid
   };
 
   return (
@@ -260,6 +277,9 @@ export default function PostDetails() {
                 width={24}
               />
             </View>
+            <View style={{flexDirection: 'column', padding: 20, alignSelf: 'flex-end'}}>
+              <Text>{renderPaymentDisplay()}</Text>
+            </View>
             {renderAmountDisplay()}
           </View>
           <View
@@ -325,5 +345,9 @@ const styles = StyleSheet.create({
   disabledText: {
     color: 'gray',
     // You can add any other styles to make it appear disabled
+  },
+  paymentText: {
+    color: 'gray',
+    fontSize: 12,
   },
 });

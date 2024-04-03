@@ -39,6 +39,7 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
     console.log('lastNameLetter', lastName)
 
 
+
     return (
       <View style={styles.container}>
         <View style={styles.innerContainerTitle}>

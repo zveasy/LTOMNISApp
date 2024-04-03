@@ -56,6 +56,7 @@ export default function AllPosts({route, navigation}) {
           },
         },
       );
+      console.log("hello")
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
       console.log('This is the correct uniquePostId!: ', uniquePostId);
@@ -73,12 +74,13 @@ export default function AllPosts({route, navigation}) {
     }
   };
 
+  console.log('goodbye')
+
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
       avatar={item.avatar}
-      firstName={item.user.firstName}
-      lastName={item.user.lastName}
+      user={item.user}
       timeElapsed={item.timeElapsed}
       number={item.number}
       totalAmount={item.totalAmount}

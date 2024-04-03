@@ -72,9 +72,7 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
 
       if (data.user.firstName) {
         navigation.navigate('SplashScreen');
-        setTimeout(() => {
-          navigation.navigate('CreateAuthLink');
-        }, 3000);
+        navigation.navigate('CreateAuthLink');
       } else {
         console.log('firstName not found in response');
       }

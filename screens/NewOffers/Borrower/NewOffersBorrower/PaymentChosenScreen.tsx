@@ -88,7 +88,7 @@ export default function PaymentChosenScreen() {
       console.log('response.data /omnis/offer/accept', response.data);
     } catch (error) {
       setError('Failed to fetch data'); // Set the error message
-      console.error('Failed to fetch payment plan details:', error);
+      console.error('Failed to fetch payment plan details:', error.message);
       // Additional error handling (e.g., showing an alert)
     } finally {
       setIsLoading(false);

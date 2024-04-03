@@ -74,10 +74,9 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
             </View>
             <Text style={styles.Subtext}>{offer.timeElapsed}</Text>
           </View>
-
           <View
             style={{flexDirection: 'row', marginTop: 18, alignItems: 'center'}}>
-            <Text style={styles.NumberInRoles}>{`$${offer.amount}`}</Text>
+            <Text style={styles.NumberInRoles}>{`$${offer.amount.toLocaleString('en-US')}`}</Text>
             <View
               style={{
                 height: 15,

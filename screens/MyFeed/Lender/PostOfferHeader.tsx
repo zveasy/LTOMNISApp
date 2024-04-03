@@ -61,6 +61,12 @@ export default function PostOfferHeader({
     }
   }, [calculatedProgressBarWidth]);
 
+  // Convert to number just in case
+const formattedTotalAmount = Number(totalAmount).toLocaleString('en-US');
+
+// Use formattedTotalAmount in your JSX
+
+
   return (
     <View style={{flexDirection: 'column', width: '100%', alignSelf: 'center'}}>
       <View style={styles.header}>
@@ -83,7 +89,7 @@ export default function PostOfferHeader({
       </View>
       <View style={styles.titleAmountRow}>
         <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.amountText}>{`$${totalAmount}`}</Text>
+        <Text style={styles.amountText}>{`$${formattedTotalAmount}`}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{flexDirection: 'row', width: '100%'}}>
@@ -100,10 +106,10 @@ export default function PostOfferHeader({
       <ParticipantDetails participants={participants} />
       <CustomOfferBlock
         data={[
-          {leftText: 'Loan amount', rightText: `$${totalAmount}`},
+          {leftText: 'Loan amount', rightText: `$${formattedTotalAmount}`},
           {leftText: 'Interest rate', rightText: `${interestPercentage.toFixed(2)}%`},
           {isDivider: true},
-          {leftText: 'Remaining', rightText: `$${totalAmount - progress}`},
+          {leftText: 'Remaining', rightText: `$${Number(totalAmount - progress).toLocaleString("en-US")}`},
         ]}
       />
       <View

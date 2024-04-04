@@ -77,6 +77,9 @@ console.log('New Y2K', user.firstName)
     }
   }, [calculatedProgressBarWidth]);
 
+  const formattedTotalAmount = Number(totalAmount).toLocaleString('en-US');
+  const formattedCurrentAmount = Number(currentAmount).toLocaleString('en-US');
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -133,8 +136,8 @@ console.log('New Y2K', user.firstName)
           marginTop: 10,
         }}>
         <View style={styles.amountContainer}>
-          <Text style={styles.progressText}>{`$${currentAmount}`}</Text>
-          <Text style={styles.totalAmountText}>{`/ $${totalAmount}`}</Text>
+          <Text style={styles.progressText}>{`$${formattedCurrentAmount}`}</Text>
+          <Text style={styles.totalAmountText}>{`/ $${formattedTotalAmount}`}</Text>
         </View>
         {/* <Pressable
           style={styles.offerContainer}

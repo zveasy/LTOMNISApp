@@ -5,6 +5,8 @@ import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
 import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 import {useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../ReduxStore';
 
 // export type UserProps = {
 //   firstName: string;
@@ -15,8 +17,6 @@ export type PostCardProps = {
   subtext: any;
   progress: any;
   hours: any;
-  lastName: any;
-  firstName: any;
   avatar?: string;
   user: {
     firstName: string;
@@ -57,9 +57,13 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   console.log('currentAmount:: ', currentAmount);
   console.log('totalAmount:: ', totalAmount);
 
+
   const avatarTitle = `${user?.firstName?.charAt(0) ?? ''}${
     user?.lastName?.charAt(0) ?? ''
   }`;
+
+console.log('New Y2K', user.firstName)
+
 
   console.log('total amount', totalAmount);
 

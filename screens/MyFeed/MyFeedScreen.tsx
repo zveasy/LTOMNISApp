@@ -50,8 +50,8 @@ const MyFeedScreen: React.FC<
   // const [firstName, setFirstName] = useState('');
   // const [lastName, setLastName] = useState('');
 
-  const firstName = useSelector((state: AppState) => state.firstName) 
-  const lastName = useSelector((state: AppState) => state.lastName) 
+  const firstName = useSelector((state: AppState) => state.userFirstLast.firstName) 
+  const lastName = useSelector((state: AppState) => state.userFirstLast.lastName) 
   console.log('this is Feed Screen F', firstName)
 
   const {} = route.params || {}; // default to an empty object if route.params is undefined

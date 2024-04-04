@@ -58,7 +58,9 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   const [visibleCount, setVisibleCount] = useState(4);
   const [numOfOffers, setNumOfOffers] = useState<number[]>([]);
 
-  // This http://localhost:8080/api/omnis/posts/borrower ISSUE
+  // This http://localhost:8080/api/omnis/posts/borrower ISSUE THE API HAS EMPTY ARRAY!!!
+  // Don't delete and disregard!!!!!!!
+  // KAMMMMM
 
   const fetchOfferDetails = async () => {
     if (!userId) {

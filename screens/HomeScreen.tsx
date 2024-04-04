@@ -37,9 +37,10 @@ export default function HomeScreen({}: {}) {
   const [lenderAcceptedOffers, setLenderAcceptedOffers] = useState(0);
   const [lenderNumOfOffersSent, setLenderNumOfOffersSent] = useState(0);
   const [notificationCount, setNotificationCount] = useState(0); // Example count
-  const [firstName, setFName] = useState('');
-  const [lastName, setLName] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+
+  const firstName = useSelector((state: AppState) => state.userFirstLast.firstName) 
+  const lastName = useSelector((state: AppState) => state.userFirstLast.lastName) 
 
   // borrowerNewOffers
 
@@ -107,8 +108,6 @@ export default function HomeScreen({}: {}) {
 
         const userData = response.data;
         console.log('user Data', userData);
-        setFName(userData.homeFeedObject.user.firstName);
-        setLName(userData.homeFeedObject.user.lastName);
         console.log('this is L NativeModules', firstName);
         dispatch(setFirstName(userData.homeFeedObject.user.firstName));
         console.log('this is everything:: ', firstName);

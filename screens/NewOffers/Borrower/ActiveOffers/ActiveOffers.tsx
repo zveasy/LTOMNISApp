@@ -69,8 +69,7 @@ export default function ActiveOffers({route}) {
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
       data={postData}
       renderItem={({item}) => (
-        <OfferBigContainer offerId={''} fullNumber={0} id={''} users={[]}          // firstName={item.user.firstName}
-          // lastName={item.user.lastName}
+        <OfferBigContainer offerId={''} fullNumber={0} id={''} users={[]}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

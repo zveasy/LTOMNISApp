@@ -11,6 +11,7 @@ export default function AllPosts({route, navigation}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const [refreshing, setRefreshing] = useState(false); // Added for pull-to-refresh
   const token = useSelector((state: AppState) => state.token);
+
   const dispatch = useDispatch();
 
   const renderEmptyListComponent = () => {
@@ -28,14 +29,18 @@ export default function AllPosts({route, navigation}) {
   const fetchData = async () => {
     setRefreshing(true); // Enable refreshing indicator
     try {
-      const response = await axios.get('http://localhost:8080/api/omnis/posts/all', {
-        headers: {
-          Authorization: `Bearer ${token.token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/all',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
       setPostData(response.data.postList);
+      console.log('this is a post list', response.data.postList);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -44,7 +49,7 @@ export default function AllPosts({route, navigation}) {
   };
 
   const handleOfferPress = async (postId: string) => {
-    console.log('we entered the handleOFFerPress')
+    console.log('we entered the handleOFFerPress');
     try {
       const response = await axios.get(
         `http://localhost:8080/api/omnis/post/${postId}`,
@@ -60,7 +65,7 @@ export default function AllPosts({route, navigation}) {
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
       console.log('This is the correct uniquePostId!: ', uniquePostId);
-      dispatch(setUserPostId(uniquePostId))
+      dispatch(setUserPostId(uniquePostId));
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
       });
@@ -73,8 +78,6 @@ export default function AllPosts({route, navigation}) {
       console.error('Error fetching offers:', error);
     }
   };
-
-  console.log('goodbye')
 
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
@@ -91,6 +94,9 @@ export default function AllPosts({route, navigation}) {
       offerText={fromMyPosts ? 'Edit' : 'Offer'}
       onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
+      subtext={undefined}
+      progress={undefined}
+      hours={undefined}
     />
   );
 

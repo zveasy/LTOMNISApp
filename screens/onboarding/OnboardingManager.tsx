@@ -63,13 +63,13 @@ const OnboardingManager: React.FC<OnboardingManagerProps> = ({navigation}) => {
             <OnboardingScreen1 onNext={handleNext} onSkip={handleSkip} onBack={() => navigation.navigate('SelectLang')} />
           )}
           {currentIndex === 1 && (
-            <OnboardingScreen2 onNext={handleNext} onSkip={handleSkip} />
+            <OnboardingScreen2 onSkip={handleSkip} />
           )}
           {currentIndex === 2 && (
             <OnboardingScreen3 onNext={handleNext} onSkip={handleSkip} />
           )}
           {currentIndex === 3 && (
-            <OnboardingScreen4 navigation={navigation} onStartNow={handleStartNow} />
+            <OnboardingScreen4 navigation={navigation} />
           )}
         </View>
       </PanGestureHandler>

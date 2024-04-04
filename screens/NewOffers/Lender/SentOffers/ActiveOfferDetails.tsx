@@ -88,8 +88,7 @@ const ActiveOfferDetails: React.FC<ActiveOfferDetailsProps> = ({route}) => {
           interestPercentage={item.interestPercentage}
           id={item.id}
           status={item.status as OfferStatus}
-          createdAt={item.createdAt}
-        />
+          createdAt={item.createdAt} data={[]}        />
       ))}
       <SmallOfferDetailsVFour
         title={t('OfferDetails')}

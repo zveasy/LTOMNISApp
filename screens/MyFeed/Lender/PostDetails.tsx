@@ -29,10 +29,10 @@ export default function PostDetails() {
   const [offerData, setOfferData] = useState();
   const token = useSelector((state: AppState) => state.token);
   const userPostId = useSelector(
-    (state: AppState) => state.userPostId.userPostId,
+    (state: AppState) => state.userPostId,
   );
   const userstate = useSelector(
-    (state: AppState) => state.userPostId.userPostId,
+    (state: AppState) => state.userPostId,
   );
   console.log('Post ID for this post userPostId2', userPostId);
   console.log('Post ID for this post userstate', userstate);

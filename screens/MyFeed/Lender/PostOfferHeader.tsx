@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
     color: GlobalStyles.Colors.primary800, // set the color
     fontWeight: '600',
   },
-  amountText: {
-    fontSize: 22, // set font size to 22 as specified
-    color: GlobalStyles.Colors.primary800, // set the color
-    fontWeight: '600',
-  },
+  // amountText: {
+  //   fontSize: 22, // set font size to 22 as specified
+  //   color: GlobalStyles.Colors.primary800, // set the color
+  //   fontWeight: '600',
+  // },
   SignButton: {
     flexDirection: 'row',
     alignItems: 'center',

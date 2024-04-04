@@ -1,6 +1,11 @@
 import {createStore, combineReducers} from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AppActionTypes, SetAuthTokenAction, SetLinkTokenAction, TokenActionTypes} from './types'; // Adjust the import path
+import {
+  AppActionTypes,
+  SetAuthTokenAction,
+  SetLinkTokenAction,
+  TokenActionTypes,
+} from './types'; // Adjust the import path
 import tabBarReducer, {TabBarInitialState} from './tabBarSlice';
 import languageReducer, {
   LanguageInitialState,
@@ -70,8 +75,10 @@ export const setLastName = (lastName: string) => ({
 });
 
 const initialFirstLastState = {
-  firstName: '',
-  lastName: '',
+  userFirstLast: {
+    firstName: '',
+    lastName: '',
+  },
 };
 
 const userFirstLastReducer = (state = initialFirstLastState, action: any) => {
@@ -112,12 +119,12 @@ const tokenInitialState: TokenInitialState = {
 
 const LinkTokenInitialState: LinkTokenInitialState = {
   token: null,
-  LinkToken: ''
+  LinkToken: '',
 };
 
 const AuthLinkTokenInitialState: AuthLinkTokenInitialState = {
   authToken: null,
-  LinkToken: ''
+  LinkToken: '',
 };
 
 export interface LinkTokenInitialState {
@@ -126,9 +133,9 @@ export interface LinkTokenInitialState {
 }
 
 export interface AuthLinkTokenInitialState {
-  authToken: string;
+  authToken: string | null;
+  LinkToken: string | null;
 }
-
 
 export interface AppState {
   user: any;
@@ -141,8 +148,10 @@ export interface AppState {
   id: string | null;
   userId: string | null;
   userPostId: string | null;
-  firstName: string | null;
-  lastName: string | null;
+  userFirstLast: {
+    firstName: string | null;
+    lastName: string | null;
+  };
   //verify: ReturnType<typeof verifyReducer>; // Add this line
 }
 

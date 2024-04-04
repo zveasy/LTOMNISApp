@@ -11,7 +11,8 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../../../../ReduxStore';
 
 export default function BorrowerClosedOffers() {
-  const [offersData, setOffersData] = useState([]);
+  const bugFix: any[] = []
+  const [offersData, setOffersData] = useState(bugFix);
   const token = useSelector((state: AppState) => state.token);
   const [refreshing, setRefreshing] = useState(false); // Added refreshing state
 
@@ -54,11 +55,9 @@ export default function BorrowerClosedOffers() {
   const renderItem = ({item}) => (
     <ClosedOfferBigContainer
       title={item.title} // Assuming item has a title
-      raiseNumber={item.raiseNumber} // Assuming item has a raiseNumber
-      fullNumber={item.fullNumber} // Assuming item has a fullNumber
       users={item.users} // Assuming item has a list of users
       status={t('Closed')} // Here you are setting the status to a translated 'Closed' string
-    />
+      currentAmount={0} totalAmount={0}    />
   );
 
   return (
@@ -70,10 +69,8 @@ export default function BorrowerClosedOffers() {
           title={item.title}
           totalAmount={item.totalAmount}
           currentAmount={item.currentAmount}
-          user={item.user}
-          description={item.description}
           status={t('Closed')} // Assuming you want to display 'Closed' for all items
-        />
+          users={[]}        />
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}

@@ -14,7 +14,8 @@ import {hideTabBar, showTabBar} from '../../tabBarSlice';
 
 const TransactionHistoryTax: React.FC = () => {
   const token = useSelector((state: AppState) => state.token);
-  const [transactionHistory, setTransactionHistory] = useState([]);
+  const bugFix: any[] = [] 
+  const [transactionHistory, setTransactionHistory] = useState(bugFix);
   const dispatch = useDispatch();
   const firstName = useSelector(
     (state: AppState) => state.user.firstName,

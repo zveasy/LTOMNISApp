@@ -3,7 +3,7 @@ import React from 'react';
 import GlobalStyles from '../../../assets/constants/colors';
 import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
 import SearchTextBox from '../../../assets/constants/Components/Buttons/SearchTextBox';
-import FriendList from '../../../assets/constants/Components/FriendList';
+import FriendList, { Friend } from '../../../assets/constants/Components/FriendList';
 import SuggestedOptions from '../../../assets/constants/Components/SuggestedOptions';
 
 export default function ChooseFriends() {
@@ -31,13 +31,23 @@ export default function ChooseFriends() {
           // Handle the back button press, e.g., navigate back
         }}
       />
-      <SearchTextBox />
+      <SearchTextBox 
+      onSearch={() => {
+        // Handle the back button press, e.g., navigate back
+      }}/>
       <View style={{ width: '100%', paddingTop: 24, paddingBottom: 10 }} >
                 <SuggestedOptions suggestedUsers={suggestedUsers} />
 
       </View>
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
-        <FriendList />
+        <FriendList 
+        // added here to fix
+          addFriendHandler={() => {
+            // Handle the back button press, e.g., navigate back
+          } } unfriendHandler={function (friend: Friend): void {
+            throw new Error('Function not implemented.');
+          } } friendListData={[]}/>
+        
       </View>
     </SafeAreaView>
   );

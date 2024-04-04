@@ -7,7 +7,7 @@ import FriendList from '../../../assets/constants/Components/FriendList';
 import axios from 'axios';
 import {Friend} from '../../../assets/constants/Components/FriendList';
 import { useSelector } from 'react-redux';
-import { AppState, setFriendsList, setSelectedFriend } from '../../../ReduxStore';
+import { AppState, setSelectedFriend } from '../../../ReduxStore';
 
 export default function AddFriendScreen() {
   const [friendListData, setFriendListData] = useState<Friend[]>([]);
@@ -31,7 +31,8 @@ export default function AddFriendScreen() {
       const user = res.data;
 
       if (user) {
-        setFriendsList(user); // Assuming the data structure matches your Friend type
+        // changed to 
+        setFriendListData(user); // Assuming the data structure matches your Friend type
       } else {
         console.log('No user data received');
       }
@@ -44,7 +45,7 @@ export default function AddFriendScreen() {
     try {
       const options = {
         method: 'GET',
-        url: `https://api.lucidtrades.com/api/FriendRequest/${friends.email}`,
+        url: `https://api.lucidtrades.com/api/FriendRequest/`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

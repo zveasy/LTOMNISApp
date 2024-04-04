@@ -1,7 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import axios from 'axios';
-import {link} from 'fs';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -82,13 +81,15 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
   };
 
   const onExit = (linkExit: LinkExit) => {
-    supportHandler.report({
-      error: linkExit.error,
-      institution: linkExit.metadata.institution,
-      linkSessionId: linkExit.metadata.linkSessionId,
-      requestId: linkExitlinkExit.metadata.requestId,
-      status: linkExit.metadata.status,
-    });
+
+    //I really do not think this is doing anything
+    // supportHandler.report({
+    //   error: linkExit.error,
+    //   institution: linkExit.metadata.institution,
+    //   linkSessionId: linkExit.metadata.linkSessionId,
+    //   requestId: linkExitlinkExit.metadata.requestId,
+    //   status: linkExit.metadata.status,
+    // });
   };
 
   usePlaidEmitter(event => {
@@ -101,10 +102,12 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
         <PlaidLink
           tokenConfig={{
             token: linkToken.LinkToken,
+            // added loading state
+            noLoadingState: false
           }}
           onSuccess={onSuccess}
           onExit={onExit}
-          style={styles.plaidLink}>
+          /*style={styles.plaidLink}*/>
           <View style={styles.plaidLink}>
             <Text style={styles.buttonText}>Finish Verification</Text>
           </View>

@@ -12,7 +12,6 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
 import PostOfferList, {PostType} from './PostOfferList';
-import {AsyncLocalStorage} from 'async_hooks';
 
 type User = {
   firstNameLetter?: string;
@@ -37,7 +36,7 @@ export type OfferBigContainerProps = {
   description?: string;
   imageUrl?: string;
   offerText?: string;
-  id?: string;
+  id: string;
   title?: number;
   monthDuration?: number;
   onSelect?: (planDetails: OfferBigContainerProps) => void;
@@ -59,7 +58,9 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   const [visibleCount, setVisibleCount] = useState(4);
   const [numOfOffers, setNumOfOffers] = useState<number[]>([]);
 
-  // This http://localhost:8080/api/omnis/posts/borrower ISSUE
+  // This http://localhost:8080/api/omnis/posts/borrower ISSUE THE API HAS EMPTY ARRAY!!!
+  // Don't delete and disregard!!!!!!!
+  // KAMMMMM
 
   const fetchOfferDetails = async () => {
     if (!userId) {

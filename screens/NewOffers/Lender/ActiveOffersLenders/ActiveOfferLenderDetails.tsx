@@ -25,7 +25,7 @@ interface OfferData {
   totalAmount: number;
   interestPercentage: number;
   timeElapsed: string;
-  offers: Offer[];
+  offers: [];
   // Include other fields as needed
 }
 
@@ -74,10 +74,9 @@ const ActiveOfferLenderDetails: React.FC<ActiveOfferLenderDetailsProps> = ({rout
         <CustomOfferBlockWithProfile
           key={index}
           data={card.data}
-          firstname={card.firstname}
-          lastname={card.lastname}
-          status={card.status}
-        />
+          firstName={card.firstname}
+          lastName={card.lastname}
+          status={card.status} amount={0} interestPercentage={0} id={0} createdAt={new Date}        />
       ))}
       <ProgressWithLabel
         collected={100}

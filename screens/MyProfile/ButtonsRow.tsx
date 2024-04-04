@@ -17,7 +17,7 @@ type ButtonsRowProps = {
   onRightButtonPress?: () => void;
   isLeftButtonActive: boolean;
   isRightButtonActive?: boolean;
-  buttonState: 'add' | 'pending' | 'default'; // New prop to determine the state
+  buttonState: string; // New prop to determine the state
 };
 
 const ButtonsRow = ({

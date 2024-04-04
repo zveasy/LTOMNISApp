@@ -8,10 +8,11 @@ import {FeedStackParamList} from '../../../App';
 import axios from 'axios';
 import {Text} from 'react-native-elements';
 
+
 export default function PostOfferSummary() {
   const navigation =
     useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
-  const route = useRoute();
+  const route = useRoute<any>();
 
   // Unpack the 'offers' data from the route params
   const posts = route.params?.posts;
@@ -73,7 +74,6 @@ export default function PostOfferSummary() {
             {name: 'John Doe', avatarUri: 'http://example.com/johndoe.png'},
             // ... other participants
           ]}
-          subtext="This is some random wrapping text that will be there and be going everywhere"
           buttonText="Offer"
         />
       </View>

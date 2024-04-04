@@ -7,7 +7,7 @@ import {SafeAreaView} from 'react-native';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import CustomOfferBlockWithProfile from '../../assets/constants/Components/CustomOfferBlockWithProfile';
 import activeDataCards from '../../assets/constants/Components/activeDataCards';
-import CustomPaymentBlock from '../../assets/constants/Components/CustomPaymentBlock';
+import CustomPaymentBlock, { OfferStatus } from '../../assets/constants/Components/CustomPaymentBlock';
 import {
   dummyUserData,
   dummyUserData2,
@@ -16,7 +16,8 @@ import {
 export default function PaymentStatus() {
   const [firstName, setFirstName] = useState('John'); // Replace 'John' with a default or initial value
   const [lastName, setLastName] = useState('Doe'); // Replace 'Doe' with a default or initial value
-  const [status, setStatus] = useState('Pending'); // Set the default status
+  const pending: OfferStatus = 'Pending'
+  const [status, setStatus] = useState(pending); // Set the default status
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -36,14 +37,14 @@ export default function PaymentStatus() {
           lastname={lastName}
           status={status}
           data={dummyUserData.payments}
-          {...dummyUserData}
+          //{...dummyUserData}
         />
         <CustomPaymentBlock
           firstname={firstName}
           lastname={lastName}
           status={status}
           data={dummyUserData2.payments}
-          {...dummyUserData2}
+          //{...dummyUserData2}
         />
         {/* Add more CustomPaymentBlock components with different dummy data as needed */}
       </ScrollView>

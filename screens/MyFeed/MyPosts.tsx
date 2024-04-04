@@ -48,16 +48,6 @@ export default function MyPosts({route, navigation}) {
     }
   };
 
-  // Polling Underneath
-
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
-  //     fetchMyPostFeedList();
-  //   }, 10000); // Fetches posts every 10 seconds
-
-  //   return () => clearInterval(fetchInterval); // Clean up interval on component unmount
-  // }, []);
-
   useEffect(() => {
     fetchMyPostFeedList(); // Fetch data when the component mounts
   }, []);
@@ -93,8 +83,7 @@ export default function MyPosts({route, navigation}) {
     <PostCard
       key={index}
       avatar={item.avatar}
-      firstName={item.user.firstName}
-      lastName={item.user.lastName}
+      user={item.user}
       timeElapsed={item.timeElapsed}
       number={item.number}
       totalAmount={item.totalAmount}
@@ -105,6 +94,9 @@ export default function MyPosts({route, navigation}) {
       offerText={fromMyPosts ? 'Edit' : 'Offer'}
       onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
+      subtext={undefined}
+      progress={undefined}
+      hours={undefined}
     />
   );
 

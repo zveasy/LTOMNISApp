@@ -142,15 +142,13 @@ export default function GroupsScreen() {
         <CustomTitle
           title="My groups"
           buttonText="Create"
-          onButtonPress={handleCreateButtonPress}
-        />
+          onButtonPress={handleCreateButtonPress} data={[]}        />
         {renderGroupContent(group, CustomCarousel, 'No Groups')}
         <View style={{marginTop: 20}} />
         <CustomTitle
           title="Local groups"
           buttonText="Show all"
-          onButtonPress={handleLocal}
-        />
+          onButtonPress={handleLocal} data={[]}        />
         {renderGroupContent(
           featuredGroup,
           SmallCustomCarousel,
@@ -160,8 +158,7 @@ export default function GroupsScreen() {
         <CustomTitle
           title="Based on your interest"
           buttonText="Show all"
-          onButtonPress={handleLocal}
-        />
+          onButtonPress={handleLocal} data={[]}        />
         {renderGroupContent(
           interestGroup,
           SmallCustomCarousel,

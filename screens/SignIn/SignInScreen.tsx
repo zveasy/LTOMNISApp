@@ -177,16 +177,16 @@ const SignInScreen: React.FC = () => {
 
   // APPLE AUTH
 
-  async function onAppleButtonPress() {
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
+  // async function onAppleButtonPress() {
+  //   const appleAuthRequestResponse = await appleAuth.performRequest({
+  //     requestedOperation: appleAuth.Operation.LOGIN,
+  //     requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+  //   });
 
-    const identityToken = appleAuthRequestResponse.identityToken;
+  //   const identityToken = appleAuthRequestResponse.identityToken;
 
-    sendTokenToYourServer(identityToken);
-  }
+  //   sendTokenToYourServer(identityToken);
+  // }
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -364,7 +364,7 @@ const SignInScreen: React.FC = () => {
               style={{width: '100%', height: 56}}
               buttonStyle={AppleButton.Style.WHITE}
               buttonType={AppleButton.Type.SIGN_IN}
-              onPress={() => onAppleButtonPress()}
+              onPress={() => {}}
             />
           )}
           {/* </View> */}

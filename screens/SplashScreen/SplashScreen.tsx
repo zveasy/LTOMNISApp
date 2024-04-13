@@ -11,7 +11,7 @@ type SplashScreenProps = {
 const SplashScreen: React.FC<SplashScreenProps> = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('SelectLang');
+      navigation.navigate({ key: 'SelectLang', params: undefined, merge: undefined } );
     }, 1500);
 
     return () => clearTimeout(timer);

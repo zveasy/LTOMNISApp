@@ -29,7 +29,7 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
   receivedAmount = '$15',
 }) => {
   const route =
-    useRoute<RouteProp<{params: PaymentChosenScreenRouteParams}, 'params'>>();
+    useRoute<RouteProp<{params:  SuccessOfferProps}, 'params'>>();
   const {
     offerId,
     interestPercentage,

@@ -15,6 +15,8 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../../ReduxStore';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FeedStackParamList } from '../../../App';
 
 export default function PostDetails() {
   const [selectedChip, setSelectedChip] = useState<string | null>(null);
@@ -24,7 +26,8 @@ export default function PostDetails() {
   const [loanAmountInput, setLoanAmountInput] = useState<string>('');
   const [interestRateInput, setInterestRateInput] = useState<string>('');
   const [rewardPoints, setRewardPoints] = useState<number>(0);
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
 
   const [offerData, setOfferData] = useState();
   const token = useSelector((state: AppState) => state.token);

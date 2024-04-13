@@ -38,38 +38,38 @@ export default function Verification({route}) {
 
   const token = useSelector((state: AppState) => state.token);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/account/twilio/code',
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer YOUR_TOKEN_HERE`, // Replace with your token
-            },
-            params: {
-              userPhoneNumber: {userPhoneNumber},
-            },
-          },
-        );
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.post(
+  //         'http://localhost:8080/api/omnis/account/verfiy',
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             Authorization: `Bearer ${token.token}`,
+  //           },
+  //           // params: {
+  //           //   userPhoneNumber: {userPhoneNumber},
+  //           // },
+  //         },
+  //       );
 
-        const data = response.data;
-        if (data) {
-          console.log('Verification successful.', data);
-          // Handle successful verification
-        } else {
-          console.log('Invalid verification code.');
-          // Handle invalid code
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        // Handle network errors
-      }
-    };
+  //       const data = response.data;
+  //       if (data) {
+  //         console.log('Verification successful.', data);
+  //         // Handle successful verification
+  //       } else {
+  //         console.log('Invalid verification code.');
+  //         // Handle invalid code
+  //       }
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //       // Handle network errors
+  //     }
+  //   };
 
-    fetchData();
-  }, []); // Add dependencies to the dependency array if needed
+  //   fetchData();
+  // }, []); // Add dependencies to the dependency array if needed
 
   const handleNextPress = async () => {
     const verificationCode =
@@ -78,14 +78,15 @@ export default function Verification({route}) {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/omnis/account/twilio/verification',
+        'http://localhost:8080/api/omnis/account/verify',
         {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.token}`,
           },
-          body: JSON.stringify({twilioCode: verificationCode}),
+          body: JSON.stringify({code: verificationCode}),
         },
       );
 
@@ -94,7 +95,7 @@ export default function Verification({route}) {
         console.log('Verification successful.', data);
         // dispatch(setHasCompletedOnboarding(true));
         console.log(`This is the dispatch of Verify`);
-        navigation.navigate('MainStackNavigator');
+        // navigation.navigate('MainStackNavigator');
       } else {
         console.log('Invalid verification code.');
         // Handle invalid code
@@ -102,7 +103,8 @@ export default function Verification({route}) {
     } catch (error) {
       if (error instanceof Error) {
         // Now TypeScript knows error is an Error object, not unknown
-        console.error('Error:', error.message);
+        console.error('Error 1:', error.message);
+        return JSON.parse(error.message); // Attempt to parse it as JSON
       } else {
         console.error('An unexpected error occurred');
       }
@@ -170,7 +172,9 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit2(text);
-                text ? ref_input3.current?.focus() : ref_input1.current?.focus();
+                text
+                  ? ref_input3.current?.focus()
+                  : ref_input1.current?.focus();
               }}
               value={digit2}
               maxLength={1}
@@ -183,7 +187,9 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit3(text);
-                text ? ref_input4.current?.focus() : ref_input2.current?.focus();
+                text
+                  ? ref_input4.current?.focus()
+                  : ref_input2.current?.focus();
               }}
               value={digit3}
               maxLength={1}
@@ -196,7 +202,9 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit4(text);
-                text ? ref_input5.current?.focus() : ref_input3.current?.focus();
+                text
+                  ? ref_input5.current?.focus()
+                  : ref_input3.current?.focus();
               }}
               value={digit4}
               maxLength={1}
@@ -209,7 +217,9 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit5(text);
-                text ? ref_input6.current?.focus() : ref_input4.current?.focus();
+                text
+                  ? ref_input6.current?.focus()
+                  : ref_input4.current?.focus();
               }}
               value={digit5}
               maxLength={1}

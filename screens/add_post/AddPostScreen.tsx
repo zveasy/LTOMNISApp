@@ -54,7 +54,7 @@ export default function AddPostScreen() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    console.log('Amount before appending to FormData:', (amount * 1.0875));
+    console.log('Amount before appending to FormData:', amount * 1.0875);
     formData.append('amount', (amount * 1.0875).toFixed(2));
     formData.append('featured', String(featured)); // Convert boolean to string
 
@@ -77,12 +77,10 @@ export default function AddPostScreen() {
       .post('http://localhost:8080/api/omnis/post/create', formData, config)
       .then(response => {
         console.log(response.data);
-        // Navigate back on success
-        navigation.navigate('FeedStackNavigator', {screen: 'MyFeedScreen'});
+        navigation.navigate('MyFeedScreen');
       })
       .catch(error => {
         console.error(error);
-        // Handle error (e.g., show an alert to the user)
       });
   };
 

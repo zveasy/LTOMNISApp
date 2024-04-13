@@ -36,11 +36,6 @@ import {AppState} from '../ReduxStore';
 import {hideTabBar, showTabBar} from '../tabBarSlice';
 import {RootStackParamList} from '../types';
 
-interface CustomTabBarButtonProps {
-  children: React.ReactNode;
-  onPress?: (e: GestureResponderEvent) => void;
-}
-
 const Tab = createBottomTabNavigator();
 
 

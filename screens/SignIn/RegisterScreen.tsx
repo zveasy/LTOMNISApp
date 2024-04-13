@@ -70,7 +70,7 @@ export default function RegisterScreen() {
       const user = res.data;
       if (user) {
         dispatch(setToken(user.token));
-        navigation.navigate('CreateLinkToken', {userId: user.userId});
+        navigation.navigate('Verification', {userId: user.userId});
         dispatch(setId(user.userId));
       } else {
         console.error('Error:', Error);

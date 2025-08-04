@@ -30,61 +30,17 @@ export default function OfferDetailsAccepted({
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
+  const rightWordsData: WordWithIcon[] = [
+    { text: 'Zak Veasy' },
+    { text: '01.02.2024' },
+    { text: '34' },
+    { text: '$171.23' },
+  ];
+
   function handleTransaction() {
     navigation.navigate('TransactionHistoryTax', {
       transactionId: '', // Pass the friend's ID correctly here
-    })
-
-
-    const rightWordsData: WordWithIcon[] = [
-      { text: 'Zak Veasy' },
-      { text: '01.02.2024' },
-      { text: '34' },
-      { text: '$171.23' },
-    ];
-
-    return (
-      <SafeAreaView style={styles.Background}>
-        <ScreenTitle
-          title="Offer Details"
-          showBackArrow={true}
-          onBackPress={() => {
-            // Handle the back button press, e.g., navigate back
-          }}
-          showRightIcon={true}
-          rightIconType="Feather" // Either 'Ionicons' or 'Feather'
-          rightIconName="upload" // replace with actual Feather icon name
-          onRightIconPress={() => { }}
-        />
-        <View style={{ marginTop: 50 }}>
-          <Icon
-            name="checkmark-circle-outline"
-            size={60}
-            color={GlobalStyles.Colors.primary200}
-            style={{ alignSelf: 'center' }}
-          />
-          <Text style={{ color: GlobalStyles.Colors.primary100, fontSize: 24 }}>
-            Offer is Closed
-          </Text>
-        </View>
-        <View style={{ marginTop: 40, flexDirection: 'row' }}>
-          <ProgressWithLabel
-            collected={100}
-            goal={500}
-            collectedLabel="Payed"
-            goalLabel="Full payback needed"
-          />
-        </View>
-        <TransactionHistory
-          buttonText="View Offer Transaction History"
-          onPress={handleTransaction}
-        />
-        <SmallOfferDetailsVThree
-          title="Offer Details"
-          rightWords={rightWordsData}
-        />
-      </SafeAreaView>
-    );
+    });
   }
 
   const styles = StyleSheet.create({
@@ -93,5 +49,50 @@ export default function OfferDetailsAccepted({
       alignItems: 'center',
       backgroundColor: '#1E1E1E',
     },
-  })
+  });
+
+  return (
+    <SafeAreaView style={styles.Background}>
+      <ScreenTitle
+        title="Offer Details"
+        showBackArrow={true}
+        onBackPress={() => {
+          // Handle the back button press, e.g., navigate back
+          navigation.goBack();
+        }}
+        showRightIcon={true}
+        rightIconType="Feather" // Either 'Ionicons' or 'Feather'
+        rightIconName="upload" // replace with actual Feather icon name
+        onRightIconPress={() => { }}
+      />
+      <View style={{ marginTop: 50 }}>
+        <Icon
+          name="checkmark-circle-outline"
+          size={60}
+          color={GlobalStyles.Colors.primary200}
+          style={{ alignSelf: 'center' }}
+        />
+        <Text style={{ color: GlobalStyles.Colors.primary100, fontSize: 24 }}>
+          Offer is Closed
+        </Text>
+      </View>
+      <View style={{ marginTop: 40, flexDirection: 'row' }}>
+        <ProgressWithLabel
+          collected={100}
+          goal={500}
+          collectedLabel="Payed"
+          goalLabel="Full payback needed"
+        />
+      </View>
+      <TransactionHistory
+        buttonText="View Offer Transaction History"
+        onPress={handleTransaction}
+      />
+      <SmallOfferDetailsVThree
+        title="Offer Details"
+        rightWords={rightWordsData}
+      />
+    </SafeAreaView>
+  );
+
 }

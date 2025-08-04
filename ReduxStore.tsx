@@ -338,7 +338,11 @@ export const setIsSignedIn = (value: boolean) => ({
 });
 
 export const setToken = (token: string) => {
-  AsyncStorage.setItem('token', token);
+  if (token) {
+    AsyncStorage.setItem('token', token);
+  } else {
+    AsyncStorage.removeItem('token');
+  }
   return {
     type: SET_TOKEN,
     payload: token,

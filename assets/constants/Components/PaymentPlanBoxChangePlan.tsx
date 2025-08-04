@@ -1,13 +1,15 @@
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+// Removed useNavigation import as we receive navigation in props
+
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {HomeStackParamList} from '../../../App';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
-type OfferBigContainerProps = {
+// Props expected via route.params for this screen.
+type PaymentPlanBoxChangePlanParams = {
   title: string;
   offerNumber: number;
   raiseNumber: number;
@@ -25,16 +27,17 @@ type OfferBigContainerProps = {
   }[];
 };
 
-const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
-  title,
-  interestPercentage,
-  monthDurationPost,
-  rewardNumber,
-  users = [],
-  ppm,
-}) => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+type Props = NativeStackScreenProps<HomeStackParamList, 'PaymentPlanBoxChangePlan'>;
+
+const PaymentPlanBoxChangePlan: React.FC<Props> = ({route, navigation}) => {
+  const {
+    title,
+    interestPercentage,
+    monthDurationPost,
+    rewardNumber,
+    users = [],
+    ppm,
+  } = route.params;
 
   return (
     <View style={styles.container}>

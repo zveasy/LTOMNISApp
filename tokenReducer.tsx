@@ -9,7 +9,11 @@ export interface TokenState {
 const tokenReducer = (state: TokenState, action: any): TokenState => {
   switch (action.type) {
     case SET_TOKEN:
-      AsyncStorage.setItem('token', action.payload);
+      if (action.payload) {
+        AsyncStorage.setItem('token', action.payload);
+      } else {
+        AsyncStorage.removeItem('token');
+      }
       return { ...state, token: action.payload };
     case REMOVE_TOKEN:
       AsyncStorage.removeItem('token');

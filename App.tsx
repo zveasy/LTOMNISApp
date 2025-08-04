@@ -102,7 +102,7 @@ type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
-const FeedStack = createNativeStackNavigator();
+const FeedStack = createNativeStackNavigator<FeedStackParamList>();
 const CombinedStack = createNativeStackNavigator<RootStackParamList>();
 const SpotlightStack = createNativeStackNavigator();
 const OMNISScoreStack = createNativeStackNavigator();
@@ -299,7 +299,23 @@ export type HomeStackParamList = {
   EditProfile: undefined;
   AppFeedBack: undefined;
   BeforeYouGo: undefined;
-  PaymentPlanBoxChangePlan: undefined;
+  PaymentPlanBoxChangePlan: {
+    title: string;
+    offerNumber: number;
+    raiseNumber: number;
+    fullNumber: number;
+    interestPercentage: number;
+    monthDurationPost: number;
+    ppm: number;
+    rewardNumber: number;
+    users: {
+      firstNameLetter: string;
+      lastNameLetter: string;
+      userName: string;
+      amount: number;
+      interest: number;
+    }[];
+  };
   BeforeYouGoAgain: undefined;
   ActiveOfferDetails: {
     offerId: string;
@@ -513,7 +529,7 @@ export type SpotlightStackParamList = {
   PaymentStatus: undefined;
 };
 
-export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
+export function SpotlightStackNavigator() {
   return (
     <SpotlightStack.Navigator
       initialRouteName="SpotlightScreen"

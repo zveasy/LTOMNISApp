@@ -5,37 +5,33 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../../../assets/constants/colors';
 import SmallOfferDetailsVOne from '../../../../assets/constants/Components/SmallOfferDetailsVOne';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RouteProp} from '@react-navigation/native';
 import {HomeStackParamList} from '../../../../App';
 import {t} from 'i18next';
 
-type SuccessOfferProps = {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+// Combine the navigation props expected by React Navigation with the existing
+// screen-specific props (here only an optional `receivedAmount`).
+export type SuccessOfferScreenProps = NativeStackScreenProps<
+  HomeStackParamList,
+  'SuccessOffer'
+> & {
   receivedAmount?: string;
-  offerId: string;
-  interestPercentage: number;
-  monthDuration: number;
-  monthlyPayment: number;
-  rewardNumber: number;
-  fullNumber: number;
-  postCurrentAmount: number;
-  postTotalAmount: number;
-  totalWithInterest: number;
-  firstName: string;
-  lastName: string;
 };
 
-const SuccessOffer: React.FC<SuccessOfferProps> = ({
+const SuccessOffer: React.FC<SuccessOfferScreenProps> = ({
+  route,
+  navigation,
   receivedAmount = '$15',
 }) => {
-  const route =
-    useRoute<RouteProp<{params:  SuccessOfferProps}, 'params'>>();
+
   const {
     offerId,
     interestPercentage,
     monthDuration,
     monthlyPayment,
-    rewardNumber,
+
     fullNumber,
     postCurrentAmount,
     postTotalAmount,
@@ -43,8 +39,7 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
     firstName,
     lastName,
   } = route.params;
-  const navigation =
-    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
 
   const getCurrentDateTimeStamp = () => {
     const now = new Date();

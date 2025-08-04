@@ -4,6 +4,7 @@ import GlobalStyles from '../../assets/constants/colors';
 import FeedTopTabs from './FeedTopTabs';
 import Header from './Header';
 import {StackScreenProps} from '@react-navigation/stack';
+import {FeedStackParamList} from '../../App';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, setFirstName} from '../../ReduxStore';
 import axios from 'axios';
@@ -23,13 +24,14 @@ export type MyFeedScreenProps = {
   };
 };
 
-type MyFeedStackParamList = {
+// Using FeedStackParamList defined in App.tsx
+/* type MyFeedStackParamList = {
   MyFeedScreen: {
     prop1?: Type1;
     prop2?: Type2;
   };
   // Add other screens if you have params for them
-};
+}; */
 
 let defaultValue1: Type1 = {
   property: 'defaultValue1',
@@ -45,7 +47,7 @@ export type MyFeedScreenNavigationProps = StackScreenProps<
 >;
 
 const MyFeedScreen: React.FC<
-  StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>
+  StackScreenProps<FeedStackParamList, 'MyFeedScreen'>
 > = ({navigation, route}) => {
   // const [firstName, setFirstName] = useState('');
   // const [lastName, setLastName] = useState('');

@@ -24,7 +24,11 @@ type ActionType =
 // In your actions file
 export const setToken =
   (token: string) => async (dispatch: Dispatch<ActionType>) => {
-    await AsyncStorage.setItem('token', token);
+    if (token) {
+      await AsyncStorage.setItem('token', token);
+    } else {
+      await AsyncStorage.removeItem('token');
+    }
     dispatch({
       type: SET_TOKEN,
       payload: token,

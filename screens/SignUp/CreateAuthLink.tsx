@@ -3,15 +3,12 @@ import {View, Text, ActivityIndicator} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {setAuthToken, setLinkToken} from '../../actions';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types';
 import {AppState} from '../../ReduxStore';
 import axios from 'axios';
 
-interface CreateAuthLinkProps {
-  navigation: NativeStackNavigationProp<RootStackParamList>;
-  route: RouteProp<RootStackParamList, 'IdentityVerificationScreen'>;
-}
+type CreateAuthLinkProps = NativeStackScreenProps<RootStackParamList, 'CreateAuthLink'>;
 
 const CreateAuthLink: React.FC<CreateAuthLinkProps> = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(true);

@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp, NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import {HomeStackParamList} from '../../../../App';
@@ -11,12 +11,7 @@ import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {t} from 'i18next';
 import {RouteProp} from '@react-navigation/native';
 
-type NewOfferDetailsProps = {
-  route: RouteProp<HomeStackParamList, 'NewOfferDetails'>;
-  initialRaiseNumber?: number;
-  initialFullNumber?: number;
-  interestPercentage: number | 'Gift';
-};
+type NewOfferDetailsProps = NativeStackScreenProps<HomeStackParamList, 'NewOfferDetails'>;
 
 const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
   const navigation =
@@ -35,10 +30,9 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
   console.log('this is postCurrentAmount^^', postCurrentAmount);
   console.log('this is postTotalAmount', postTotalAmount);
 
-  const totalWithInterest = (
-    totalAmount *
-    (1 + interestPercentage / 100)
-  ).toFixed(2);
+  const totalWithInterest: number = parseFloat(
+    (totalAmount * (1 + interestPercentage / 100)).toFixed(2)
+  );
 
   return (
     <SafeAreaView style={styles.Background}>

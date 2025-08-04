@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../types';
+
+// Define the type for the route prop
+ type CreditScoreDisplayRouteProp = RouteProp<RootStackParamList, 'CreditScoreDisplay'>;
+
 interface CreditScoreDisplayProps {
-  score: number; // Assuming the credit score is passed as a number
+  route: CreditScoreDisplayRouteProp;
 }
 
-const CreditScoreDisplay: React.FC<CreditScoreDisplayProps> = ({ score }) => {
+const CreditScoreDisplay: React.FC<CreditScoreDisplayProps> = ({ route }) => {
+  const { score } = route.params;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Credit Score</Text>

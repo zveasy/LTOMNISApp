@@ -99,10 +99,10 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   OnboardingManager: undefined; // Add this line if it's missing
   SelectLang: undefined; // Add this line if it's missing
-  OnboardingScreen1: OnboardingScreen1Props;
-  OnboardingScreen2: OnboardingScreen2Props;
-  OnboardingScreen3: OnboardingScreen3Props;
-  OnboardingScreen4: OnboardingScreen4Props;
+  OnboardingScreen1: undefined;
+  OnboardingScreen2: undefined;
+  OnboardingScreen3: undefined;
+  OnboardingScreen4: undefined;
   OfferSent: undefined;
   HomeScreen: undefined;
   HomeStackNavigator: NavigatorScreenParams<HomeStackParamList>;
@@ -120,7 +120,9 @@ export type RootStackParamList = {
   Verification: undefined;
   CreateNewPassword: undefined;
   PlaidLink: undefined;
-  CreditScoreDisplay: undefined;
+  CreditScoreDisplay: {
+    score: number;
+  };
   CreateLinkToken: undefined;
   CreateAuthLink: undefined;
 };
@@ -200,23 +202,23 @@ export type OnboardingStackParamList = {
 // Onboarding Types
 
 export type OnboardingScreen1Props = {
-  onNext: () => void;
-  onSkip: () => void;
-  onBack: () => void;
+  onNext?: () => void;
+  onSkip?: () => void;
+  onBack?: () => void;
 };
 
 export type OnboardingScreen2Props = {
-  onSkip: () => void;
+  onSkip?: () => void;
 };
 
 export type OnboardingScreen3Props = {
-  onNext: () => void;
-  onSkip: () => void;
+  onNext?: () => void;
+  onSkip?: () => void;
 };
 
 export type OnboardingScreen4Props = {
-  onNext: () => void;
-  onSkip: () => void;
+  onNext?: () => void;
+  onSkip?: () => void;
 };
 
 

@@ -9,13 +9,13 @@ import {AppState} from '../../ReduxStore';
 import axios from 'axios';
 
 interface CreateLinkTokenProps {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'IdentityVerificationScreen'>;
-  route: RouteProp<RootStackParamList, 'IdentityVerificationScreen'>;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'CreateLinkToken'>;
+  route: RouteProp<RootStackParamList, 'CreateLinkToken'>;
 }
 
 const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
   navigation,
-  route,
+  route: _route,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 

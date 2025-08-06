@@ -114,16 +114,16 @@ export interface Friend {
 }
 
 const tokenInitialState: TokenInitialState = {
-  token: null,
+  token: '',
 };
 
 const LinkTokenInitialState: LinkTokenInitialState = {
-  token: null,
+  token: '',
   LinkToken: '',
 };
 
 const AuthLinkTokenInitialState: AuthLinkTokenInitialState = {
-  authToken: null,
+  authToken: '',
   LinkToken: '',
 };
 
@@ -253,7 +253,7 @@ const tokenReducer = (state = tokenInitialState, action: TokenActionTypes) => {
     case SET_TOKEN:
       return {...state, token: action.payload};
     case REMOVE_TOKEN:
-      return {...state, token: null};
+      return {...state, token: ''};
     default:
       return state;
   }

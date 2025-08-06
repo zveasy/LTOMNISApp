@@ -48,10 +48,20 @@ const SignInScreen: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  // Configure Google Sign-In once when the component mounts
   GoogleSignin.configure({
+    // The OAuth 2.0 client ID of type "Web application". This is REQUIRED so that we can
+    // exchange the ID token on the backend for a Firebase / custom auth session.
+    webClientId:
+      '812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com',
+
+    // (Optional) For iOS you can also pass the client ID of type iOS if it differs from the
+    // web client. In many cases they are the same.
     iosClientId:
-      '<812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-    profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+      '812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com',
+
+    // Adjust the size of the profile image returned.
+    profileImageSize: 120,
   });
 
   const signIn = async () => {
@@ -128,6 +138,53 @@ const SignInScreen: React.FC = () => {
 
     loadToken();
   }, [dispatch]);
+
+  const appleSignIn = async () => {
+    if (!appleAuth.isSupported) {
+      Alert.alert('Apple Sign-In is not supported on this device');
+      return;
+    }
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      const {identityToken} = appleAuthRequestResponse;
+      if (!identityToken) {
+        Alert.alert('Apple Sign-In failed', 'No identity token returned');
+        return;
+      }
+
+      // Send token to backend to validate / create session
+      const res = await axios.post(
+        'http://localhost:8080/api/omnis/account/apple_login',
+        {identityToken},
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (res.status === 200 && res.data && res.data.token) {
+        const userToken = res.data.token;
+        const userId = res.data.userId;
+        const phone = res.data.userPhoneNumber;
+        await AsyncStorage.setItem('token', userToken);
+        dispatch(setToken(userToken));
+        dispatch(setUserId(userId));
+        dispatch(setsUserPhoneNumber(phone));
+        navigation.navigate('MainStackNavigator', {userPhoneNumber: phone});
+      } else {
+        Alert.alert('Apple Sign-In failed', 'Invalid server response');
+      }
+    } catch (e) {
+      console.error('Apple Sign-In error', e);
+      Alert.alert('Apple Sign-In error', (e as Error).message);
+    }
+  };
 
   const googleSignIn = async () => {
     console.log('We are in googleSignIn');
@@ -282,6 +339,14 @@ const SignInScreen: React.FC = () => {
         </Text>
       </Pressable>
 
+      {__DEV__ && (
+        <Pressable
+          style={styles.skipButton}
+          onPress={() => navigation.navigate('OnboardingManager', { screen: 'MessagesIntro' })}>
+          <Text style={{color: 'white'}}>Skip ➜ HomeTabs</Text>
+        </Pressable>
+      )}
+
       {/* Or log in with */}
 
       <View
@@ -313,43 +378,17 @@ const SignInScreen: React.FC = () => {
           justifyContent: 'space-between',
           width: '90%',
         }}>
-        <Pressable
-          style={{
-            width: '46%',
-            height: 56,
-            borderRadius: 16,
-            borderWidth: 1,
-            borderColor: '#BDAE8D',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            alignSelf: 'center',
-          }}
-          onPress={googleSignIn}>
-          <View
-            style={{
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              width: '60%',
-              alignSelf: 'center',
-            }}>
-            <Image
-              source={require('../../assets/google.png')}
-              style={{height: 24, width: 24}}
-            />
-            <Text style={{color: 'white', fontSize: 18}}>{t('google')}</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={{
-            width: '46%',
-            height: 56,
-            borderRadius: 16,
-            borderWidth: 1,
-            borderColor: '#BDAE8D',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            alignSelf: 'center',
-          }}>
+        {/* Google sign-in button matching Apple design */}
+        <View style={{width: '46%'}}>
+          <Pressable
+            style={styles.googleButton}
+            onPress={googleSignIn}>
+            <IonIcon name="logo-google" size={18} color="#4285F4" style={{marginRight: 6}} />
+            <Text style={styles.googleButtonText}>Sign in with Google</Text>
+          </Pressable>
+        </View>
+        {/* Official Apple sign-in button */}
+        <View style={{width: '46%'}}>
           {/* <View
             style={{
               justifyContent: 'space-between',
@@ -364,11 +403,11 @@ const SignInScreen: React.FC = () => {
               style={{width: '100%', height: 56}}
               buttonStyle={AppleButton.Style.WHITE}
               buttonType={AppleButton.Type.SIGN_IN}
-              onPress={() => {}}
+              cornerRadius={16}
+              onPress={appleSignIn}
             />
           )}
-          {/* </View> */}
-        </Pressable>
+        </View>
       </View>
 
       <Pressable
@@ -492,11 +531,30 @@ const styles = StyleSheet.create({
     color: 'white', // color when there is input
   },
 
-  googleSignInButton: {
-    width: '80%', // Adjust the width as needed
-    height: 48, // Adjust the height as needed
-    marginTop: 10, // Adjust the margin as needed
-    alignSelf: 'center', // Center the button
+  googleButton: {
+    width: '100%',
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+  },
+  skipButton: {
+    marginTop: 12,
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#BDAE8D',
+    borderRadius: 12,
+  },
+  googleButtonText: {
+    color: '#000000',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 8,
   },
   inputError: {
     borderColor: 'red', // Change border color to red

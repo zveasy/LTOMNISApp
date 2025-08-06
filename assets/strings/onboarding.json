@@ -1,0 +1,18 @@
+{
+  "welcome_title_1": "Track IOUs in Messages",
+  "welcome_body_1": "Create quick payback notes without leaving the chat.",
+  "welcome_title_2": "Due dates & reminders", 
+  "welcome_body_2": "Pick a date and we'll nudge both sides—gently.",
+  "welcome_title_3": "One-tap payback",
+  "welcome_body_3": "Settle up fast when it's time.",
+  "coming_soon": "(coming soon)",
+  "cta_primary": "Get Started",
+  "cta_continue": "Continue",
+  "link_how_it_works": "How it works",
+  "accessibility_chat_illustration": "Chat bubbles with IOU card illustration",
+  "accessibility_calendar_illustration": "Calendar checkmark with notification bell illustration", 
+  "accessibility_payment_illustration": "Tap to pay glyph with confirmation check illustration",
+  "accessibility_continue": "Continue to next screen",
+  "accessibility_get_started": "Get started with the app",
+  "accessibility_how_it_works": "Learn how it works"
+}

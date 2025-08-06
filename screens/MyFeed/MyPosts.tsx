@@ -11,6 +11,15 @@ export default function MyPosts({route, navigation}) {
   const token = useSelector((state: AppState) => state.token);
   const [refreshing, setRefreshing] = useState(false); // Added for pull-to-refresh
   const fromMyPosts = route.params?.fromMyPosts ?? false;
+  
+  // Add safety check for token
+  if (!token || !token.token) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Loading...</Text>
+      </View>
+    );
+  }
 
   const renderEmptyListComponent = () => {
     return (
@@ -103,9 +112,9 @@ export default function MyPosts({route, navigation}) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData}
+        data={postData || []}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => item?.id || index.toString()}
         ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
         refreshControl={

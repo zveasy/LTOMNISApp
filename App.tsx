@@ -8,22 +8,21 @@ import i18n from './screens/SelectLanguage/i18n';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SplashScreen from './screens/SplashScreen/SplashScreen';
 import NFCDone from './screens/NFC/NFCDone';
 import RegisterScreen from './screens/SignIn/RegisterScreen';
-import OnboardingScreen1 from './screens/onboarding/OnboardingScreen1';
 import HomeScreen from './screens/HomeScreen';
 import NFCFaceId from './screens/NFC/NFCFaceId';
 import SignInScreen from './screens/SignIn/SignInScreen';
 import ForgotPassword from './screens/auth/ForgotPassword';
 import Verification from './screens/auth/Verification';
 import CreateNewPassword from './screens/auth/CreateNewPassword';
-import OnboardingScreen4 from './screens/onboarding/OnboardingScreen4';
-import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
-import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
+
+
+
 import Tabs from './navigation/Tabs';
 import {Provider} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -31,9 +30,10 @@ import TransactionHistoryTax from './screens/TransactionHistory/TransactionHisto
 import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
-import OnboardingManager from './screens/onboarding/OnboardingManager';
+
 import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
-import SelectLang from './screens/onboarding/SelectLang';
+import MessagesOnboardingNavigator from './navigation/MessagesOnboardingNavigator';
+
 import {
   RootStackParamList,
   HomeStackNavigatorProps,
@@ -117,27 +117,9 @@ function CombinedStackNavigator() {
     <CombinedStack.Navigator screenOptions={{headerShown: false}}>
       {/* Onboarding Screens */}
       <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
-      <CombinedStack.Screen name="SelectLang" component={SelectLang} />
-      <CombinedStack.Screen
-        name="OnboardingManager"
-        component={OnboardingManager}
-      />
-      <CombinedStack.Screen
-        name="OnboardingScreen1"
-        component={OnboardingScreen1}
-      />
-      <CombinedStack.Screen
-        name="OnboardingScreen2"
-        component={OnboardingScreen2}
-      />
-      <CombinedStack.Screen
-        name="OnboardingScreen3"
-        component={OnboardingScreen3}
-      />
-      <CombinedStack.Screen
-        name="OnboardingScreen4"
-        component={OnboardingScreen4}
-      />
+      <CombinedStack.Screen name="MessagesOnboarding" component={MessagesOnboardingNavigator} />
+      
+      
 
       <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
       <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />

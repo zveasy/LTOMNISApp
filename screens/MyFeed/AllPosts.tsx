@@ -13,6 +13,15 @@ export default function AllPosts({route, navigation}) {
   const token = useSelector((state: AppState) => state.token);
 
   const dispatch = useDispatch();
+  
+  // Add safety check for token
+  if (!token || !token.token) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Loading...</Text>
+      </View>
+    );
+  }
 
   const renderEmptyListComponent = () => {
     return (
@@ -103,9 +112,9 @@ export default function AllPosts({route, navigation}) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData}
+        data={postData || []}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => item?.id || index.toString()}
         ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
         refreshControl={

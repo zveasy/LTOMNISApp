@@ -6,7 +6,11 @@ export interface TokenState {
   token: string;
 }
 
-const tokenReducer = (state: TokenState, action: any): TokenState => {
+const initialTokenState: TokenState = {
+  token: '',
+};
+
+const tokenReducer = (state: TokenState = initialTokenState, action: any): TokenState => {
   switch (action.type) {
     case SET_TOKEN:
       if (action.payload) {

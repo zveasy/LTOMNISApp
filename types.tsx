@@ -116,6 +116,11 @@ export type RootStackParamList = {
   TabsStackNavigator: undefined;
   EditProfile: undefined;
   NextScreenAfterOnboarding: undefined;
+  MessagesIntroScreen: undefined;
+  MessagesStepsScreen: undefined;
+  MessagesLaunchScreen: undefined;
+  MessagesWidgetSettingsScreen: undefined;
+  MessagesOnboarding: undefined;
   ForgotPassword: undefined;
   Verification: undefined;
   CreateNewPassword: undefined;

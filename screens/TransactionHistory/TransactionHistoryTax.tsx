@@ -12,10 +12,18 @@ import {AppState} from '../../ReduxStore';
 import {hideTabBar, showTabBar} from '../../tabBarSlice';
 // import { hideTabBar, showTabBar } from '../../appReducer';
 
+// API transaction item shape
+type TransactionItem = {
+  borrowerFirstName: string;
+  lenderFirstName: string;
+  lenderLastName: string;
+  amount: number;
+  timestamp: string | number | Date;
+};
+
 const TransactionHistoryTax: React.FC = () => {
   const token = useSelector((state: AppState) => state.token);
-  const bugFix: any[] = [] 
-  const [transactionHistory, setTransactionHistory] = useState(bugFix);
+  const [transactionHistory, setTransactionHistory] = useState<ListItemProps[]>([]);
   const dispatch = useDispatch();
   const firstName = useSelector(
     (state: AppState) => state.user.firstName,
@@ -43,57 +51,7 @@ const TransactionHistoryTax: React.FC = () => {
     // Check if the original value was positive and ensure to add a plus sign if so
     return value.trim().startsWith('-') ? formattedAmount : `+${formattedAmount}`;
 };
-
-
-
-  // Data array
-  const data: ListItemProps[] = [
-    {
-      radialType: 'radio',
-      iconName: 'coffee',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '-$171.23',
-      bottomTextLeft: 'Pending',
-      bottomTextRight: '06.23.2024 14:00',
-    },
-    {
-      radialType: 'radio',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$100.00',
-      bottomTextLeft: 'Completed',
-      bottomTextRight: '05.20.2024 11:15',
-    },
-    {
-      radialType: 'radio',
-      imagePath: 'path_to_some_image',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$58.75',
-      bottomTextLeft: 'Failed',
-      bottomTextRight: '04.29.2024 09:45',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'shopping-cart',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '-$89.50',
-      bottomTextLeft: 'Pending',
-      bottomTextRight: '06.15.2024 16:30',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'dollar-sign',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$2000',
-      bottomTextLeft: 'Completed',
-      bottomTextRight: '06.01.2024 12:00',
-    },
-  ];
-
-  // Process the data using the function
-  const processedData = data.map(item => ({
-    ...item,
-    topTextRight: formatCurrency(item.topTextRight),
-  }));
+ 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -110,11 +68,11 @@ const TransactionHistoryTax: React.FC = () => {
         );
 
         // Assuming the response structure matches your logged data
-        const transactionHistoryData = response.data.myTransactions;
+        const transactionHistoryData: TransactionItem[] = response.data.myTransactions;
 
         console.log("this is Transaction", response.data.myTransactions)
 
-        const mappedData = transactionHistoryData.map(transaction => {
+        const mappedData: ListItemProps[] = transactionHistoryData.map((transaction: TransactionItem) => {
           const isCurrentUserTheBorrower = transaction.borrowerFirstName === firstName;
           
 

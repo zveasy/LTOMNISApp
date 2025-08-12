@@ -7,14 +7,18 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHasCompletedOnboarding} from '../../actions';
 import {AppState, setId, setToken} from '../../ReduxStore';
 import axios from 'axios';
 
-export default function Verification({route}) {
+import { RootStackParamList } from '../../types';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Verification'>;
+
+export default function Verification({route, navigation}: Props) {
   const {userPhoneNumber} = route.params;
   const dispatch = useDispatch();
 
@@ -33,8 +37,6 @@ export default function Verification({route}) {
   const ref_input4 = useRef<TextInput>(null);
   const ref_input5 = useRef<TextInput>(null);
   const ref_input6 = useRef<TextInput>(null);
-
-  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const token = useSelector((state: AppState) => state.token);
 
@@ -100,11 +102,9 @@ export default function Verification({route}) {
         console.log('Invalid verification code.');
         // Handle invalid code
       }
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
-        // Now TypeScript knows error is an Error object, not unknown
         console.error('Error 1:', error.message);
-        return JSON.parse(error.message); // Attempt to parse it as JSON
       } else {
         console.error('An unexpected error occurred');
       }
@@ -130,8 +130,12 @@ export default function Verification({route}) {
       } else {
         console.log('Failed to resend verification code.');
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error:', error.message);
+      } else {
+        console.error('Error:', String(error));
+      }
     }
   };
 

@@ -9,7 +9,7 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../../../../ReduxStore';
 import axios from 'axios';
 
-export default function ActiveOffers({route}) {
+export default function ActiveOffers({route}: {route: any}) {
   // const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
   const [postData, setPostData] = useState([]);
   const token = useSelector((state: AppState) => state.token);

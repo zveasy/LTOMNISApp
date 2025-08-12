@@ -11,7 +11,7 @@ interface OfferDetail {
   firstName: string;
   lastName: string;
   avatarImage?: string | null;
-  userName: string;
+  userName?: string;
   amount: number;
   interest: number;
   offerId: string;

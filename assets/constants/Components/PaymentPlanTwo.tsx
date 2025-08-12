@@ -284,12 +284,11 @@ const styles = StyleSheet.create({
   },
   selectedButtonBefore: {
     backgroundColor: GlobalStyles.Colors.primary200,
-    color: GlobalStyles.Colors.primary200,
     paddingHorizontal: 10,
     paddingVertical: 2,
   },
   pressedButtonBefore: {
-    color: GlobalStyles.Colors.primary200,
+    backgroundColor: 'transparent',
   },
 });
 

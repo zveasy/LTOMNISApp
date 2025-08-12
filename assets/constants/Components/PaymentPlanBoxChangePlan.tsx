@@ -1,15 +1,11 @@
-// Removed useNavigation import as we receive navigation in props
-
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {HomeStackParamList} from '../../../App';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
-// Props expected via route.params for this screen.
-type PaymentPlanBoxChangePlanParams = {
+export type PaymentPlanBoxChangePlanProps = {
   title: string;
   offerNumber: number;
   raiseNumber: number;
@@ -25,19 +21,19 @@ type PaymentPlanBoxChangePlanParams = {
     amount: number;
     interest: number;
   }[];
+  onChangePlan?: () => void;
 };
 
-type Props = NativeStackScreenProps<HomeStackParamList, 'PaymentPlanBoxChangePlan'>;
-
-const PaymentPlanBoxChangePlan: React.FC<Props> = ({route, navigation}) => {
-  const {
-    title,
-    interestPercentage,
-    monthDurationPost,
-    rewardNumber,
-    users = [],
-    ppm,
-  } = route.params;
+const PaymentPlanBoxChangePlan: React.FC<PaymentPlanBoxChangePlanProps> = ({
+  title,
+  interestPercentage,
+  monthDurationPost,
+  rewardNumber,
+  users = [],
+  ppm,
+  onChangePlan,
+}) => {
+  const navigation = useNavigation<any>();
 
   return (
     <View style={styles.container}>
@@ -77,7 +73,11 @@ const PaymentPlanBoxChangePlan: React.FC<Props> = ({route, navigation}) => {
         <Pressable
           style={[styles.ViewButtonContainer, styles.selectedButtonStyle]}
           onPress={() => {
-            navigation.pop(2);
+            if (onChangePlan) {
+              onChangePlan();
+            } else if (navigation?.pop) {
+              navigation.pop(2);
+            }
           }}>
           <Text style={[styles.ViewButton, styles.selectedButtonTextStyle]}>
             Change Plan

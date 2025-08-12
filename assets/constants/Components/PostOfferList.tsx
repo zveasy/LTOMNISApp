@@ -38,6 +38,7 @@ export type UserType = {
   firstName: string;
   lastName: string;
   balance?: string;
+  avatar?: string;
 };
 
 const INITIAL_OFFER_COUNT = 2;
@@ -58,7 +59,9 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
     if (isBGift) return 1;
 
     // Now it's safe to assume both are numbers and perform arithmetic operation
-    return a.interestPercentage - b.interestPercentage;
+    const ai = typeof a.interestPercentage === 'number' ? a.interestPercentage : 0;
+    const bi = typeof b.interestPercentage === 'number' ? b.interestPercentage : 0;
+    return ai - bi;
   };
 
   // First sort the offers, then map to add additional properties
@@ -117,7 +120,7 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
         }
         avatar={item.user.avatar}
         offerId={item.id}
-        currentAmount={item.currentAmount}
+        currentAmount={item.postCurrentAmount}
         postTotalAmount={item.postTotalAmount}
         postCurrentAmount={item.postCurrentAmount}
       />

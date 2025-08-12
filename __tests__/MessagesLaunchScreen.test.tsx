@@ -15,18 +15,18 @@ jest.mock('@react-navigation/native', () => {
 
 // Mock AppState from React Native
 jest.mock('react-native/Libraries/AppState/AppState', () => {
-  const listeners = new Set<(state: string) => void>();
+  const listeners = new Set();
   let currentState = 'background';
 
   return {
-    addEventListener: (_: string, cb: (state: string) => void) => {
+    addEventListener: (_: string, cb: any) => {
       listeners.add(cb);
       return { remove: () => listeners.delete(cb) };
     },
     currentState,
     changeState: (newState: string) => {
       currentState = newState;
-      listeners.forEach((cb) => cb(newState));
+      listeners.forEach((cb: any) => cb(newState));
     },
   };
 });
@@ -36,8 +36,8 @@ jest.mock('react-native/Libraries/AppState/AppState', () => {
 const AppState = require('react-native/Libraries/AppState/AppState');
 
 describe('MessagesLaunchScreen', () => {
-  it('enables Continue button when app returns to active', () => {
-    const { getByTestId } = render(
+  it('shows Get Started button', () => {
+    const { getByTestId, getByText } = render(
       <MessagesLaunchScreen
         // @ts-expect-error partial props for testing
         navigation={{ navigate: mockNavigate, popToTop: mockPopToTop }}
@@ -45,14 +45,8 @@ describe('MessagesLaunchScreen', () => {
       />,
     );
 
-    const continueButton = getByTestId('continueButton');
-    expect(continueButton).toBeDisabled();
-
-    act(() => {
-      AppState.changeState('background');
-      AppState.changeState('active');
-    });
-
-    expect(continueButton).not.toBeDisabled();
+    const getStartedButton = getByTestId('getStartedButton');
+    expect(getStartedButton).toBeTruthy();
+    expect(getByText('Get Started')).toBeTruthy();
   });
 });

@@ -5,8 +5,11 @@ import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
 import {AppState, setUserPostId} from '../../ReduxStore';
 import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function AllPosts({route, navigation}) {
+type Props = NativeStackScreenProps<any, any>;
+
+export default function AllPosts({route, navigation}: Props) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const [refreshing, setRefreshing] = useState(false); // Added for pull-to-refresh
@@ -50,8 +53,12 @@ export default function AllPosts({route, navigation}) {
       );
       setPostData(response.data.postList);
       console.log('this is a post list', response.data.postList);
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching data:', error.message);
+      } else {
+        console.error('Error fetching data:', String(error));
+      }
     } finally {
       setRefreshing(false); // Disable refreshing indicator
     }
@@ -83,8 +90,12 @@ export default function AllPosts({route, navigation}) {
         'this is the ALL screen ***********',
         response.data.uniquePost,
       );
-    } catch (error) {
-      console.error('Error fetching offers:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching offers:', error.message);
+      } else {
+        console.error('Error fetching offers:', String(error));
+      }
     }
   };
 

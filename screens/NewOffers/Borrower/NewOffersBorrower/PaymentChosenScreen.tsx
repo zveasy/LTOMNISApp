@@ -86,9 +86,9 @@ export default function PaymentChosenScreen() {
       setPaymentPlanDetails(response.data);
       setError(null); // Clear any previous errors
       console.log('response.data /omnis/offer/accept', response.data);
-    } catch (error) {
+    } catch (error: any) {
       setError('Failed to fetch data'); // Set the error message
-      console.error('Failed to fetch payment plan details:', error.message);
+      console.error('Failed to fetch payment plan details:', error?.message ?? error);
       // Additional error handling (e.g., showing an alert)
     } finally {
       setIsLoading(false);
@@ -194,6 +194,7 @@ export default function PaymentChosenScreen() {
                   interest: 5,
                 },
               ]}
+              onChangePlan={() => navigation.pop(2)}
             />
           ))}
         </>

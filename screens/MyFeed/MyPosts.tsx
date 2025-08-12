@@ -6,7 +6,7 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../ReduxStore';
 
-export default function MyPosts({route, navigation}) {
+export default function MyPosts({route, navigation}: {route: any; navigation: any}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const [refreshing, setRefreshing] = useState(false); // Added for pull-to-refresh

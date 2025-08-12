@@ -1,13 +1,18 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TextInputProps } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../ReduxStore';
 import GlobalStyles from '../../colors';
 import _ from 'lodash';
 
-const SearchTextBox = ({ placeholder = "Search", onSearch, ...props }) => {
+interface SearchTextBoxProps extends Omit<TextInputProps, 'onChangeText' | 'placeholder'> {
+  placeholder?: string;
+  onSearch?: (data: any) => void;
+}
+
+const SearchTextBox: React.FC<SearchTextBoxProps> = ({ placeholder = "Search", onSearch, ...props }) => {
   const [offersData, setOffersData] = useState();
   const token = useSelector((state: AppState) => state.token);
 

@@ -100,6 +100,9 @@ const styles = StyleSheet.create({
   textInputFocused: {
     fontWeight: 'bold', // Font weight when input is focused
   },
+  textActive: {
+    fontWeight: 'bold',
+  },
 });
 
 export default CustomLabelledTextInput;

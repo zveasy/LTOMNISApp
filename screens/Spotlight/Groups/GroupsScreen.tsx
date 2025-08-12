@@ -16,7 +16,9 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../../../ReduxStore';
 
 interface GroupItem {
+  id?: string;
   title: string;
+  description?: string;
 }
 
 export default function GroupsScreen() {
@@ -50,7 +52,11 @@ export default function GroupsScreen() {
     fetchGroups();
   }, []);
 
-  const renderGroupContent = (groupData, CarouselComponent, noDataMessage) => {
+  const renderGroupContent = (
+    groupData: any[],
+    CarouselComponent: React.ComponentType<{data: any[]}>,
+    noDataMessage: string,
+  ) => {
     if (groupData.length === 0) {
       return (
         <View style={styles.noGroupsContainer}>

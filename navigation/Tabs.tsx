@@ -39,7 +39,12 @@ import {RootStackParamList} from '../types';
 const Tab = createBottomTabNavigator();
 
 
-const CustomTabBarButton = ({children, onPress}) => {
+type CustomTabBarButtonProps = {
+  children: ReactNode;
+  onPress?: () => void;
+};
+
+const CustomTabBarButton = ({children, onPress}: CustomTabBarButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -140,7 +145,7 @@ export default function Tabs({}) {
         }}>
         <Tab.Screen
           name="HomeStackNavigator"
-          component={HomeStackNavigator}
+          component={HomeStackNavigator as unknown as React.ComponentType<any>}
           listeners={({navigation}) => ({
             tabPress: e => {
               // Prevent default action
@@ -166,7 +171,7 @@ export default function Tabs({}) {
         />
         <Tab.Screen
           name="FeedStackNavigator"
-          component={FeedStackNavigator}
+          component={FeedStackNavigator as unknown as React.ComponentType<any>}
           listeners={({navigation}) => ({
             tabPress: e => {
               // Prevent default action
@@ -217,7 +222,7 @@ export default function Tabs({}) {
         />
         <Tab.Screen
           name="OMNISScoreStackNavigator"
-          component={OMNISScoreStackNavigator}
+          component={OMNISScoreStackNavigator as unknown as React.ComponentType<any>}
           listeners={({navigation}) => ({
             tabPress: e => {
               // Prevent default action

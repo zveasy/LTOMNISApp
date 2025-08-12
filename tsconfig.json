@@ -8,17 +8,23 @@
     "lib": [
       "es2020",
       "esnext.asynciterable"
+    ],
+    "types": [
+      "jest"
     ]
   },
   "extends": "@tsconfig/react-native/tsconfig.json",
   "exclude": [
     "node_modules",
+    "android",
+    "ios",
     "babel.config.js",
     "metro.config.js",
     "index.js"
   ],
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
+    "**/*.ts",
+    "**/*.tsx",
+    "types/**/*.d.ts"
   ]
 }

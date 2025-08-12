@@ -3,7 +3,11 @@ import {VictoryLine, VictoryChart, VictoryTheme} from 'victory-native';
 import {ScrollView} from 'react-native';
 import GlobalStyles from '../colors';
 
-const OMNISGraph = () => {
+type OMNISGraphProps = {
+  score?: number;
+};
+
+const OMNISGraph: React.FC<OMNISGraphProps> = ({ score }) => {
   // Sample data
   const borrowedData = [
     {x: 'Jan', y: 10000},

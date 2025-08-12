@@ -1,7 +1,4 @@
 // navigationTypes.ts
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
-export type SplashScreenNavigationProp = StackNavigationProp<
-  Record<string, never>,
-  'SplashScreen'
->;
+export type SplashScreenNavigationProp = NavigationProp<ParamListBase>;

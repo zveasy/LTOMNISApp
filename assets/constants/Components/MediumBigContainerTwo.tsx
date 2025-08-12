@@ -20,7 +20,7 @@ interface MediumBigContainerTwoProps {
   targetScreen: string;
   timeElapsed: string;
   postId: string;
-  status: string;
+  status: OfferStatus;
 };
 
 const MediumBigContainerTwo: React.FC<MediumBigContainerTwoProps> = ({

@@ -16,7 +16,7 @@ export default function CreateNewPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const updatePassword = async newPassword => {
+  const updatePassword = async (newPassword: string) => {
     try {
       const response = await fetch('YOUR_BACKEND_URL/api/update-password', {
         method: 'POST',
@@ -32,8 +32,12 @@ export default function CreateNewPassword() {
       } else {
         // Handle failure (e.g., show an error message)
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error:', error.message);
+      } else {
+        console.error('Error:', String(error));
+      }
       // Handle network errors
     }
   };

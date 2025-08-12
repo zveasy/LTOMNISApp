@@ -11,7 +11,7 @@ import {
 import React, {useState} from 'react';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {Divider} from '@rneui/themed';
-import PasswordValidation from '../auth/passwordValidation';
+import PasswordValidation from '../auth/PasswordValidation';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -100,12 +100,12 @@ const SignInScreen: React.FC = () => {
         setError(true);
         showAlert();
       }
-    } catch (error) {
+    } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
         setError(true);
         showAlert();
       } else {
-        console.error('Error:', error.message);
+        console.error('Error:', error?.message ?? error);
       }
     }
   };

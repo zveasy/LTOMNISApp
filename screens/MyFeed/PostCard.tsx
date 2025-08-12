@@ -14,9 +14,9 @@ import { AppState } from '../../ReduxStore';
 // };
 
 export type PostCardProps = {
-  subtext: any;
-  progress: any;
-  hours: any;
+  subtext?: any;
+  progress?: any;
+  hours?: any;
   avatar?: string;
   user: {
     firstName: string;

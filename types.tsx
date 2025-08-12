@@ -122,7 +122,7 @@ export type RootStackParamList = {
   MessagesWidgetSettingsScreen: undefined;
   MessagesOnboarding: undefined;
   ForgotPassword: undefined;
-  Verification: undefined;
+  Verification: { userPhoneNumber: string };
   CreateNewPassword: undefined;
   PlaidLink: undefined;
   CreditScoreDisplay: {

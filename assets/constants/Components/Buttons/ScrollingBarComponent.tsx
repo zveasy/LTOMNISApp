@@ -1,32 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, Animated } from 'react-native';
 import GlobalStyles from '../../colors';
 
-interface GroupItem {
-  id: string;
-  title: string;
-  // other properties...
-}
-
 interface ScrollingBarComponentProps {
-  data: GroupItem[];
+  scrollPosition: Animated.Value;
+  totalWidth: number;
+  flatListWidth: number;
+  highlightedWidth: number;
 }
 
-const ScrollingBarComponent: React.FC<ScrollingBarComponentProps> = ({ data }) => {
+const ScrollingBarComponent: React.FC<ScrollingBarComponentProps> = ({
+  scrollPosition,
+  totalWidth,
+  flatListWidth,
+  highlightedWidth,
+}) => {
+  const maxTranslateX = Math.max(totalWidth - flatListWidth, 1);
+  const translateX = scrollPosition.interpolate({
+    inputRange: [0, maxTranslateX],
+    outputRange: [0, 300 - highlightedWidth],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.title}>{item.title}</Text>
-            {/* Add other item details here */}
-          </View>
-        )}
-        keyExtractor={item => item.id}
-      />
+      <View style={styles.barBackground}>
+        <Animated.View
+          style={[styles.barHighlight, { width: highlightedWidth, transform: [{ translateX }] }]}
+        />
+      </View>
     </View>
   );
 };
@@ -37,17 +39,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  itemContainer: {
-    marginHorizontal: 10,
-    padding: 20,
+  barBackground: {
+    height: 2,
+    width: 300,
+    backgroundColor: 'rgba(256,256,256,0.1)',
+    borderRadius: 1,
+    overflow: 'hidden',
+  },
+  barHighlight: {
+    height: 2,
     backgroundColor: GlobalStyles.Colors.primary210,
-    borderRadius: 10,
+    borderRadius: 1,
   },
-  title: {
-    fontSize: 16,
-    color: '#fff',
-  },
-  // Add other styles as needed
 });
 
 export default ScrollingBarComponent;

@@ -5,8 +5,11 @@ import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
 import {AppState, setUserPostId} from '../../ReduxStore';
 import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function Featured({route, navigation}) {
+type Props = NativeStackScreenProps<any, any>;
+
+export default function Featured({route, navigation}: Props) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
@@ -45,8 +48,12 @@ export default function Featured({route, navigation}) {
         },
       );
       setPostData(response.data.featuredPostList);
-    } catch (error) {
-      console.error('Error fetching data:', error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching data:', error.message);
+      } else {
+        console.error('Error fetching data:', String(error));
+      }
     } finally {
       setRefreshing(false);
     }
@@ -80,8 +87,12 @@ export default function Featured({route, navigation}) {
         'this is the Featured screen ***************************************',
         response.data,
       );
-    } catch (error) {
-      console.error('Error fetching offers:', error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error fetching offers:', error.message);
+      } else {
+        console.error('Error fetching offers:', String(error));
+      }
     }
   };
 

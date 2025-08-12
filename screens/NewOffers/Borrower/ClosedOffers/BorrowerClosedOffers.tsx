@@ -52,7 +52,7 @@ export default function BorrowerClosedOffers() {
     </View>
   );
 
-  const renderItem = ({item}) => (
+  const renderItem = ({item}: {item: any}) => (
     <ClosedOfferBigContainer
       title={item.title} // Assuming item has a title
       users={item.users} // Assuming item has a list of users

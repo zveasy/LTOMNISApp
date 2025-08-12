@@ -64,8 +64,8 @@ export default function PostDetails() {
       console.log('response.data.newOffer', response.data.newOffer);
       console.log('response.data', response.data);
       navigation.navigate('OfferSent');
-    } catch (error) {
-      console.error('Error fetching data:', error.message);
+    } catch (error: any) {
+      console.error('Error fetching data:', error?.message ?? error);
     }
   };
 

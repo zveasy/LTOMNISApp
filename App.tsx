@@ -91,7 +91,6 @@ import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
-import PaymentPlanBoxChangePlan from './assets/constants/Components/PaymentPlanBoxChangePlan';
 import MyPosts from './screens/MyFeed/MyPosts';
 import NewOffersLender from './screens/NewOffers/Lender/SentOffers/NewOffersLender';
 import Auth from './screens/SignUp/Auth';
@@ -124,7 +123,9 @@ function CombinedStackNavigator() {
       <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
       <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
       <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <CombinedStack.Screen name="Verification" component={Verification} />
+      <CombinedStack.Screen name="Verification">
+        {(props) => <Verification {...props} />}
+      </CombinedStack.Screen>
       <CombinedStack.Screen
         name="CreateNewPassword"
         component={CreateNewPassword}
@@ -412,10 +413,6 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
       <HomeStack.Screen name="NewOffersLender" component={NewOffersLender} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
-      <HomeStack.Screen
-        name="PaymentPlanBoxChangePlan"
-        component={PaymentPlanBoxChangePlan}
-      />
     </HomeStack.Navigator>
   );
 }

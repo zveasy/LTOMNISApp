@@ -10,6 +10,7 @@ import {
   FlatList,
   Image,
   Pressable,
+  ViewToken,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import {SpotlightStackParamList} from '../../../App';
@@ -19,6 +20,8 @@ import GlobalStyles from '../colors';
 interface GroupItem {
   title: string;
   // Include other properties of GroupItem if there are any
+  id: string;
+  description?: string;
 }
 
 // Then define CustomTitleProps using GroupItem
@@ -52,27 +55,27 @@ interface ImageData {
 }
 
 interface CustomCarouselProps {
-  images: ImageData[];
+  data: GroupItem[];
 }
 
 export const CustomCarousel: React.FC<CustomCarouselProps> = ({data}) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const navigation =
-    useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
+    useNavigation<any>();
 
   const viewConfigRef = React.useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current;
 
   const onViewableItemsChanged = React.useCallback(
-    ({viewableItems}: OnViewableItemsChangedInfo) => {
+    ({viewableItems}: {viewableItems: ViewToken[]}) => {
       setCurrentIndex(viewableItems[0]?.index || 0);
     },
     [],
   );
 
-  const handleButtonPress = (itemData: ImageData) => {
+  const handleButtonPress = (itemData: GroupItem) => {
     console.log('Button Pressed with data', itemData);
     navigation.navigate('GroupDetailsScreen', {itemData});
   };

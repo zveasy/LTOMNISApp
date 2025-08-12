@@ -78,4 +78,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Center the text vertically
     alignItems: 'center', // Center the text horizontally
   },
+  carouselTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 });

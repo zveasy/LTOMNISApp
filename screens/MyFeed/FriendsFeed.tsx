@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export default function FriendsFeed() {
 
-  const [postData, setPostData] = useState<PostCardProps[]>([]);
+  const [postData, setPostData] = useState<any[]>([]);
   const token = useSelector((state: AppState) => state.token);
   
   // Add safety check for token
@@ -95,8 +95,7 @@ export default function FriendsFeed() {
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
       avatar={item.avatar}
-      firstName={item.firstName}
-      lastName={item.lastName}
+      user={{ firstName: item.user?.firstName ?? '', lastName: item.user?.lastName ?? '' }}
       hours={item.hours}
       number={item.number}
       totalAmount={item.totalAmount}
@@ -105,10 +104,9 @@ export default function FriendsFeed() {
       subtext={item.subtext}
       imageUrl={item.imageUrl}
       offerText={item.offerText}
-      id={item.id} user={{
-        firstName: '',
-        lastName: ''
-      }} onOfferPress={() => {}}    />
+      id={item.id}
+      onOfferPress={() => {}}
+    />
   );
 
   return (

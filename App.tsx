@@ -178,7 +178,7 @@ const App = () => {
       setHasViewedOnboarding(viewedOnboarding === 'true');
 
       // Check authentication status
-      const userToken = await AsyncStorage.getItem('userToken');
+      const userToken = await AsyncStorage.getItem('token');
       setIsAuthenticated(!!userToken);
     };
 

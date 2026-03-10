@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, Switch} from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../../assets/constants/colors';
 import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
@@ -15,8 +15,11 @@ import { AppState } from '../../../ReduxStore';
 export default function MakeAGroupScreen() {
   const [isFeatured, setIsFeatured] = React.useState(false);
   const [isPrivate, setIsPrivate] = React.useState(false);
-  const [groupTitle, setGroupTitle] = React.useState(''); // New State
-  const [groupDescription, setGroupDescription] = React.useState(''); // New State
+  const [groupTitle, setGroupTitle] = React.useState('');
+  const [groupDescription, setGroupDescription] = React.useState('');
+  const [loanVisibility, setLoanVisibility] = React.useState(false);
+  const [poolEnabled, setPoolEnabled] = React.useState(false);
+  const [maxLoanAmount, setMaxLoanAmount] = React.useState('');
   const token = useSelector((state: AppState) => state.token);
 
   const VisibilityExposure = async () => {
@@ -25,7 +28,10 @@ export default function MakeAGroupScreen() {
         title: groupTitle,
         description: groupDescription,
         isPrivate: isPrivate, 
-        isFeatured: isFeatured, 
+        isFeatured: isFeatured,
+        loanVisibility: loanVisibility,
+        poolEnabled: poolEnabled,
+        maxLoanAmount: parseFloat(maxLoanAmount) || 0,
       };
 
       console.log('Submitting the following data:', submissionData);
@@ -60,13 +66,13 @@ export default function MakeAGroupScreen() {
         title="Title"
         placeholder="Your custom placeholder here"
         keyboardType="default"
-        onChangeText={text => setGroupTitle(text)} // Updated
+        onChangeText={text => setGroupTitle(text)}
       />
       <TextInputComponent
         title="Description"
         placeholder="Write a short description"
         keyboardType="default"
-        onChangeText={text => setGroupDescription(text)} // Updated
+        onChangeText={text => setGroupDescription(text)}
         inputHeight={110}
       />
       <TextInputComponentWithAdd
@@ -104,6 +110,55 @@ export default function MakeAGroupScreen() {
           setIsFeatured(activeText === 'Featured');
           console.log('Exposure:', activeText);
         }}
+      />
+
+      <Divider
+        width={2}
+        color={'rgba(256,256,256,0.04)'}
+        style={{width: '90%', borderRadius: 10, alignSelf: 'center', marginTop: 16}}
+      />
+
+      <View style={styles.toggleSection}>
+        <Text style={styles.toggleSectionTitle}>Loan Visibility</Text>
+        <View style={styles.toggleRow}>
+          <Text style={styles.toggleRowText}>
+            Members can see loan requests from other members
+          </Text>
+          <Switch
+            trackColor={{
+              false: '#767577',
+              true: GlobalStyles.Colors.primary200,
+            }}
+            thumbColor={loanVisibility ? '#f4f3f4' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => setLoanVisibility(!loanVisibility)}
+            value={loanVisibility}
+          />
+        </View>
+      </View>
+
+      <View style={styles.toggleSection}>
+        <View style={styles.toggleRow}>
+          <Text style={styles.toggleRowText}>Pool Enabled</Text>
+          <Switch
+            trackColor={{
+              false: '#767577',
+              true: GlobalStyles.Colors.primary200,
+            }}
+            thumbColor={poolEnabled ? '#f4f3f4' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={() => setPoolEnabled(!poolEnabled)}
+            value={poolEnabled}
+          />
+        </View>
+      </View>
+
+      <TextInputComponent
+        title="Max Loan Amount for Group Members"
+        placeholder="Enter max loan amount"
+        keyboardType="numeric"
+        onChangeText={text => setMaxLoanAmount(text)}
+        isAmount={true}
       />
 
       <CompleteButton
@@ -146,5 +201,27 @@ const styles = StyleSheet.create({
   featuredText: {
     color: GlobalStyles.Colors.primary100,
     fontSize: 16,
+  },
+  toggleSection: {
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 12,
+  },
+  toggleSectionTitle: {
+    color: GlobalStyles.Colors.accent100,
+    fontSize: 13,
+    marginBottom: 8,
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  toggleRowText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    flex: 1,
+    marginRight: 12,
   },
 });

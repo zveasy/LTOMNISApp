@@ -8,9 +8,13 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import PasswordValidation from './passwordValidation';
 
 export default function CreateNewPassword() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   // UseState
 
   const [password, setPassword] = useState('');
@@ -18,19 +22,22 @@ export default function CreateNewPassword() {
 
   const updatePassword = async (newPassword: string) => {
     try {
-      const response = await fetch('YOUR_BACKEND_URL/api/update-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:8080/api/omnis/account/update_password',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({password: newPassword}),
         },
-        body: JSON.stringify({password: newPassword}),
-      });
+      );
 
       const data = await response.json();
       if (data.success) {
-        // Handle success (e.g., navigate to the login screen or show a success message)
+        navigation.navigate('SignInScreen');
       } else {
-        // Handle failure (e.g., show an error message)
+        Alert.alert('Error', 'Failed to update password. Please try again.');
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

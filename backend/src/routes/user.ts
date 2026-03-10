@@ -61,19 +61,21 @@ router.get('/user/homefeed', authMiddleware, (req: AuthRequest, res: Response) =
 router.put('/user/edit', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const {firstName, lastName, email, phoneNumber, country, state, city, address, postalCode} = req.body;
+    const current = db.prepare('SELECT * FROM users WHERE id = ?').get(req.userId) as any;
+    if (!current) { res.status(404).json({error: 'User not found'}); return; }
 
     db.prepare(
       `UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, country = ?, state = ?, city = ?, address = ?, postal_code = ?, updated_at = datetime('now') WHERE id = ?`
     ).run(
-      firstName || '',
-      lastName || '',
-      email || '',
-      phoneNumber || '',
-      country || '',
-      state || '',
-      city || '',
-      address || '',
-      postalCode || '',
+      firstName ?? current.first_name,
+      lastName ?? current.last_name,
+      email ?? current.email,
+      phoneNumber ?? current.phone,
+      country ?? current.country,
+      state ?? current.state,
+      city ?? current.city,
+      address ?? current.address,
+      postalCode ?? current.postal_code,
       req.userId
     );
 

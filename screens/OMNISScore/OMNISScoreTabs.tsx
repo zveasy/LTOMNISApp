@@ -20,11 +20,11 @@ export default function OMNISScoreTabs() {
             alignSelf: 'center',
           },
         }}>
-        {/* <Tab.Screen
+        <Tab.Screen
           options={{ title: 'Lender' }}
           name="LenderScoreBreakDown"
           component={LenderScoreBreakDown}
-        /> */}
+        />
         <Tab.Screen
           options={{ title: 'Borrower' }}
           name="BorrowerScoreBreakdown"

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Alert} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, Alert, ScrollView} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {Avatar, Divider, Icon} from 'react-native-elements';
-import {user as importedUser} from '../../assets/constants/user'; // Renamed to avoid naming conflicts
+import {user as importedUser} from '../../assets/constants/user';
 import GlobalStyles from '../../assets/constants/colors';
 import StatisticItem from '../MyProfile/StatisticItem';
 import ButtonsRow from '../MyProfile/ButtonsRow';
 import GrayBox from '../MyProfile/GrayBox';
+import TrustBadges from '../../assets/constants/Components/TrustBadges';
 import {User} from '../../types';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
@@ -14,27 +15,33 @@ import {AppState} from '../../ReduxStore';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {HomeStackParamList} from '../../App';
 
+interface ReputationData {
+  loansFunded: number;
+  loansRepaid: number;
+  onTimePaymentRate: number;
+}
+
 const FriendsProfile = () => {
   const route = useRoute<RouteProp<HomeStackParamList, 'FriendsProfile'>>();
   const {id} = route.params;
 
   const bugFix: any = null;
   const [friendUserData, setFriendUserData] = useState(bugFix);
+  const [reputationData, setReputationData] = useState<ReputationData | null>(null);
   const token = useSelector((state: AppState) => state.token);
-  const [friendshipStatus, setFriendshipStatus] = useState('not_friends'); // Example initial value
+  const [friendshipStatus, setFriendshipStatus] = useState('not_friends');
 
   let buttonText = 'Add';
-  let buttonAction = () => console.log('Send friend request'); // Placeholder for your add friend function
-  let buttonActive = true; // Assuming it's always active in this context, adjust as needed
-  let buttonState = 'default'; // Default state, adjust based on your component's logic
+  let buttonAction = () => console.log('Send friend request');
+  let buttonActive = true;
+  let buttonState = 'default';
 
-  // Example logic to set buttonState based on some condition
   if (friendshipStatus === 'not_friends') {
-    buttonState = 'add'; // Now TypeScript knows buttonState is one of the allowed literals
+    buttonState = 'add';
   } else if (friendshipStatus === 'pending') {
-    buttonState = 'pending'; // Same here
+    buttonState = 'pending';
   } else {
-    buttonState = 'default'; // And here
+    buttonState = 'default';
   }
 
   const friendId = id;
@@ -64,7 +71,26 @@ const FriendsProfile = () => {
       }
     };
 
+    const fetchReputation = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/user/friend/reputation/${friendId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setReputationData(response.data);
+      } catch (error) {
+        console.error('Error fetching reputation data: ', error);
+      }
+    };
+
     fetchData();
+    fetchReputation();
   }, []);
 
   const initials = friendUserData
@@ -74,80 +100,122 @@ const FriendsProfile = () => {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle showBackArrow={true} showRightIcon={false} />
-      <View style={styles.avatarContainer}>
-        <Avatar
-          size={80}
-          rounded
-          title={!friendUserData?.avatarUri ? initials : undefined}
-          source={
-            friendUserData?.avatarUri
-              ? {uri: friendUserData.avatarUri}
-              : undefined
-          }
-          overlayContainerStyle={{backgroundColor: 'gray'}}
-          containerStyle={{width: 80, height: 80}}
-        />
-      </View>
-
-      <View
-        style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
-        {friendUserData ? (
-          <>
-            <Text style={styles.nameTitle}>
-              {`${friendUserData.firstName} ${friendUserData.lastName}`}
-            </Text>
-            <Text style={styles.usernameTitle}>@{friendUserData.email}</Text>
-          </>
-        ) : (
-          // Render a placeholder or a loading indicator if friendUserData is undefined
-          <Text>Loading...</Text>
-        )}
-      </View>
-
-      <View>
-        <View style={styles.statisticsContainer}>
-          <StatisticItem
-            value={friendUserData?.numOfFriends ?? '0'}
-            label="Friends"
-          />
-          <VerticalDivider />
-          <StatisticItem value="80" label="Score" />
-          <VerticalDivider />
-          <StatisticItem
-            label="Status"
-            lottieSource={require('../../assets/goldBar.json')}
+      <ScrollView
+        style={{width: '100%'}}
+        contentContainerStyle={{alignItems: 'center'}}>
+        <View style={styles.avatarContainer}>
+          <Avatar
+            size={80}
+            rounded
+            title={!friendUserData?.avatarUri ? initials : undefined}
+            source={
+              friendUserData?.avatarUri
+                ? {uri: friendUserData.avatarUri}
+                : undefined
+            }
+            overlayContainerStyle={{backgroundColor: 'gray'}}
+            containerStyle={{width: 80, height: 80}}
           />
         </View>
-        <ButtonsRow
-          leftButtonText="Add Friend" // Example text, adjust based on your actual logic
-          onLeftButtonPress={() => console.log('Action for button')} // Placeholder function, replace with actual functionality
-          isLeftButtonActive={true} // Example, adjust based on your actual logic
-          buttonState={buttonState} // Correctly typed, no error should be thrown here
-        />
-      </View>
-      <View
-        style={{
-          borderRadius: 24,
-          backgroundColor: 'white',
-          width: '100%',
-          height: '100%',
-          padding: 20,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        }}>
-        <GrayBox iconName="users" label="Friends" iconType="feather" />
-        <GrayBox
-          iconName="message-square"
-          label="My Posts"
-          iconType="feather"
-        />
-        <GrayBox
-          iconName="account-group"
-          label="Groups"
-          iconType="MaterialCommunityIcons"
-        />
-      </View>
+
+        <View
+          style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
+          {friendUserData ? (
+            <>
+              <Text style={styles.nameTitle}>
+                {`${friendUserData.firstName} ${friendUserData.lastName}`}
+              </Text>
+              <Text style={styles.usernameTitle}>@{friendUserData.email}</Text>
+            </>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+        </View>
+
+        <View>
+          <View style={styles.statisticsContainer}>
+            <StatisticItem
+              value={friendUserData?.numOfFriends ?? '0'}
+              label="Friends"
+            />
+            <VerticalDivider />
+            <StatisticItem
+              value={friendUserData?.omnisScore?.toString() ?? '0'}
+              label="Score"
+            />
+            <VerticalDivider />
+            <StatisticItem
+              label="Status"
+              lottieSource={require('../../assets/goldBar.json')}
+            />
+          </View>
+          <ButtonsRow
+            leftButtonText="Add Friend"
+            onLeftButtonPress={() => console.log('Action for button')}
+            isLeftButtonActive={true}
+            buttonState={buttonState}
+          />
+        </View>
+
+        <View
+          style={{
+            borderRadius: 24,
+            backgroundColor: 'white',
+            width: '100%',
+            padding: 20,
+          }}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Trust Badges</Text>
+          </View>
+          <TrustBadges userId={friendId} />
+
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Lending History</Text>
+          </View>
+          <View style={styles.lendingHistoryContainer}>
+            <View style={styles.lendingHistoryItem}>
+              <Text style={styles.lendingHistoryValue}>
+                {reputationData?.loansFunded ?? 0}
+              </Text>
+              <Text style={styles.lendingHistoryLabel}>Loans Funded</Text>
+            </View>
+            <View style={styles.lendingHistoryItem}>
+              <Text style={styles.lendingHistoryValue}>
+                {reputationData?.loansRepaid ?? 0}
+              </Text>
+              <Text style={styles.lendingHistoryLabel}>Loans Repaid</Text>
+            </View>
+            <View style={styles.lendingHistoryItem}>
+              <Text style={styles.lendingHistoryValue}>
+                {reputationData?.onTimePaymentRate != null
+                  ? `${Math.round(reputationData.onTimePaymentRate)}%`
+                  : '0%'}
+              </Text>
+              <Text style={styles.lendingHistoryLabel}>On-Time Rate</Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              marginTop: 16,
+            }}>
+            <GrayBox iconName="users" label="Friends" iconType="feather" />
+            <GrayBox
+              iconName="message-square"
+              label="My Posts"
+              iconType="feather"
+            />
+            <GrayBox
+              iconName="account-group"
+              label="Groups"
+              iconType="MaterialCommunityIcons"
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -172,10 +240,10 @@ const styles = StyleSheet.create({
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative', // Relative positioning for this container
+    position: 'relative',
   },
   editIcon: {
-    position: 'absolute', // Absolute positioning for the pencil icon
+    position: 'absolute',
     right: 1,
     bottom: 1,
     backgroundColor: GlobalStyles.Colors.primary600,
@@ -200,6 +268,37 @@ const styles = StyleSheet.create({
     height: '60%',
     width: 1,
     backgroundColor: GlobalStyles.Colors.accent100,
-    marginHorizontal: 10, // Optional, to give some space on either side
+    marginHorizontal: 10,
+  },
+  sectionHeader: {
+    marginTop: 16,
+    marginBottom: 8,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: GlobalStyles.Colors.primary500,
+  },
+  lendingHistoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 12,
+    backgroundColor: GlobalStyles.Colors.primary120,
+    borderRadius: 12,
+    marginHorizontal: 4,
+  },
+  lendingHistoryItem: {
+    alignItems: 'center',
+  },
+  lendingHistoryValue: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: GlobalStyles.Colors.primary500,
+  },
+  lendingHistoryLabel: {
+    fontSize: 12,
+    color: GlobalStyles.Colors.accent300,
+    marginTop: 4,
   },
 });

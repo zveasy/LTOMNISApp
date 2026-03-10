@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 const BorrowerScoreBreakdown = () => {
   const token = useSelector((state: AppState) => state.token);
-  const [scoreBorrower, setScoreBorrower] = useState();
+  const [scoreData, setScoreData] = useState<any>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -28,7 +28,7 @@ const BorrowerScoreBreakdown = () => {
         );
 
         const borrowerBreakDownData = response.data;
-        setScoreBorrower(borrowerBreakDownData);
+        setScoreData(borrowerBreakDownData);
         console.log('borrowerBreakDownData: ', borrowerBreakDownData);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -42,8 +42,8 @@ const BorrowerScoreBreakdown = () => {
     <SafeAreaView style={styles.background}>
       <TitleWithMeter title="Repayment Timeliness Meter" score={{
         borrowerBehavior: {
-          lateRepayments: 0,
-          onTimeRepayments: 0,
+          lateRepayments: scoreData?.repaymentTimeliness?.lateRepayments ?? 0,
+          onTimeRepayments: scoreData?.repaymentTimeliness?.onTimeRepayments ?? 0,
           pendingPayments: 0,
           totalAmountBorrowed: 0,
           totalAmountRepaid: 0,

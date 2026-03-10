@@ -87,6 +87,10 @@ import GroupBill from './screens/Spotlight/Groups/GroupBill';
 import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
 import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
 import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
+import GroupAdmin from './screens/Spotlight/Groups/GroupAdmin';
+import GroupLoanRequests from './screens/Spotlight/Groups/GroupLoanRequests';
+import SharedPool from './screens/Spotlight/Groups/SharedPool';
+import NFCFlow from './screens/NFC/NFCFlow';
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
@@ -96,6 +100,9 @@ import NewOffersLender from './screens/NewOffers/Lender/SentOffers/NewOffersLend
 import Auth from './screens/SignUp/Auth';
 import CreateAuthLink from './screens/SignUp/CreateAuthLink';
 import Wallets from './screens/Wallets/Wallets';
+import PostSearchFilter from './screens/MyFeed/PostSearchFilter';
+import CounterOffer from './screens/MyFeed/Borrower/CounterOffer';
+import LoanLifecycle from './screens/NewOffers/LoanLifecycle';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -318,6 +325,16 @@ export type HomeStackParamList = {
     postCurrentAmount: number;
   };
   NewOffersLender: undefined;
+  CounterOffer: {
+    offerId: string;
+    firstName: string;
+    lastName: string;
+    totalAmount: number;
+    interestPercentage: number;
+  };
+  LoanLifecycle: {
+    loanId: string;
+  };
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -413,6 +430,8 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
       <HomeStack.Screen name="NewOffersLender" component={NewOffersLender} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
+      <HomeStack.Screen name="CounterOffer" component={CounterOffer} />
+      <HomeStack.Screen name="LoanLifecycle" component={LoanLifecycle} />
     </HomeStack.Navigator>
   );
 }
@@ -432,6 +451,7 @@ export type FeedStackParamList = {
   PostEdit: undefined;
   FeedSummary: undefined;
   AllPosts: undefined;
+  PostSearchFilter: undefined;
 };
 
 export function FeedStackNavigator({}: FeedStackNavigatorProps) {
@@ -456,6 +476,7 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
       <FeedStack.Screen name="PostEdit" component={PostEdit} />
       <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
       <FeedStack.Screen name="AllPosts" component={AllPosts} />
+      <FeedStack.Screen name="PostSearchFilter" component={PostSearchFilter} />
     </FeedStack.Navigator>
   );
 }
@@ -503,8 +524,12 @@ export type SpotlightStackParamList = {
   ChooseFriends: undefined;
   GroupBill: undefined;
   GroupDetailsHistoryScreen: undefined;
-  GroupDetailsScreen: undefined;
+  GroupDetailsScreen: {groupId?: string} | undefined;
   MakeAGroupScreen: undefined;
+  GroupAdmin: {groupId?: string} | undefined;
+  GroupLoanRequests: {groupId?: string} | undefined;
+  SharedPool: {groupId?: string} | undefined;
+  NFCFlow: undefined;
   PaymentStatus: undefined;
 };
 
@@ -535,6 +560,13 @@ export function SpotlightStackNavigator() {
         name="MakeAGroupScreen"
         component={MakeAGroupScreen}
       />
+      <SpotlightStack.Screen name="GroupAdmin" component={GroupAdmin} />
+      <SpotlightStack.Screen
+        name="GroupLoanRequests"
+        component={GroupLoanRequests}
+      />
+      <SpotlightStack.Screen name="SharedPool" component={SharedPool} />
+      <SpotlightStack.Screen name="NFCFlow" component={NFCFlow} />
       <SpotlightStack.Screen name="PostDetails" component={PostDetails} />
       <SpotlightStack.Screen name="PostOffer" component={PostOffer} />
       <SpotlightStack.Screen name="FeedSummary" component={FeedSummary} />

@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp, NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import {HomeStackParamList} from '../../../../App';
 import GlobalStyles from '../../../../assets/constants/colors';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
@@ -62,12 +62,28 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
       />
       <ProgressWithLabel collected={postCurrentAmount} goal={postTotalAmount} />
 
+      <View style={styles.buttonRow}>
+        <Pressable
+          style={styles.counterOfferButton}
+          onPress={() => {
+            navigation.navigate('CounterOffer', {
+              offerId: offerId,
+              firstName: firstName,
+              lastName: lastName,
+              totalAmount: totalAmount,
+              interestPercentage: interestPercentage,
+            });
+          }}>
+          <Text style={styles.counterOfferButtonText}>Counter Offer</Text>
+        </Pressable>
+      </View>
+
       <CompleteButton
         onPress={() => {
           navigation.navigate('ChoosePaymentPlanScreen', {
             offerId: offerId,
-            interestPercentage: interestPercentage, // Pass interestPercentage
-            totalAmount: totalAmount, // Pass totalAmount
+            interestPercentage: interestPercentage,
+            totalAmount: totalAmount,
             postCurrentAmount: postCurrentAmount,
             postTotalAmount: postTotalAmount,
             totalWithInterest: totalWithInterest,
@@ -89,5 +105,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: GlobalStyles.Colors.primary800,
     paddingVertical: 40,
+  },
+  buttonRow: {
+    width: '90%',
+    marginTop: 16,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+  counterOfferButton: {
+    height: 50,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: GlobalStyles.Colors.primary200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  counterOfferButtonText: {
+    color: GlobalStyles.Colors.primary200,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

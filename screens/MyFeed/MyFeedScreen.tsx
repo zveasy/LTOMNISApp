@@ -1,4 +1,4 @@
-import {View, StyleSheet, SafeAreaView} from 'react-native';
+import {View, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import FeedTopTabs from './FeedTopTabs';
@@ -8,6 +8,7 @@ import {FeedStackParamList} from '../../App';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState, setFirstName} from '../../ReduxStore';
 import axios from 'axios';
+import Feather from 'react-native-vector-icons/Feather';
 
 type Type1 = {
   property: string;
@@ -62,11 +63,24 @@ const MyFeedScreen: React.FC<
 
   return (
     <SafeAreaView style={styles.background}>
-      <Header
-        firstName={firstName}
-        lastName={lastName}
-        avatarImage={avatarImage}
-      />
+      <View style={styles.headerRow}>
+        <View style={styles.headerLeft}>
+          <Header
+            firstName={firstName}
+            lastName={lastName}
+            avatarImage={avatarImage}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={() => navigation.navigate('PostSearchFilter')}>
+          <Feather
+            name="search"
+            size={22}
+            color={GlobalStyles.Colors.primary100}
+          />
+        </TouchableOpacity>
+      </View>
       <FeedTopTabs />
     </SafeAreaView>
   );
@@ -76,6 +90,18 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: GlobalStyles.Colors.primary800,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerLeft: {
+    flex: 1,
+  },
+  searchButton: {
+    padding: 10,
+    marginRight: 10,
   },
   whiteBackground: {
     width: '100%',

@@ -5,16 +5,48 @@ import {
   SafeAreaView,
   Pressable,
   TextInput,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
 export default function ForgotPassword() {
-  // UseState
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const handleResetPassword = async () => {
+    if (!email) {
+      Alert.alert('Please enter your email address.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await axios.post(
+        'http://localhost:8080/api/omnis/account/forgot_password',
+        {email},
+      );
+      navigation.navigate('Verification', {userPhoneNumber: email});
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        Alert.alert(
+          'Error',
+          error.response.data?.message || 'Failed to send reset code.',
+        );
+      } else if (error instanceof Error) {
+        Alert.alert('Error', error.message);
+      } else {
+        Alert.alert('Error', 'An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -56,8 +88,13 @@ export default function ForgotPassword() {
       {/* Reset Password */}
       <Pressable
         style={[styles.SignButton, styles.SignButtonOutlined]}
-        onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.SignButtonText}>Reset Password</Text>
+        onPress={handleResetPassword}
+        disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.SignButtonText}>Reset Password</Text>
+        )}
       </Pressable>
     </SafeAreaView>
   );

@@ -130,6 +130,8 @@ export type RootStackParamList = {
   };
   CreateLinkToken: undefined;
   CreateAuthLink: undefined;
+  PhoneVerification: undefined;
+  ProfileCreation: undefined;
 };
 
 // Tabs Stack Navigator Props Type

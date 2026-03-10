@@ -103,6 +103,35 @@ import Wallets from './screens/Wallets/Wallets';
 import PostSearchFilter from './screens/MyFeed/PostSearchFilter';
 import CounterOffer from './screens/MyFeed/Borrower/CounterOffer';
 import LoanLifecycle from './screens/NewOffers/LoanLifecycle';
+import PhoneVerification from './screens/auth/PhoneVerification';
+import ProfileCreation from './screens/auth/ProfileCreation';
+import GovernmentIdUpload from './screens/Identity/GovernmentIdUpload';
+import SelfieVerification from './screens/Identity/SelfieVerification';
+import AddressVerification from './screens/Identity/AddressVerification';
+import IdentityStatusScreen from './screens/Identity/IdentityStatus';
+import RiskFlagScreen from './screens/Identity/RiskFlagScreen';
+import Endorsements from './screens/Profile/Endorsements';
+import ReputationDashboard from './screens/Profile/ReputationDashboard';
+import ContractView from './screens/Contracts/ContractView';
+import ContractGeneration from './screens/Contracts/ContractGeneration';
+import DigitalSignature from './screens/Contracts/DigitalSignature';
+import LenderAcceptance from './screens/Contracts/LenderAcceptance';
+import DisputeScreen from './screens/Contracts/DisputeScreen';
+import AmendmentScreen from './screens/Contracts/AmendmentScreen';
+import ObligationLedger from './screens/Ledger/ObligationLedger';
+import TransactionJournal from './screens/Ledger/TransactionJournal';
+import AuditTrail from './screens/Ledger/AuditTrail';
+import PaymentInstructions from './screens/Payment/PaymentInstructions';
+import MarkAsPaid from './screens/Payment/MarkAsPaid';
+import UploadProof from './screens/Payment/UploadProof';
+import LenderConfirmReceipt from './screens/Payment/LenderConfirmReceipt';
+import PaymentReminders from './screens/Payment/PaymentReminders';
+import LatePaymentNotice from './screens/Payment/LatePaymentNotice';
+import PaymentDispute from './screens/Payment/PaymentDispute';
+import RiskDashboard from './screens/Risk/RiskDashboard';
+import BorrowingLimits from './screens/Risk/BorrowingLimits';
+import LenderExposure from './screens/Risk/LenderExposure';
+import AdminNavigator from './navigation/AdminNavigator';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -152,6 +181,8 @@ function CombinedStackNavigator() {
         component={CreateLinkToken}
       />
       <CombinedStack.Screen name="CreateAuthLink" component={CreateAuthLink} />
+      <CombinedStack.Screen name="PhoneVerification" component={PhoneVerification} />
+      <CombinedStack.Screen name="ProfileCreation" component={ProfileCreation} />
       <CombinedStack.Screen
         name="MainStackNavigator"
         component={MainStackNavigator}
@@ -335,6 +366,33 @@ export type HomeStackParamList = {
   LoanLifecycle: {
     loanId: string;
   };
+  GovernmentIdUpload: undefined;
+  SelfieVerification: undefined;
+  AddressVerification: undefined;
+  IdentityStatusScreen: undefined;
+  RiskFlagScreen: undefined;
+  Endorsements: {userId?: string};
+  ReputationDashboard: undefined;
+  ContractView: {contractId: string};
+  ContractGeneration: {offerId: string};
+  DigitalSignature: {contractId: string};
+  LenderAcceptance: {offerId: string};
+  DisputeScreen: {loanId?: string; contractId?: string};
+  AmendmentScreen: {contractId: string};
+  ObligationLedger: undefined;
+  TransactionJournal: undefined;
+  AuditTrail: {loanId: string};
+  PaymentInstructions: {loanId: string; amountDue: number; dueDate: string};
+  MarkAsPaid: {loanId: string; amountDue: number; counterpartyName: string};
+  UploadProof: {paymentId: string};
+  LenderConfirmReceipt: undefined;
+  PaymentReminders: undefined;
+  LatePaymentNotice: undefined;
+  PaymentDispute: {disputeId: string};
+  RiskDashboard: undefined;
+  BorrowingLimits: undefined;
+  LenderExposure: undefined;
+  AdminNavigator: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -432,6 +490,33 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
       <HomeStack.Screen name="CounterOffer" component={CounterOffer} />
       <HomeStack.Screen name="LoanLifecycle" component={LoanLifecycle} />
+      <HomeStack.Screen name="GovernmentIdUpload" component={GovernmentIdUpload} />
+      <HomeStack.Screen name="SelfieVerification" component={SelfieVerification} />
+      <HomeStack.Screen name="AddressVerification" component={AddressVerification} />
+      <HomeStack.Screen name="IdentityStatusScreen" component={IdentityStatusScreen} />
+      <HomeStack.Screen name="RiskFlagScreen" component={RiskFlagScreen} />
+      <HomeStack.Screen name="Endorsements" component={Endorsements} />
+      <HomeStack.Screen name="ReputationDashboard" component={ReputationDashboard} />
+      <HomeStack.Screen name="ContractView" component={ContractView} />
+      <HomeStack.Screen name="ContractGeneration" component={ContractGeneration} />
+      <HomeStack.Screen name="DigitalSignature" component={DigitalSignature} />
+      <HomeStack.Screen name="LenderAcceptance" component={LenderAcceptance} />
+      <HomeStack.Screen name="DisputeScreen" component={DisputeScreen} />
+      <HomeStack.Screen name="AmendmentScreen" component={AmendmentScreen} />
+      <HomeStack.Screen name="ObligationLedger" component={ObligationLedger} />
+      <HomeStack.Screen name="TransactionJournal" component={TransactionJournal} />
+      <HomeStack.Screen name="AuditTrail" component={AuditTrail} />
+      <HomeStack.Screen name="PaymentInstructions" component={PaymentInstructions} />
+      <HomeStack.Screen name="MarkAsPaid" component={MarkAsPaid} />
+      <HomeStack.Screen name="UploadProof" component={UploadProof} />
+      <HomeStack.Screen name="LenderConfirmReceipt" component={LenderConfirmReceipt} />
+      <HomeStack.Screen name="PaymentReminders" component={PaymentReminders} />
+      <HomeStack.Screen name="LatePaymentNotice" component={LatePaymentNotice} />
+      <HomeStack.Screen name="PaymentDispute" component={PaymentDispute} />
+      <HomeStack.Screen name="RiskDashboard" component={RiskDashboard} />
+      <HomeStack.Screen name="BorrowingLimits" component={BorrowingLimits} />
+      <HomeStack.Screen name="LenderExposure" component={LenderExposure} />
+      <HomeStack.Screen name="AdminNavigator" component={AdminNavigator} />
     </HomeStack.Navigator>
   );
 }

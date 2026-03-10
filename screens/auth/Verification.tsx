@@ -95,9 +95,9 @@ export default function Verification({route, navigation}: Props) {
       const data = await response.json();
       if (data.success) {
         console.log('Verification successful.', data);
-        // dispatch(setHasCompletedOnboarding(true));
+        dispatch(setHasCompletedOnboarding(true));
         console.log(`This is the dispatch of Verify`);
-        // navigation.navigate('MainStackNavigator');
+        navigation.navigate('CreateLinkToken');
       } else {
         console.log('Invalid verification code.');
         // Handle invalid code
@@ -114,7 +114,7 @@ export default function Verification({route, navigation}: Props) {
   const handleResendCode = async () => {
     try {
       const response = await fetch(
-        'YOUR_BACKEND_URL/api/resend-verification-code',
+        'http://localhost:8080/api/omnis/account/resend_code',
         {
           method: 'GET',
           headers: {
@@ -144,7 +144,7 @@ export default function Verification({route, navigation}: Props) {
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Verification</Text>
         <Text style={styles.subheaderText}>
-          Enter your email account to reset password
+          Enter the verification code sent to you
         </Text>
       </View>
 

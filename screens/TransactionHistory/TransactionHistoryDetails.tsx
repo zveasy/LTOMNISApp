@@ -84,7 +84,7 @@ const TransactionHistoryDetails: React.FC = () => {
         showRightIcon={true}
         rightIconType="Feather"
         rightIconName="share-2"
-        onRightIconPress={() => {}}
+        onRightIconPress={() => navigation.navigate('TransactionHistoryFilter')}
       />
       <View style={styles.contentContainer}>
         <View style={styles.container}>

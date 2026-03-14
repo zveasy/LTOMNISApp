@@ -40,6 +40,9 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 - **No native builds in cloud**: iOS/Android simulators are unavailable in the cloud VM. You can still validate JS bundle compilation by requesting `http://localhost:8084/index.bundle?platform=android&dev=true&minify=false` from the running Metro server.
 - **TypeScript errors (frontend)**: `npx tsc --noEmit` reports some pre-existing errors (missing module references in `navigation/OnboardingNavigator.tsx` and `screens/auth/CreateNewPassword.tsx`). These are existing codebase issues, not environment problems.
 - **Backend DB reset**: Delete `backend/omnis.db` to start with a fresh database. It re-creates automatically on server start.
+- **Backend .env**: The backend loads `backend/.env` via dotenv. Default dev values are pre-populated (PORT=8080, JWT_SECRET, DB_PATH, UPLOAD_DIR).
 - **Backend build before start**: Always run `cd backend && npm run build` before `npm start`. The dev script (`npm run dev`) uses ts-node and doesn't need a build step.
+- **Rate limiting**: Auth routes (`/account/*`) are rate-limited to 20 requests per 15-minute window.
+- **Input validation**: Critical auth, offer, and payment routes use Zod schemas via `validate()` middleware. Registration also enforces password strength (uppercase + lowercase + digit).
 - **ESLint warnings/errors**: `npm run lint` exits with code 1 due to ~3700 existing prettier/style issues. This is expected and not a setup failure.
 - **Jest setup**: Tests use extensive React Native mocks defined in `jestSetup.js`. The mock file at `__mocks__/fileMock.js` handles static assets.

@@ -24,9 +24,9 @@ const PAYMENT_METHODS = [
 
 export default function MarkAsPaid({route}: {route: any}) {
   const navigation = useNavigation<any>();
-  const obligationId = route?.params?.obligationId;
+  const loanId = route?.params?.loanId;
   const amountDue = route?.params?.amountDue ?? 171.23;
-  const counterparty = route?.params?.counterparty ?? 'Zak Veasy';
+  const counterpartyName = route?.params?.counterpartyName ?? 'Zak Veasy';
 
   const [paymentAmount, setPaymentAmount] = useState(amountDue.toString());
   const [selectedMethod, setSelectedMethod] = useState('bank_transfer');
@@ -45,7 +45,7 @@ export default function MarkAsPaid({route}: {route: any}) {
     try {
       setSubmitting(true);
       await api.post('/payment/mark_paid', {
-        obligationId,
+        loanId,
         amount: parseFloat(paymentAmount),
         method: selectedMethod,
         paymentDate,
@@ -73,7 +73,7 @@ export default function MarkAsPaid({route}: {route: any}) {
           <Text style={styles.cardTitle}>Obligation Details</Text>
           <View style={styles.row}>
             <Text style={styles.label}>Paying To</Text>
-            <Text style={styles.value}>{counterparty}</Text>
+            <Text style={styles.value}>{counterpartyName}</Text>
           </View>
           <View style={styles.divider} />
           <View style={styles.row}>
@@ -180,7 +180,7 @@ export default function MarkAsPaid({route}: {route: any}) {
         {/* Upload Proof */}
         <TouchableOpacity
           style={styles.uploadButton}
-          onPress={() => navigation.navigate('UploadProof', {obligationId})}>
+          onPress={() => navigation.navigate('UploadProof', {paymentId: loanId})}>
           <Icon
             name="cloud-upload-outline"
             size={20}

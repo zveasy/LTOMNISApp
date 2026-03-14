@@ -19,25 +19,25 @@ export default function PaymentInstructions({route}: {route: any}) {
   const [loading, setLoading] = useState(false);
   const [obligation, setObligation] = useState<any>(null);
 
-  const obligationId = route?.params?.obligationId;
+  const loanId = route?.params?.loanId;
   const amountDue = route?.params?.amountDue ?? 171.23;
   const dueDate = route?.params?.dueDate ?? '2025-07-15';
   const counterparty = route?.params?.counterparty ?? 'Zak Veasy';
 
   useEffect(() => {
-    if (obligationId) {
-      fetchObligation();
+    if (loanId) {
+      fetchLoanStatus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [obligationId]);
+  }, [loanId]);
 
-  const fetchObligation = async () => {
+  const fetchLoanStatus = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/payment/obligation/${obligationId}`);
+      const response = await api.get(`/api/omnis/loan/${loanId}/status`);
       setObligation(response.data);
     } catch (error) {
-      console.error('Error fetching obligation:', error);
+      console.error('Error fetching loan status:', error);
     } finally {
       setLoading(false);
     }
@@ -209,9 +209,9 @@ export default function PaymentInstructions({route}: {route: any}) {
         style={styles.primaryButton}
         onPress={() =>
           navigation.navigate('MarkAsPaid', {
-            obligationId,
+            loanId,
             amountDue: obligation?.amountDue ?? amountDue,
-            counterparty: obligation?.counterparty ?? counterparty,
+            counterpartyName: obligation?.counterparty ?? counterparty,
           })
         }>
         <Text style={styles.primaryButtonText}>I've Made the Payment</Text>

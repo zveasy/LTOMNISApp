@@ -233,7 +233,7 @@ const App = () => {
   } else if (isAuthenticated) {
     RootNavigator = MainStackNavigator;
   } else {
-    RootNavigator = SignInScreen; // Or any other initial screen for unauthenticated users
+    RootNavigator = CombinedStackNavigator;
   }
 
   const onOnboardingFinish = async () => {

@@ -173,7 +173,7 @@ router.get('/payment/reminders', authMiddleware, (req: AuthRequest, res: Respons
        ORDER BY rs.due_date ASC`
     ).all(req.userId);
 
-    res.json({reminders: schedules});
+    res.json({reminders: schedules, preferences: {email: true, push: true, sms: false}});
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to fetch reminders'});
   }
@@ -188,7 +188,7 @@ router.get('/payment/late', authMiddleware, (req: AuthRequest, res: Response) =>
        ORDER BY rs.due_date ASC`
     ).all(req.userId);
 
-    res.json({overduePayments: overdue});
+    res.json({latePayments: overdue});
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to fetch late payments'});
   }
@@ -196,9 +196,18 @@ router.get('/payment/late', authMiddleware, (req: AuthRequest, res: Response) =>
 
 router.post('/payment/request_extension', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
-    const {loanId, newDueDate, reason} = req.body;
-    if (!loanId || !newDueDate) {
-      res.status(400).json({error: 'loanId and newDueDate are required'});
+    const {paymentId, newDueDate, reason} = req.body;
+    let {loanId} = req.body;
+
+    if (paymentId && !loanId) {
+      const payment = db.prepare(`SELECT loan_id FROM payments WHERE id = ?`).get(paymentId) as any;
+      if (payment) {
+        loanId = payment.loan_id;
+      }
+    }
+
+    if (!loanId) {
+      res.status(400).json({error: 'loanId or paymentId is required'});
       return;
     }
 
@@ -212,7 +221,7 @@ router.post('/payment/request_extension', authMiddleware, (req: AuthRequest, res
     db.prepare(
       `INSERT INTO notifications (id, user_id, type, title, message, reference_id)
        VALUES (?, ?, 'extension_request', 'Extension Request', ?, ?)`
-    ).run(notifId, loan.lender_id, reason || `Extension requested to ${newDueDate}`, loanId);
+    ).run(notifId, loan.lender_id, reason || (newDueDate ? `Extension requested to ${newDueDate}` : 'Payment extension requested'), loanId);
 
     res.json({success: true});
   } catch (err: any) {

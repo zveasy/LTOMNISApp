@@ -205,8 +205,8 @@ const ObligationLedger: React.FC = () => {
               key={obligation.id}
               style={styles.obligationItem}
               onPress={() =>
-                (navigation as any).navigate('ObligationDetail', {
-                  obligationId: obligation.id,
+                (navigation as any).navigate('LoanLifecycle', {
+                  loanId: obligation.id,
                 })
               }>
               <View style={styles.obligationHeader}>

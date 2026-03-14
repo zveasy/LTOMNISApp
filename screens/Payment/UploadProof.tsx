@@ -20,7 +20,7 @@ import api from '../../services/api';
 
 export default function UploadProof({route}: {route: any}) {
   const navigation = useNavigation<any>();
-  const obligationId = route?.params?.obligationId;
+  const paymentId = route?.params?.paymentId;
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string>('');
@@ -57,7 +57,7 @@ export default function UploadProof({route}: {route: any}) {
     try {
       setSubmitting(true);
       const formData = new FormData();
-      formData.append('obligationId', obligationId);
+      formData.append('paymentId', paymentId);
       formData.append('notes', notes);
       formData.append('proof', {
         uri: imageUri,

@@ -82,7 +82,7 @@ export default function PaymentDispute({route}: {route: any}) {
     try {
       setSending(true);
       await api.post(`/disputes/${disputeId}/messages`, {
-        text: newMessage.trim(),
+        message: newMessage.trim(),
       });
       const newMsg: Message = {
         id: Date.now().toString(),

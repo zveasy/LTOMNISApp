@@ -50,9 +50,9 @@ export default function LatePaymentNotice() {
 
   const handleMakePayment = (payment: LatePayment) => {
     navigation.navigate('PaymentInstructions', {
-      obligationId: payment.id,
+      loanId: payment.id,
       amountDue: payment.amount + payment.lateFeeAccrued,
-      counterparty: payment.counterparty,
+      dueDate: payment.originalDueDate,
     });
   };
 

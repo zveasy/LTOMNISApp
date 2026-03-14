@@ -30,13 +30,13 @@ const CounterOffer: React.FC<CounterOfferProps> = ({route}) => {
     route.params;
 
   const [proposedAmount, setProposedAmount] = useState('');
-  const [proposedInterestRate, setProposedInterestRate] = useState('');
+  const [proposedInterest, setProposedInterest] = useState('');
   const [proposedTerm, setProposedTerm] = useState('');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSendCounterOffer = () => {
-    if (!proposedAmount || !proposedInterestRate || !proposedTerm) {
+    if (!proposedAmount || !proposedInterest || !proposedTerm) {
       Alert.alert('Missing Fields', 'Please fill in all counter-offer fields.');
       return;
     }
@@ -45,7 +45,7 @@ const CounterOffer: React.FC<CounterOfferProps> = ({route}) => {
 
     const payload = {
       proposedAmount: parseFloat(proposedAmount),
-      proposedInterestRate: parseFloat(proposedInterestRate),
+      proposedInterest: parseFloat(proposedInterest),
       proposedTerm: parseInt(proposedTerm, 10),
       message: message,
     };
@@ -115,7 +115,7 @@ const CounterOffer: React.FC<CounterOfferProps> = ({route}) => {
           keyboardType="numeric"
           onChangeText={text => {
             const cleaned = text.replace(/[^0-9.]/g, '');
-            setProposedInterestRate(cleaned);
+            setProposedInterest(cleaned);
           }}
         />
         <TextInputComponent

@@ -174,7 +174,12 @@ export default function MyProfile() {
             iconType="feather"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SpotlightStackNavigator', {
+              screen: 'GroupsScreen',
+            });
+          }}>
           <GrayBox
             iconName="account-group"
             label="Groups"

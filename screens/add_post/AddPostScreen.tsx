@@ -124,7 +124,7 @@ export default function AddPostScreen() {
         showsVerticalScrollIndicator={false}>
         <TextInputComponent
           title="Title"
-          placeholder="Your custom placeholder here"
+          placeholder="Enter a title for your loan request"
           keyboardType="default"
           onChangeText={text => setTitle(text)}
           accessibilityLabel="Title"
@@ -137,7 +137,16 @@ export default function AddPostScreen() {
           inputHeight={110}
           accessibilityLabel="Description"
         />
-        <TouchableOpacity style={styles.uploadImage} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.uploadImage}
+          onPress={() => {
+            launchImageLibrary({mediaType: 'photo'}, response => {
+              if (response.assets && response.assets[0]?.uri) {
+                setImageUri(response.assets[0].uri as any);
+                setImageFile(response.assets[0] as any);
+              }
+            });
+          }}>
           <Text style={styles.uploadImageText}>Upload Image</Text>
           <Feather
             name={'upload'}

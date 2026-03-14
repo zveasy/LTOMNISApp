@@ -15,6 +15,7 @@ interface TextInputComponentProps {
   onChangeText?: (text: string) => void;
   inputHeight?: number;
   isAmount?: boolean;
+  accessibilityLabel?: string;
 }
 
 const TextInputComponent: React.FC<TextInputComponentProps> = ({
@@ -24,6 +25,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   onChangeText,
   inputHeight = 50,
   isAmount = false,
+  accessibilityLabel,
 }) => {
   const [textValue, setTextValue] = useState('');
   const [isValid, setIsValid] = useState(true);
@@ -60,12 +62,13 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
         ]}>
         {isAmount && <Text style={styles.dollarSign}>$</Text>}
         <TextInput
-          style={[styles.textInput, {paddingTop: 10}]} // Adding padding to align text to top
+          style={[styles.textInput, {paddingTop: 10}]}
           placeholder={placeholder}
           placeholderTextColor="rgba(255,255,255, 0.6)"
           keyboardType={keyboardType}
           onChangeText={handleChangeText}
           value={textValue}
+          accessibilityLabel={accessibilityLabel}
         />
       </View>
     </View>

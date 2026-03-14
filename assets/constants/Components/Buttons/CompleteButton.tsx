@@ -10,6 +10,7 @@ type CompleteButtonProps = {
   iconColor?: string;
   iconSet?: 'Ionicons' | 'MaterialCommunityIcons';
   onPress: () => void;
+  accessibilityLabel?: string;
 };
 
 const CompleteButton: React.FC<CompleteButtonProps> = ({
@@ -17,8 +18,9 @@ const CompleteButton: React.FC<CompleteButtonProps> = ({
   icon,
   color = '#BDAE8D',
   iconSet = 'MaterialCommunityIcons',
-  iconColor = 'white', // Default icon set
+  iconColor = 'white',
   onPress,
+  accessibilityLabel,
 }) => {
   const renderIcon = () => {
     switch (iconSet) {
@@ -48,7 +50,8 @@ const CompleteButton: React.FC<CompleteButtonProps> = ({
   return (
     <Pressable
       style={[styles.SignButton, {backgroundColor: color}]}
-      onPress={onPress}>
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}>
       {icon && renderIcon()}
       <Text style={styles.SignButtonText}>{text}</Text>
     </Pressable>

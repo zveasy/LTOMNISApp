@@ -400,4 +400,109 @@ router.post('/group/:groupId/pool/request', authMiddleware, (req: AuthRequest, r
   }
 });
 
+// POST /friend/accept
+router.post('/friend/accept', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { friendId } = req.body;
+    if (!friendId) {
+      res.status(400).json({ error: 'friendId is required' });
+      return;
+    }
+
+    const row = db.prepare(`
+      SELECT id FROM friends
+      WHERE requester_id = ? AND receiver_id = ? AND status = 'pending'
+    `).get(friendId, req.userId) as any;
+
+    if (!row) {
+      res.status(404).json({ error: 'Friend request not found' });
+      return;
+    }
+
+    db.prepare(`UPDATE friends SET status = 'accepted' WHERE id = ?`).run(row.id);
+
+    createNotification(friendId, 'friend_accepted', 'Friend Request Accepted', 'Your friend request was accepted', req.userId!);
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to accept friend request' });
+  }
+});
+
+// POST /friend/reject
+router.post('/friend/reject', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { friendId } = req.body;
+    if (!friendId) {
+      res.status(400).json({ error: 'friendId is required' });
+      return;
+    }
+
+    db.prepare(`
+      DELETE FROM friends
+      WHERE requester_id = ? AND receiver_id = ? AND status = 'pending'
+    `).run(friendId, req.userId);
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to reject friend request' });
+  }
+});
+
+// DELETE /friend/remove
+router.delete('/friend/remove', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { friendId } = req.body;
+    if (!friendId) {
+      res.status(400).json({ error: 'friendId is required' });
+      return;
+    }
+
+    db.prepare(`
+      DELETE FROM friends
+      WHERE (requester_id = ? AND receiver_id = ?) OR (requester_id = ? AND receiver_id = ?)
+    `).run(friendId, req.userId, req.userId, friendId);
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to remove friend' });
+  }
+});
+
+// GET /friends/list
+router.get('/friends/list', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const friends = db.prepare(`
+      SELECT u.id, u.first_name AS firstName, u.last_name AS lastName, u.email, u.avatar_url AS avatarUrl
+      FROM friends f
+      JOIN users u ON (
+        CASE WHEN f.requester_id = ? THEN f.receiver_id ELSE f.requester_id END
+      ) = u.id
+      WHERE (f.requester_id = ? OR f.receiver_id = ?) AND f.status = 'accepted'
+    `).all(req.userId, req.userId, req.userId) as any[];
+
+    res.json(friends);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get friends list' });
+  }
+});
+
+// GET /friends/requests
+router.get('/friends/requests', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const requests = db.prepare(`
+      SELECT f.id AS requestId, f.created_at AS createdAt,
+             u.id, u.first_name AS firstName, u.last_name AS lastName, u.email, u.avatar_url AS avatarUrl
+      FROM friends f
+      JOIN users u ON f.requester_id = u.id
+      WHERE f.receiver_id = ? AND f.status = 'pending'
+      ORDER BY f.created_at DESC
+    `).all(req.userId) as any[];
+
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get friend requests' });
+  }
+});
+
 export default router;

@@ -68,7 +68,6 @@ export default function CreateNewPassword() {
       return;
     }
 
-    // TODO: Send a request to your backend to update the password
     updatePassword(password);
   };
 

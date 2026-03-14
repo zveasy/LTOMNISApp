@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Pressable,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
@@ -15,10 +16,14 @@ import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
 
 interface NotificationProps {
   id: string;
   type: NotificationType;
+  referenceId?: string;
 }
 
 interface EarnedPointsNotificationProps extends NotificationProps {
@@ -65,6 +70,7 @@ export enum NotificationType {
 export default function Notification(props: NotificationTypes) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const token = useSelector((state: AppState) => state.token);
 
   switch (props.type) {
     case NotificationType.EarnedPoints:
@@ -182,14 +188,32 @@ export default function Notification(props: NotificationTypes) {
         </View>
       );
     case NotificationType.FriendRequest:
-      const handleAcceptFriendRequest = () => {
-        navigation.navigate('SpotlightStackNavigator', {
-            screen: 'FriendsProfile',
-            params: { from: props.from },
-          });
+      const handleAcceptFriendRequest = async () => {
+        try {
+          await axios.post(
+            'http://localhost:8080/api/omnis/friend/accept',
+            { friendId: props.referenceId },
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          Alert.alert('Success', 'Friend request accepted');
+        } catch (error) {
+          Alert.alert('Error', 'Failed to accept friend request');
+        }
+      };
+      const handleRejectFriendRequest = async () => {
+        try {
+          await axios.post(
+            'http://localhost:8080/api/omnis/friend/reject',
+            { friendId: props.referenceId },
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
+          Alert.alert('Success', 'Friend request declined');
+        } catch (error) {
+          Alert.alert('Error', 'Failed to decline friend request');
+        }
       };
       return (
-        <Pressable onPress={handleAcceptFriendRequest} style={styles.BigContainer}>
+        <View style={styles.BigContainer}>
           <View style={styles.InvitationContainer}>
             <View style={styles.points}>
               <StarCircle iconName={'star-four-points-outline'} />
@@ -205,7 +229,8 @@ export default function Notification(props: NotificationTypes) {
 
             <View
               style={styles.ButtonContainer}>
-              <View
+              <Pressable
+                onPress={handleRejectFriendRequest}
                 style={{
                   width: 80,
                   height: 32,
@@ -216,9 +241,10 @@ export default function Notification(props: NotificationTypes) {
                   marginBottom: 10,
                 }}>
                 <Text style={styles.InviteButtonText}>Decline</Text>
-              </View>
+              </Pressable>
 
-              <View
+              <Pressable
+                onPress={handleAcceptFriendRequest}
                 style={{
                   width: 80,
                   height: 32,
@@ -231,10 +257,10 @@ export default function Notification(props: NotificationTypes) {
                   marginRight: 20,
                 }}>
                 <Text style={styles.InviteButtonText}>Accept</Text>
-              </View>
+              </Pressable>
             </View>
           </View>
-        </Pressable>
+        </View>
       );
     default:
       return (

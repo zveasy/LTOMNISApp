@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet, FlatList, Touchable} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, SafeAreaView, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import {Divider} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
@@ -7,94 +7,74 @@ import ListItemWithRadial, {
   ListItemProps,
 } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import HomeScreen from '../HomeScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {t} from 'i18next'
+import {t} from 'i18next';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+import {HomeStackParamList} from '../../App';
 
-type RootStackParamList = {
-  HomeStack: undefined;
-  TransactionHistoryDetails: undefined;
-};
+type NavigationProp = StackNavigationProp<HomeStackParamList, 'TransactionHistoryDetails'>;
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'TransactionHistoryDetails'>;
-
+interface Transaction {
+  id: string;
+  type: string;
+  amount: number;
+  description: string;
+  counterparty_id: string;
+  status: string;
+  created_at: string;
+}
 
 const TransactionHistoryDetails: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<RouteProp<HomeStackParamList, 'TransactionHistoryDetails'>>();
+  const transactionId = route.params?.transactionId;
+  const token = useSelector((state: AppState) => state.token);
+  const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/transactions/mytransactions',
+          { headers: { Authorization: `Bearer ${token?.token}` } },
+        );
+        const transactions: Transaction[] = response.data?.transactions || response.data || [];
+        const found = transactions.find((tx: Transaction) => tx.id === transactionId);
+        setTransaction(found || (transactions.length > 0 ? transactions[0] : null));
+      } catch (error) {
+        console.error('Failed to fetch transaction details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTransaction();
+  }, [transactionId, token]);
 
-  const formatCurrency = (value: string) => {
-    const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
-    const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
-    const numericalValue = sign ? amountValue.slice(1) : amountValue;
-    const amount = parseFloat(numericalValue);
-
-    if (isNaN(amount)) {
-      console.error(`Invalid currency value: ${value}`);
-      return value;
-    }
-
-    const formattedAmount = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(amount);
-
-    return `${sign}${formattedAmount}`;
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}.${d.getFullYear()}`;
   };
 
-  // Data array
-  const data: ListItemProps[] = [
-    {
-      radialType: 'radio',
-      iconName: 'coffee',
-      topTextLeft: t('TransferTo'),
-      topTextRight: '-$171.23',
-      bottomTextLeft: t('Pending'),
-      bottomTextRight: '06.23.2024 14:00',
-    },
-    {
-      radialType: 'radio',
-      topTextLeft: t('TransferTo'),
-      topTextRight: '+$100.00',
-      bottomTextLeft: t('Completed'),
-      bottomTextRight: '05.20.2024 11:15',
-    },
-    {
-      radialType: 'radio',
-      imagePath: 'path_to_some_image',
-      topTextLeft: t('TransferTo'),
-      topTextRight: '+$58.75',
-      bottomTextLeft: t('Failed'),
-      bottomTextRight: '04.29.2024 09:45',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'shopping-cart',
-      topTextLeft: t('TransferTo'),
-      topTextRight: '-$89.50',
-      bottomTextLeft: t('Pending'),
-      bottomTextRight: '06.15.2024 16:30',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'dollar-sign',
-      topTextLeft: t('TransferTo'),
-      topTextRight: '+$2000',
-      bottomTextLeft: t('Completed'),
-      bottomTextRight: '06.01.2024 12:00',
-    },
-  ];
+  const formatTime = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+  };
 
-  // Process the data using the function
-  const processedData = data.map(item => ({
-    ...item,
-    topTextRight: formatCurrency(item.topTextRight),
-  }));
-
-  
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.Background}>
+        <ScreenTitle title="Transaction Detail" showBackArrow={true} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color={GlobalStyles.Colors.primary200} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -102,15 +82,15 @@ const TransactionHistoryDetails: React.FC = () => {
         title="Transaction Detail"
         showBackArrow={true}
         showRightIcon={true}
-        rightIconType="Feather" // Either 'Ionicons' or 'Feather'
-        rightIconName="share-2" // replace with actual Feather icon name
+        rightIconType="Feather"
+        rightIconName="share-2"
         onRightIconPress={() => {}}
       />
       <View style={styles.contentContainer}>
         <View style={styles.container}>
           <View>
             <Text style={styles.transactionTypeText}>Transaction Type</Text>
-            <Text style={styles.transactionTypeDetailText}>Transfer</Text>
+            <Text style={styles.transactionTypeDetailText}>{transaction?.type || 'N/A'}</Text>
           </View>
           <Divider
             width={1}
@@ -118,8 +98,8 @@ const TransactionHistoryDetails: React.FC = () => {
             color={GlobalStyles.Colors.accent250}
           />
           <View>
-            <Text style={styles.transactionTypeText}>Bank Account</Text>
-            <Text style={styles.transactionTypeDetailText}>15615568518</Text>
+            <Text style={styles.transactionTypeText}>Status</Text>
+            <Text style={styles.transactionTypeDetailText}>{transaction?.status || 'N/A'}</Text>
           </View>
           <Divider
             color={GlobalStyles.Colors.accent250}
@@ -128,7 +108,9 @@ const TransactionHistoryDetails: React.FC = () => {
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.transactionTypeText}>Amount</Text>
-            <Text style={styles.transactionTypeDetailText}>$214</Text>
+            <Text style={styles.transactionTypeDetailText}>
+              ${transaction?.amount?.toFixed(2) || '0.00'}
+            </Text>
           </View>
           <Divider
             color={GlobalStyles.Colors.accent250}
@@ -137,7 +119,9 @@ const TransactionHistoryDetails: React.FC = () => {
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.transactionTypeText}>Date</Text>
-            <Text style={styles.transactionTypeDetailText}>01.23.2024</Text>
+            <Text style={styles.transactionTypeDetailText}>
+              {transaction?.created_at ? formatDate(transaction.created_at) : 'N/A'}
+            </Text>
           </View>
           <Divider
             color={GlobalStyles.Colors.accent250}
@@ -146,7 +130,9 @@ const TransactionHistoryDetails: React.FC = () => {
           />
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.transactionTypeText}>Time</Text>
-            <Text style={styles.transactionTypeDetailText}>15:15</Text>
+            <Text style={styles.transactionTypeDetailText}>
+              {transaction?.created_at ? formatTime(transaction.created_at) : 'N/A'}
+            </Text>
           </View>
         </View>
       </View>

@@ -73,7 +73,8 @@ const MyFeedScreen: React.FC<
         </View>
         <TouchableOpacity
           style={styles.searchButton}
-          onPress={() => navigation.navigate('PostSearchFilter')}>
+          onPress={() => navigation.navigate('PostSearchFilter')}
+          accessibilityLabel="Search loans">
           <Feather
             name="search"
             size={22}

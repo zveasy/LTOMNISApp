@@ -7,6 +7,7 @@ import path from 'path';
 import rateLimit from 'express-rate-limit';
 import {initializeDatabase} from './database';
 import {startScheduler} from './utils/scheduler';
+import logger from './utils/logger';
 
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
@@ -33,6 +34,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+app.use((req, res, next) => {
+  logger.info({method: req.method, url: req.url}, 'request');
+  next();
+});
 
 initializeDatabase();
 startScheduler();
@@ -63,7 +69,7 @@ app.get('/health', (_req, res) => {
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log(`OMNIS backend running on port ${PORT}`);
+    logger.info({port: PORT}, 'OMNIS backend started');
   });
 }
 

@@ -12,6 +12,7 @@ import GlobalStyles from '../../assets/constants/colors';
 import CreditScoreBar from '../../assets/constants/Components/CreditScoreBar';
 import SmallCreditScoreBar from '../../assets/constants/Components/SmallCreditScoreBar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import OmnisOptions from '../../assets/constants/Components/OmnisOptions';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -77,8 +78,8 @@ export default function OMNISScoreScreen() {
       <View style={styles.scoreSection}>
         <Text style={styles.titleText}>Your Score</Text>
         <View style={styles.scoreDetails}>
-          <MaterialCommunityIcons
-            name={'star-circle-outline'} // Placeholder for the OMNIS score icon
+          <IonIcon
+            name={'star'}
             size={24}
             color={'white'}
           />
@@ -89,8 +90,8 @@ export default function OMNISScoreScreen() {
           </Text>
         </View>
         <View style={styles.scoreDetails}>
-          <MaterialCommunityIcons
-            name={'alert-circle-outline'} // Placeholder for the Credit score icon
+          <IonIcon
+            name={'card'}
             size={24}
             color={'red'}
           />

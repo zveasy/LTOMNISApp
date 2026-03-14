@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {View, Text, SafeAreaView, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ListItemWithRadial, {
@@ -8,19 +8,44 @@ import ListItemWithRadial, {
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideTabBar} from '../../../../tabBarSlice';
-import { RootState } from '../../../../reduxTypes';
+import { AppState } from '../../../../ReduxStore';
+import axios from 'axios';
+
+interface LedgerEvent {
+  id: string;
+  event_type: string;
+  description: string;
+  amount: number;
+  created_at: string;
+}
 
 const OfferTransactionHistory: React.FC = () => {
+  const token = useSelector((state: AppState) => state.token);
+  const [events, setEvents] = useState<LedgerEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLedgerEvents = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/ledger/journal',
+          { headers: { Authorization: `Bearer ${token?.token}` } },
+        );
+        setEvents(response.data?.events || response.data || []);
+      } catch (error) {
+        console.error('Failed to fetch ledger events:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLedgerEvents();
+  }, [token]);
+
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
-    const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
+    const amountValue = value.replace('$', '').trim();
     const numericalValue = sign ? amountValue.slice(1) : amountValue;
     const amount = parseFloat(numericalValue);
-
-    // const tabBarVisible = useSelector((state: RootState) => state.tabBar.isVisible);
-
-
-
 
     if (isNaN(amount)) {
       console.error(`Invalid currency value: ${value}`);
@@ -36,63 +61,36 @@ const OfferTransactionHistory: React.FC = () => {
     return `${sign}${formattedAmount}`;
   };
 
-  // Data array
-  const data: ListItemProps[] = [
-    {
-      radialType: 'radio',
-      iconName: 'coffee',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '-$171.23',
-      bottomTextLeft: 'Pending',
-      bottomTextRight: '06.23.2024 14:00',
-    },
-    {
-      radialType: 'radio',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$100.00',
-      bottomTextLeft: 'Completed',
-      bottomTextRight: '05.20.2024 11:15',
-    },
-    {
-      radialType: 'radio',
-      imagePath: 'path_to_some_image',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$58.75',
-      bottomTextLeft: 'Failed',
-      bottomTextRight: '04.29.2024 09:45',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'shopping-cart',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '-$89.50',
-      bottomTextLeft: 'Pending',
-      bottomTextRight: '06.15.2024 16:30',
-    },
-    {
-      radialType: 'radio',
-      iconName: 'dollar-sign',
-      topTextLeft: 'Transfer to Zak Veasy',
-      topTextRight: '+$2000',
-      bottomTextLeft: 'Completed',
-      bottomTextRight: '06.01.2024 12:00',
-    },
-  ];
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}.${d.getFullYear()} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+  };
 
-  // Process the data using the function
-  const processedData = data.map(item => ({
-    ...item,
-    topTextRight: formatCurrency(item.topTextRight),
+  const processedData: ListItemProps[] = events.map(event => ({
+    radialType: 'radio' as const,
+    topTextLeft: event.description || event.event_type,
+    topTextRight: formatCurrency(`${event.amount >= 0 ? '+' : '-'}$${Math.abs(event.amount)}`),
+    bottomTextLeft: event.event_type,
+    bottomTextRight: event.created_at ? formatDate(event.created_at) : '',
   }));
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.Background}>
+        <ScreenTitle title="Offer Transaction History" showBackArrow={true} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color={GlobalStyles.Colors.primary200} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
         title="Offer Transaction History"
         showBackArrow={true}
-        onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
-        }}
+        onBackPress={() => {}}
       />
       <View style={styles.contentContainer}>
         <View style={styles.container}>
@@ -100,6 +98,11 @@ const OfferTransactionHistory: React.FC = () => {
             data={processedData}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => <ListItemWithRadial {...item} />}
+            ListEmptyComponent={
+              <View style={{padding: 20, alignItems: 'center'}}>
+                <Text style={{color: GlobalStyles.Colors.primary200}}>No transactions found</Text>
+              </View>
+            }
           />
         </View>
       </View>

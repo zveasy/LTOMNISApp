@@ -127,6 +127,7 @@ export default function AddPostScreen() {
           placeholder="Your custom placeholder here"
           keyboardType="default"
           onChangeText={text => setTitle(text)}
+          accessibilityLabel="Title"
         />
         <TextInputComponent
           title="Description"
@@ -134,6 +135,7 @@ export default function AddPostScreen() {
           keyboardType="default"
           onChangeText={text => setDescription(text)}
           inputHeight={110}
+          accessibilityLabel="Description"
         />
         <TouchableOpacity style={styles.uploadImage} onPress={() => {}}>
           <Text style={styles.uploadImageText}>Upload Image</Text>
@@ -154,12 +156,14 @@ export default function AddPostScreen() {
             setAmount(numericValue);
           }}
           isAmount={true}
+          accessibilityLabel="Amount"
         />
         <TextInputComponent
           title="Repayment Date"
           placeholder="YYYY-MM-DD"
           keyboardType="default"
           onChangeText={text => setRepaymentDate(text)}
+          accessibilityLabel="Repayment date"
         />
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Repayment Type</Text>
@@ -232,6 +236,7 @@ export default function AddPostScreen() {
         text="Add"
         color={GlobalStyles.Colors.primary200}
         onPress={handleSubmit}
+        accessibilityLabel="Submit post"
       />
     </SafeAreaView>
   );

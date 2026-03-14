@@ -4,45 +4,134 @@ import {
   StyleSheet,
   SafeAreaView,
   Pressable,
-  TextInput,
   FlatList,
+  ActivityIndicator,
+  RefreshControl,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Avatar, Divider} from 'react-native-elements';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+import React, {useState, useEffect, useCallback} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
-import TransactionHistory from '../../assets/constants/Components/CustomTransactionButton';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 import Notification, {
   NotificationType,
   NotificationTypes,
 } from './Notification';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+
+interface BackendNotification {
+  id: string;
+  type: string;
+  title: string;
+  message: string;
+  is_read: boolean;
+  reference_id: string;
+  created_at: string;
+}
+
+function mapBackendNotification(n: BackendNotification): NotificationTypes {
+  switch (n.type) {
+    case 'earned_points':
+      return {
+        id: n.id,
+        type: NotificationType.EarnedPoints,
+        points: parseInt(n.message, 10) || 0,
+      };
+    case 'someone_posted':
+      return {
+        id: n.id,
+        type: NotificationType.SomeonePosted,
+        from: n.title,
+      };
+    case 'payment_due':
+      return {
+        id: n.id,
+        type: NotificationType.PaymentDue,
+        amount: parseFloat(n.message) || 0,
+        dateDue: n.created_at,
+      };
+    case 'group_invitation':
+      return {
+        id: n.id,
+        type: NotificationType.GroupInvitation,
+        from: n.title,
+      };
+    case 'friend_request':
+      return {
+        id: n.id,
+        type: NotificationType.FriendRequest,
+        from: n.title,
+      };
+    default:
+      return {
+        id: n.id,
+        type: NotificationType.EarnedPoints,
+        points: 0,
+      };
+  }
+}
 
 export default function NotificationScreen() {
-  const notifications: NotificationTypes[] = [
-    {id: '1', type: NotificationType.EarnedPoints, points: 50},
-    {id: '2', type: NotificationType.SomeonePosted, from: 'Outside'},
-    {
-      id: '3',
-      type: NotificationType.PaymentDue,
-      amount: 800,
-      dateDue: '05/14/24',
-    },
-    {id: '4', type: NotificationType.GroupInvitation, from: 'Real Restate'},
-    {id: '5', type: NotificationType.FriendRequest, from: 'Anna Marie'},
-    {id: '6', type: NotificationType.EarnedPoints, points: 100},
-    {id: '7', type: NotificationType.SomeonePosted, from: 'School'},
-    {
-      id: '8',
-      type: NotificationType.PaymentDue,
-      amount: 800,
-      dateDue: '09/24/24',
-    },
-    {id: '9', type: NotificationType.GroupInvitation, from: 'Library'},
-    {id: '10', type: NotificationType.FriendRequest, from: 'Zack Wilson'},
-  ];
+  const [notifications, setNotifications] = useState<NotificationTypes[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const token = useSelector((state: AppState) => state.token);
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/notifications',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const data: BackendNotification[] = response.data.notifications || response.data || [];
+      const mapped = data.map(mapBackendNotification);
+      setNotifications(mapped);
+      const unread = data.filter(n => !n.is_read).length;
+      setUnreadCount(unread);
+    } catch (error: any) {
+      console.error('Error fetching notifications:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, [token.token]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchNotifications();
+  }, [fetchNotifications]);
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await axios.post(
+        'http://localhost:8080/api/omnis/notifications/read_all',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setUnreadCount(0);
+      Alert.alert('Done', 'All notifications marked as read.');
+    } catch (error: any) {
+      Alert.alert('Error', 'Failed to mark notifications as read.');
+    }
+  };
 
   const renderNotification = ({item}: {item: NotificationTypes}) => (
     <Notification {...item} />
@@ -51,19 +140,40 @@ export default function NotificationScreen() {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Notifications"
+        title={`Notifications${unreadCount > 0 ? ` (${unreadCount})` : ''}`}
         showBackArrow={true}
-        onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
-        }}
+        onBackPress={() => {}}
       />
-      <View>
-        <FlatList
-          data={notifications}
-          keyExtractor={item => item.id}
-          renderItem={renderNotification}
-        />
-      </View>
+      {unreadCount > 0 && (
+        <Pressable style={styles.markAllButton} onPress={handleMarkAllAsRead}>
+          <Text style={styles.markAllText}>Mark all as read</Text>
+        </Pressable>
+      )}
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={GlobalStyles.Colors.primary200} />
+        </View>
+      ) : (
+        <View style={{flex: 1}}>
+          <FlatList
+            data={notifications}
+            keyExtractor={item => item.id}
+            renderItem={renderNotification}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={GlobalStyles.Colors.primary200}
+              />
+            }
+            ListEmptyComponent={
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No notifications yet.</Text>
+              </View>
+            }
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -142,5 +252,34 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
     fontWeight: '500',
+  },
+  markAllButton: {
+    alignSelf: 'flex-end',
+    marginRight: 16,
+    marginBottom: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: GlobalStyles.Colors.primary200,
+    borderRadius: 8,
+  },
+  markAllText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 40,
+  },
+  emptyText: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 16,
   },
 });

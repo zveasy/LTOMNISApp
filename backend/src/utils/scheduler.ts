@@ -1,6 +1,7 @@
 import db from '../database';
 import {v4 as uuidv4} from 'uuid';
 import {updateUserScore} from './scoreEngine';
+import logger from './logger';
 
 export function checkOverduePayments(): void {
   const now = new Date().toISOString();
@@ -13,7 +14,7 @@ export function checkOverduePayments(): void {
   `).run(now);
 
   if (overdue.changes > 0) {
-    console.log(`Marked ${overdue.changes} payment(s) as late`);
+    logger.info(`Marked ${overdue.changes} payment(s) as late`);
   }
 
   // Mark loans with 3+ late payments as defaulted
@@ -35,7 +36,7 @@ export function checkOverduePayments(): void {
       uuidv4(), loan.borrower_id, 'loan_default', 'critical', `Loan ${loan.id} defaulted`
     );
     updateUserScore(loan.borrower_id);
-    console.log(`Loan ${loan.id} marked as defaulted`);
+    logger.info(`Loan ${loan.id} marked as defaulted`);
   }
 }
 
@@ -45,11 +46,11 @@ export function startScheduler(): void {
     try {
       checkOverduePayments();
     } catch (err) {
-      console.error('Scheduler error:', err);
+      logger.error(err, 'Scheduler error');
     }
   }, 60 * 60 * 1000);
 
   // Run once on startup
   checkOverduePayments();
-  console.log('Payment scheduler started');
+  logger.info('Payment scheduler started');
 }

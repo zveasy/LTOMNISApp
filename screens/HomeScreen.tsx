@@ -177,7 +177,7 @@ export default function HomeScreen({}: {}) {
         }
       >
       <View style={styles.headerContainer}>
-        <Pressable onPress={handleProfileScreen} style={{flexDirection: 'row'}}>
+        <Pressable onPress={handleProfileScreen} style={{flexDirection: 'row'}} accessibilityLabel="Profile">
           <Avatar
             size={48}
             rounded
@@ -188,7 +188,7 @@ export default function HomeScreen({}: {}) {
           <Text
             style={styles.NameHeaderText}>{`${firstName} ${lastName}`}</Text>
         </Pressable>
-        <Pressable onPress={handleNotifications}>
+        <Pressable onPress={handleNotifications} accessibilityLabel="Notifications">
           <NotificationIcon />
         </Pressable>
       </View>
@@ -207,7 +207,9 @@ export default function HomeScreen({}: {}) {
       <View style={styles.headerContainer}>
         <Pressable
           onPress={handleDeposit}
-          style={styles.DepositWithdrawContainer}>
+          style={styles.DepositWithdrawContainer}
+          accessibilityLabel="Deposit"
+          accessibilityRole="button">
           <IonIcon
             name="add"
             size={24}
@@ -218,7 +220,9 @@ export default function HomeScreen({}: {}) {
         </Pressable>
         <Pressable
           onPress={handleWithdraw}
-          style={styles.DepositWithdrawContainer}>
+          style={styles.DepositWithdrawContainer}
+          accessibilityLabel="Withdraw"
+          accessibilityRole="button">
           <IonIcon
             name="download-outline"
             size={24}
@@ -268,6 +272,7 @@ export default function HomeScreen({}: {}) {
           <View style={styles.RoleButtonContainer}>
             <Pressable
               onPress={handleLender}
+              accessibilityLabel="View Lender offers"
               style={{
                 width: '40%',
                 height: 40,
@@ -302,6 +307,7 @@ export default function HomeScreen({}: {}) {
           <View style={styles.RoleButtonContainer}>
             <Pressable
               onPress={handleBorrower}
+              accessibilityLabel="View Borrower offers"
               style={{
                 width: '40%',
                 height: 40,

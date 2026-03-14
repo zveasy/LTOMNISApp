@@ -1,21 +1,33 @@
-import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import AcceptAndDecline from '../../assets/constants/Components/Buttons/AcceptAndDecline';
 import ChipRow from '../../assets/constants/Components/Buttons/ChipRow';
 import DateTimePickerComponent from '../../assets/constants/Components/DateTimePickerComponent';
 import {Divider} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {HomeStackParamList} from '../../App';
+
+type FilterNavigationProp = StackNavigationProp<HomeStackParamList>;
 
 export default function TransactionHistoryFilter() {
+  const navigation = useNavigation<FilterNavigationProp>();
+  const [selectedChip, setSelectedChip] = useState<string | null>(null);
+  const [fromDate, setFromDate] = useState<string | null>(null);
+  const [toDate, setToDate] = useState<string | null>(null);
+
   const handleAccept = () => {
-    console.log('Accept button pressed');
-    // Your accept button logic here
+    navigation.navigate('TransactionHistoryDetails', {
+      transactionId: '',
+    });
   };
 
   const handleDecline = () => {
-    console.log('Decline button pressed');
-    // Your decline button logic here
+    setSelectedChip(null);
+    setFromDate(null);
+    setToDate(null);
   };
 
   return (
@@ -24,7 +36,7 @@ export default function TransactionHistoryFilter() {
         title="Filters"
         showBackArrow={true}
         onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
+          navigation.goBack();
         }}
       />
       <View style={styles.content}>
@@ -34,11 +46,9 @@ export default function TransactionHistoryFilter() {
               {id: '1', label: 'Transfer'},
               {id: '2', label: 'Deposit'},
               {id: '3', label: 'Withdraw'},
-              // ...more chips
             ]}
             onSelect={chip => {
-              console.log('Chip selected:', chip);
-              // ... Your logic for when a chip is selected
+              setSelectedChip(chip.label);
             }}
           />
         </Section>
@@ -58,8 +68,8 @@ export default function TransactionHistoryFilter() {
         />
         <Section title="Date Range">
           <View style={styles.dateRangeContainer}>
-            <DateRangeRow label="From" />
-            <DateRangeRow label="To" />
+            <DateRangeRow label="From" dateValue={fromDate} onPress={() => setFromDate(new Date().toISOString().split('T')[0])} />
+            <DateRangeRow label="To" dateValue={toDate} onPress={() => setToDate(new Date().toISOString().split('T')[0])} />
           </View>
         </Section>
       </View>
@@ -76,14 +86,16 @@ export default function TransactionHistoryFilter() {
 
 interface DateRangeRowProps {
   label: string;
+  dateValue?: string | null;
+  onPress?: () => void;
 }
 
-const DateRangeRow: React.FC<DateRangeRowProps> = ({ label }) => (
+const DateRangeRow: React.FC<DateRangeRowProps> = ({ label, dateValue, onPress }) => (
   <View style={styles.dateRangeRow}>
     <Text style={styles.labelButtonText}>{label}</Text>
-    <View style={styles.dateButton}>
-      <Text style={styles.dateButtonText}>Set Date</Text>
-    </View>
+    <Pressable style={styles.dateButton} onPress={onPress}>
+      <Text style={styles.dateButtonText}>{dateValue || 'Set Date'}</Text>
+    </Pressable>
   </View>
 );
 

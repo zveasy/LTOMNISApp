@@ -7,6 +7,7 @@ import {authMiddleware, AuthRequest} from '../middleware/auth';
 import {validate} from '../middleware/validate';
 import {updateUserScore} from '../utils/scoreEngine';
 import {createNotification} from '../utils/notifications';
+import {checkAndAwardBadges} from '../utils/badges';
 
 const router = express.Router();
 const upload = multer({dest: 'uploads/'});
@@ -110,6 +111,51 @@ router.post('/payment/confirm_receipt', authMiddleware, (req: AuthRequest, res: 
       db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.lender_id, 'received_repayment', payment.amount, 'Loan repayment received', loan.borrower_id);
       updateUserScore(loan.borrower_id);
       createNotification(loan.borrower_id, 'payment_confirmed', 'Payment Confirmed', 'Payment confirmed', paymentId);
+
+      const updatedLoan = db.prepare('SELECT * FROM loans WHERE id = ?').get(payment.loan_id) as any;
+      if (updatedLoan && updatedLoan.amount_repaid >= updatedLoan.principal) {
+        db.prepare(`UPDATE loans SET status = 'completed', completed_at = datetime('now') WHERE id = ?`).run(updatedLoan.id);
+
+        db.prepare(
+          `INSERT INTO ledger_events (id, loan_id, user_id, event_type, description, amount)
+           VALUES (?, ?, ?, 'loan_completed', ?, ?)`
+        ).run(uuidv4(), updatedLoan.id, updatedLoan.borrower_id, 'Loan fully repaid', updatedLoan.principal);
+
+        if (updatedLoan.post_id) {
+          db.prepare(`UPDATE posts SET status = 'repaid' WHERE id = ?`).run(updatedLoan.post_id);
+        }
+
+        const lateCount = (db.prepare(
+          `SELECT COUNT(*) as count FROM repayment_schedules WHERE loan_id = ? AND status = 'late'`
+        ).get(updatedLoan.id) as any)?.count || 0;
+
+        if (lateCount === 0) {
+          const existingBadge = db.prepare(`SELECT id FROM badges WHERE user_id = ? AND badge_type = 'perfect_repayer'`).get(updatedLoan.borrower_id);
+          if (!existingBadge) {
+            db.prepare(`INSERT INTO badges (id, user_id, badge_type) VALUES (?, ?, 'perfect_repayer')`).run(uuidv4(), updatedLoan.borrower_id);
+          }
+        }
+
+        const completedCount = (db.prepare(
+          `SELECT COUNT(*) as count FROM loans WHERE borrower_id = ? AND status = 'completed'`
+        ).get(updatedLoan.borrower_id) as any)?.count || 0;
+
+        if (completedCount === 1) {
+          const existingBadge = db.prepare(`SELECT id FROM badges WHERE user_id = ? AND badge_type = 'first_loan'`).get(updatedLoan.borrower_id);
+          if (!existingBadge) {
+            db.prepare(`INSERT INTO badges (id, user_id, badge_type) VALUES (?, ?, 'first_loan')`).run(uuidv4(), updatedLoan.borrower_id);
+          }
+        }
+
+        updateUserScore(updatedLoan.borrower_id);
+        updateUserScore(updatedLoan.lender_id);
+
+        createNotification(updatedLoan.borrower_id, 'loan_completed', 'Loan Completed', 'Your loan has been fully repaid!', updatedLoan.id);
+        createNotification(updatedLoan.lender_id, 'loan_completed', 'Loan Completed', 'A loan you funded has been fully repaid!', updatedLoan.id);
+
+        checkAndAwardBadges(updatedLoan.borrower_id);
+        checkAndAwardBadges(updatedLoan.lender_id);
+      }
     }
 
     res.json({success: true});

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Alert, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, Alert, ScrollView, Pressable} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {Avatar, Divider, Icon} from 'react-native-elements';
 import {user as importedUser} from '../../assets/constants/user';
@@ -12,7 +12,8 @@ import {User} from '../../types';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../ReduxStore';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../App';
 
 interface ReputationData {
@@ -30,6 +31,7 @@ const FriendsProfile = () => {
   const [reputationData, setReputationData] = useState<ReputationData | null>(null);
   const token = useSelector((state: AppState) => state.token);
   const [friendshipStatus, setFriendshipStatus] = useState('not_friends');
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   let buttonText = 'Add';
   let buttonAction = () => console.log('Send friend request');
@@ -195,6 +197,12 @@ const FriendsProfile = () => {
             </View>
           </View>
 
+          <Pressable
+            style={styles.endorsementButton}
+            onPress={() => navigation.navigate('Endorsements', {userId: friendId})}>
+            <Text style={styles.endorsementButtonText}>Write Endorsement</Text>
+          </Pressable>
+
           <View
             style={{
               flexDirection: 'row',
@@ -300,5 +308,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: GlobalStyles.Colors.accent300,
     marginTop: 4,
+  },
+  endorsementButton: {
+    backgroundColor: GlobalStyles.Colors.primary200,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginTop: 16,
+    marginHorizontal: 4,
+  },
+  endorsementButtonText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

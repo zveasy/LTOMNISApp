@@ -272,6 +272,7 @@ const SignInScreen: React.FC = () => {
             keyboardType="email-address"
             onChangeText={text => setEmail(text)}
             value={email}
+            accessibilityLabel="Email"
           />
         </View>
       </View>
@@ -304,6 +305,7 @@ const SignInScreen: React.FC = () => {
               secureTextEntry={!passwordVisible}
               onChangeText={text => setPassword(text)}
               value={password}
+              accessibilityLabel="Password"
             />
             <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
               <IonIcon
@@ -317,7 +319,9 @@ const SignInScreen: React.FC = () => {
 
         <Pressable
           onPress={() => navigation.navigate('ForgotPassword')}
-          style={{alignSelf: 'center', width: '90%'}}>
+          style={{alignSelf: 'center', width: '90%'}}
+          accessibilityLabel="Forgot Password"
+          accessibilityRole="link">
           <Text
             style={{
               color: '#B08766',
@@ -333,7 +337,9 @@ const SignInScreen: React.FC = () => {
       {/* Sign In Button */}
       <Pressable
         onPress={async () => await handleSignIn()}
-        style={[styles.SignButton, styles.SignButtonOutlined]}>
+        style={[styles.SignButton, styles.SignButtonOutlined]}
+        accessibilityLabel="Sign In"
+        accessibilityRole="button">
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
           {t('signInButton')}
         </Text>
@@ -382,7 +388,9 @@ const SignInScreen: React.FC = () => {
         <View style={{width: '46%'}}>
           <Pressable
             style={styles.googleButton}
-            onPress={googleSignIn}>
+            onPress={googleSignIn}
+            accessibilityLabel="Sign in with Google"
+            accessibilityRole="button">
             <IonIcon name="logo-google" size={18} color="#4285F4" style={{marginRight: 6}} />
             <Text style={styles.googleButtonText}>Sign in with Google</Text>
           </Pressable>
@@ -399,20 +407,24 @@ const SignInScreen: React.FC = () => {
           {/* <IonIcon name="logo-apple" size={24} color="#fff" />
             <Text style={{color: 'white', fontSize: 18}}>Apple</Text> */}
           {appleAuth.isSupported && (
-            <AppleButton
-              style={{width: '100%', height: 56}}
-              buttonStyle={AppleButton.Style.WHITE}
-              buttonType={AppleButton.Type.SIGN_IN}
-              cornerRadius={16}
-              onPress={appleSignIn}
-            />
+            <View accessibilityLabel="Sign in with Apple" accessibilityRole="button">
+              <AppleButton
+                style={{width: '100%', height: 56}}
+                buttonStyle={AppleButton.Style.WHITE}
+                buttonType={AppleButton.Type.SIGN_IN}
+                cornerRadius={16}
+                onPress={appleSignIn}
+              />
+            </View>
           )}
         </View>
       </View>
 
       <Pressable
         style={styles.newToOmnisContainer}
-        onPress={() => navigation.navigate('RegisterScreen')}>
+        onPress={() => navigation.navigate('RegisterScreen')}
+        accessibilityLabel="Register"
+        accessibilityRole="link">
         <Text style={{color: 'white', fontSize: 14}}>{t('newToOmnis')}</Text>
         <Text> </Text>
         <Text style={{color: '#BDAE8D', fontSize: 14}}>{t('register')}</Text>

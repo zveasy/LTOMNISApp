@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import React, {useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
@@ -7,9 +7,18 @@ import {Divider} from 'react-native-elements';
 import CardInfoComponent from '../../assets/constants/Components/CardInfoComponent';
 import IconButtonComponent from '../../assets/constants/Components/IconButtonComponent';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../App';
 
 export default function DepositMoneyScreen() {
   const [amount, setAmount] = useState('');
+  const [loading, setLoading] = useState(false);
+  const token = useSelector((state: AppState) => state.token);
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const handleTrashPress = () => {
     // Handle the trash button press here, e.g., remove the card info
@@ -99,9 +108,38 @@ export default function DepositMoneyScreen() {
         />
       </View>
       <CompleteButton
-        text="Transfer"
+        text={loading ? 'Processing...' : 'Transfer'}
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={async () => {
+          if (loading) return;
+          if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+            Alert.alert('Invalid Amount', 'Please enter a valid amount.');
+            return;
+          }
+          setLoading(true);
+          try {
+            await axios.post(
+              'http://localhost:8080/api/omnis/deposit',
+              {amount: parseFloat(amount), method: 'bank_transfer'},
+              {
+                headers: {
+                  Authorization: `Bearer ${token.token}`,
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+              },
+            );
+            navigation.navigate('DepositSuccessful');
+          } catch (error: any) {
+            const message =
+              error?.response?.data?.message ||
+              error?.message ||
+              'Deposit failed. Please try again.';
+            Alert.alert('Error', message);
+          } finally {
+            setLoading(false);
+          }
+        }}
       />
     </SafeAreaView>
   );

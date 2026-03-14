@@ -53,7 +53,7 @@ const GroupBill = () => {
         </View>
         <TextInputComponent
           title="Title"
-          placeholder="Your custom placeholder here"
+          placeholder="Enter bill title"
           keyboardType="default"
           onChangeText={text => console.log(text)}
         />

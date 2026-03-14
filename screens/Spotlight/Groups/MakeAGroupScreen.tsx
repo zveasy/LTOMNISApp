@@ -64,7 +64,7 @@ export default function MakeAGroupScreen() {
       />
       <TextInputComponent
         title="Title"
-        placeholder="Your custom placeholder here"
+        placeholder="Enter group name"
         keyboardType="default"
         onChangeText={text => setGroupTitle(text)}
       />

@@ -11,6 +11,10 @@ import languageReducer, {
   LanguageInitialState,
 } from './Redux/Reducers/languageReducer';
 import ActionItemList from './screens/OMNISScore/ScoreBreakDown/Levels/ActionItem';
+import offersReducer from './Redux/slices/offersSlice';
+import postsReducer from './Redux/slices/postsSlice';
+import contractsReducer from './Redux/slices/contractsSlice';
+import groupsReducer from './Redux/slices/groupsSlice';
 
 // Action Types
 const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
@@ -319,6 +323,10 @@ const rootReducer = combineReducers({
   userPhoneNumber: userPhoneNumberReducer,
   userFirstLast: userFirstLastReducer,
   friends: friendsReducer,
+  offers: offersReducer,
+  posts: postsReducer,
+  contracts: contractsReducer,
+  groups: groupsReducer,
 });
 
 // Store

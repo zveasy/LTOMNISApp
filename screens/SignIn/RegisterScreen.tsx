@@ -63,7 +63,11 @@ export default function RegisterScreen() {
       } else {
         console.error('Error:', Error);
       }
-    } catch (error) {}
+    } catch (error: any) {
+      const msg =
+        error.response?.data?.error || 'Registration failed';
+      setErrorMessage(msg);
+    }
   };
 
   // const onAppleButtonPress = async () => {
@@ -124,6 +128,9 @@ export default function RegisterScreen() {
           placeholder="Password"
           placeholderTextColor={'#fff'}
         />
+        <Text style={styles.hintText}>
+          Must be 8+ characters with a number and special character.
+        </Text>
         {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
         <Text style={styles.boxSpacing}>Confirm Password</Text>
         <TextInput
@@ -224,6 +231,13 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     alignSelf: 'flex-start',
     paddingLeft: 20,
+  },
+  hintText: {
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 11,
+    alignSelf: 'flex-start',
+    paddingLeft: 20,
+    marginTop: 2,
   },
   errorText: {
     color: 'red',

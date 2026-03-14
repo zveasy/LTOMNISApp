@@ -1,52 +1,105 @@
-const dummyFAQs = [
-    {
-        title: "What is the purpose of this app?",
-        content: "This app is designed to help users find answers to common questions about our services."
-    },
-    {
-        title: "How do I reset my password?",
-        content: "To reset your password, navigate to the login screen and click on the 'Forgot Password?' link. Follow the prompts to receive a password reset link in your email."
-    },
-    {
-        title: "Can I change my subscription plan?",
-        content: "Yes, you can change your subscription plan at any time from the settings page."
-    },
-    {
-        title: "Where can I find the user guide?",
-        content: "You can find the user guide in the 'Help' section of our app. It provides step-by-step instructions on how to use each feature."
-    },
-    {
-        title: "How do I contact customer support?",
-        content: "You can contact customer support by clicking on the 'Contact Support' button in the app or by calling our helpline."
-    },
-    {
-        title: "Is my data secure?",
-        content: "Yes, we take data security very seriously. All your data is encrypted and stored securely on our servers."
-    },
-    {
-        title: "Can I use this app offline?",
-        content: "Some features of the app are available offline, while others require an internet connection. Please check the user guide for more details."
-    },
-    {
-        title: "Do you offer a trial period?",
-        content: "Yes, we offer a 14-day free trial for all new users. No credit card is required."
-    },
-    {
-        title: "How do I cancel my account?",
-        content: "To cancel your account, go to the settings page and click on 'Delete Account'. Please note that this action is irreversible."
-    },
-    {
-        title: "Are there any hidden fees?",
-        content: "No, there are no hidden fees. All charges are clearly stated before you make a purchase."
-    },
-    {
-        title: "How often do you update the app?",
-        content: "We regularly update the app to add new features and fix any bugs. You can see the update history in the 'About' section."
-    },
-    {
-        title: "Can I use the app on multiple devices?",
-        content: "Yes, you can use the app on multiple devices. Just log in with your credentials on any device."
-    }
+interface FAQItem {
+  section: string;
+  title: string;
+  content: string;
+}
+
+const faqData: FAQItem[] = [
+  // Getting Started
+  {
+    section: 'Getting Started',
+    title: 'What is OMNIS?',
+    content:
+      'OMNIS is a peer-to-peer lending platform designed to serve immigrants, unbanked, and underbanked communities. It enables community-based, trust-oriented financial transactions through lending circles and direct peer lending.',
+  },
+  {
+    section: 'Getting Started',
+    title: 'How do I create an account?',
+    content:
+      'Tap "Register" on the sign-in screen, enter your email and a strong password (8+ characters with a number and special character), then verify your identity through our verification flow.',
+  },
+  {
+    section: 'Getting Started',
+    title: 'How does the verification process work?',
+    content:
+      'After registration you will be asked to verify your identity with a selfie and a valid ID document. Verification typically completes within 24 hours.',
+  },
+
+  // Lending
+  {
+    section: 'Lending',
+    title: 'How do I lend money on OMNIS?',
+    content:
+      'Browse the marketplace for borrower posts, review their trust score and loan details, then submit an offer specifying the amount and interest rate you are willing to lend at.',
+  },
+  {
+    section: 'Lending',
+    title: 'What happens if a borrower misses a payment?',
+    content:
+      'You will receive a notification when a payment is late. OMNIS provides dispute resolution tools and the late payment will affect the borrower\'s trust score.',
+  },
+
+  // Borrowing
+  {
+    section: 'Borrowing',
+    title: 'How do I request a loan?',
+    content:
+      'Create a new post from your feed specifying the amount you need, the purpose, and your preferred repayment terms. Lenders in the community can then make offers on your post.',
+  },
+  {
+    section: 'Borrowing',
+    title: 'What are the borrowing limits?',
+    content:
+      'Borrowing limits are determined by your trust score, verification level, and repayment history. As you build a positive track record, your limits increase.',
+  },
+
+  // Payments
+  {
+    section: 'Payments',
+    title: 'How do I make a payment?',
+    content:
+      'Go to your active offers, select the loan, and tap "Make Payment". You can pay via your linked bank account. Payments are tracked in your transaction journal.',
+  },
+  {
+    section: 'Payments',
+    title: 'Can I make early payments?',
+    content:
+      'Yes, you can make early or extra payments at any time without penalty. Early payments positively impact your trust score.',
+  },
+
+  // Trust Score
+  {
+    section: 'Trust Score',
+    title: 'What is the Trust Score?',
+    content:
+      'The Trust Score is a community-driven rating that reflects your reliability as a borrower or lender. It is calculated based on payment history, endorsements, verification level, and community participation.',
+  },
+  {
+    section: 'Trust Score',
+    title: 'How can I improve my Trust Score?',
+    content:
+      'Make payments on time, get endorsements from other users, complete identity verification, and actively participate in lending circles and groups.',
+  },
+
+  // Account
+  {
+    section: 'Account',
+    title: 'How do I reset my password?',
+    content:
+      'Tap "Forgot Password?" on the sign-in screen and enter your registered email. You will receive a link to create a new password.',
+  },
+  {
+    section: 'Account',
+    title: 'How do I link my bank account?',
+    content:
+      'Go to Settings > Bank Accounts and follow the secure Plaid integration flow to connect your bank. Your credentials are never stored on our servers.',
+  },
+  {
+    section: 'Account',
+    title: 'How do I delete my account?',
+    content:
+      'Contact support at support@omnisapp.com. You must settle all outstanding loans before account deletion. This action is irreversible.',
+  },
 ];
 
-export default dummyFAQs;
+export default faqData;

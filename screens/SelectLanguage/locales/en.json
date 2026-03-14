@@ -94,6 +94,66 @@
     "Pending": "Pending",
     "Failed": "Failed",
     "Lender": "Lender",
-    "Deactivate": "Deactivate"
+    "Deactivate": "Deactivate",
+
+    "PaymentInstructions": "Payment Instructions",
+    "MarkAsPaid": "Mark as Paid",
+    "UploadProof": "Upload Proof",
+    "ConfirmPayment": "Confirm Payment",
+    "PaymentReminders": "Payment Reminders",
+    "LatePayments": "Late Payments",
+    "PaymentDispute": "Payment Dispute",
+
+    "LoanContract": "Loan Contract",
+    "GenerateContract": "Generate Contract",
+    "SignContract": "Sign Contract",
+    "ReviewAccept": "Review & Accept",
+    "FileDispute": "File Dispute",
+    "RequestAmendment": "Request Amendment",
+
+    "IdentityVerification": "Identity Verification",
+    "SelfieVerification": "Selfie Verification",
+    "VerifyAddress": "Verify Address",
+    "VerificationStatus": "Verification Status",
+    "AccountStatus": "Account Status",
+
+    "AdminDashboard": "Admin Dashboard",
+    "UserManagement": "User Management",
+    "LoanManagement": "Loan Management",
+    "ContractReview": "Contract Review",
+    "IdentityReview": "Identity Review",
+    "Disputes": "Disputes",
+    "FraudQueue": "Fraud Queue",
+    "Analytics": "Analytics",
+
+    "RiskOverview": "Risk Overview",
+    "BorrowingLimits": "Borrowing Limits",
+    "LendingExposure": "Lending Exposure",
+
+    "MyObligations": "My Obligations",
+    "TransactionJournal": "Transaction Journal",
+    "AuditTrail": "Audit Trail",
+
+    "Endorsements": "Endorsements",
+    "Reputation": "Reputation",
+
+    "SearchLoans": "Search Loans",
+    "CounterOffer": "Counter Offer",
+    "LoanStatus": "Loan Status",
+
+    "GroupAdmin": "Group Admin",
+    "GroupLoans": "Group Loans",
+    "SharedPool": "Shared Pool",
+
+    "Submit": "Submit",
+    "Confirm": "Confirm",
+    "Cancel": "Cancel",
+    "Loading": "Loading",
+    "Error": "Error",
+    "Success": "Success",
+    "Approve": "Approve",
+    "Reject": "Reject",
+    "Resolve": "Resolve",
+    "Dismiss": "Dismiss"
   }
   

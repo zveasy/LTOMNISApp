@@ -17,8 +17,9 @@ export default function AddFriendScreen() {
     try {
       const options = {
         method: 'GET',
-        url: 'https://api.lucidtrades.com/api/FriendRequest/friends',
+        url: 'http://localhost:8080/api/omnis/friends/search?query=',
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -31,8 +32,7 @@ export default function AddFriendScreen() {
       const user = res.data;
 
       if (user) {
-        // changed to 
-        setFriendListData(user); // Assuming the data structure matches your Friend type
+        setFriendListData(user);
       } else {
         console.log('No user data received');
       }
@@ -41,12 +41,13 @@ export default function AddFriendScreen() {
     }
   };
 
-  const searchFriendListData = async () => {
+  const searchFriendListData = async (query: string = '') => {
     try {
       const options = {
         method: 'GET',
-        url: `https://api.lucidtrades.com/api/FriendRequest/`,
+        url: `http://localhost:8080/api/omnis/friends/search?query=${encodeURIComponent(query)}`,
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -59,7 +60,7 @@ export default function AddFriendScreen() {
       const user = res.data;
 
       if (user) {
-        setFriendListData(user); // Assuming the data structure matches your Friend type
+        setFriendListData(user);
       } else {
         console.log('No user data received');
       }
@@ -95,11 +96,13 @@ export default function AddFriendScreen() {
     try {
       const options = {
         method: 'DELETE',
-        url: `https://api.lucidtrades.com/api/FriendRequest/${friendData.id}`,
+        url: 'http://localhost:8080/api/omnis/friend/remove',
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        data: {friendId: friendData.id},
       };
 
       const res = await axios(options);

@@ -6,14 +6,14 @@ import FAQDropdown from './FAQDropdown';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import {Linking} from 'react-native';
 import {Alert} from 'react-native';
-import dummyFAQs from './dummyFAQs';
+import faqData from './dummyFAQs';
 
 export default function FAQ() {
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
 
-  const callSupport = () => {
-    const phoneNumber = '6156632609'; // Replace with your support phone number
-    let url = `tel:${phoneNumber}`;
+  const contactSupport = () => {
+    const email = 'support@omnisapp.com';
+    const url = `mailto:${email}`;
     Linking.canOpenURL(url)
       .then(supported => {
         if (!supported) {
@@ -22,8 +22,12 @@ export default function FAQ() {
           return Linking.openURL(url);
         }
       })
-      .catch(err => Alert.alert('An error occurred', err.toString())); // Improved the error message
+      .catch(err => Alert.alert('An error occurred', err.toString()));
   };
+
+  const sections = [...new Set(faqData.map(faq => faq.section))];
+
+  let globalIndex = 0;
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -31,17 +35,30 @@ export default function FAQ() {
         <ScreenTitle showBackArrow={true} title="FAQs" />
         <ScrollView style={styles.contentContainer}>
           <View style={styles.whiteContainer}>
-            {dummyFAQs.map((faq, index) => (
-              <FAQDropdown
-                key={index}
-                title={faq.title}
-                content={faq.content}
-                isActive={activeFAQ === index}
-                onPress={() => setActiveFAQ(activeFAQ === index ? null : index)}
-              />
-            ))}
+            {sections.map(section => {
+              const sectionFaqs = faqData.filter(f => f.section === section);
+              return (
+                <View key={section} style={styles.sectionContainer}>
+                  <Text style={styles.sectionTitle}>{section}</Text>
+                  {sectionFaqs.map(faq => {
+                    const idx = globalIndex++;
+                    return (
+                      <FAQDropdown
+                        key={idx}
+                        title={faq.title}
+                        content={faq.content}
+                        isActive={activeFAQ === idx}
+                        onPress={() =>
+                          setActiveFAQ(activeFAQ === idx ? null : idx)
+                        }
+                      />
+                    );
+                  })}
+                </View>
+              );
+            })}
           </View>
-          <CompleteButton text="Or Contact Support" onPress={callSupport} />
+          <CompleteButton text="Or Contact Support" onPress={contactSupport} />
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -54,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E1E1E',
   },
   contentContainer: {
-    flexGrow: 1, // Updated this line
+    flexGrow: 1,
     width: '100%',
   },
   whiteContainer: {
@@ -65,7 +82,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  sectionContainer: {
+    width: '100%',
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1E1E1E',
+    marginBottom: 8,
+    marginTop: 8,
+  },
   textContent: {
-    fontSize: 16, // Adjust as per your design requirements.
+    fontSize: 16,
   },
 });

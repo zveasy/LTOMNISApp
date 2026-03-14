@@ -66,10 +66,11 @@ export default function SharedPool() {
           },
         },
       );
-      setPoolBalance(response.data.balance ?? 0);
-      setActivities(response.data.activities ?? []);
-      setMembers(response.data.members ?? []);
-      setPoolRules(response.data.rules ?? null);
+      const data = response.data;
+      setPoolBalance(data.balance ?? 0);
+      setActivities(data.activities ?? data.transactions ?? []);
+      setMembers(data.members ?? []);
+      setPoolRules(data.rules ?? data.poolRules ?? null);
     } catch (error) {
       console.error('Error fetching pool data:', error);
     } finally {

@@ -52,3 +52,4 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 - **Payment scheduler**: `startScheduler()` runs on backend startup and checks for overdue payments every hour. It marks late payments and defaults loans with 3+ late payments.
 - **Structured logging**: Backend uses `pino` (with `pino-pretty` in dev). Import `logger` from `src/utils/logger.ts` instead of using `console.log`. Set `LOG_LEVEL` env var to control verbosity.
 - **CI/CD**: GitHub Actions workflow at `.github/workflows/ci.yml` runs on push/PR to `master` — builds and tests both frontend and backend.
+- **Payment Detection**: The `services/PaymentDetection.ts` module uses `NativeModules` (`OMNISNotificationListener`, `OMNISSmsReader`) which are only available on device. In the cloud VM, the native modules will be `undefined`; the JS layer is testable via unit tests and bundle compilation. The `PaymentDetectionProvider` wraps the app inside the Redux `Provider`.

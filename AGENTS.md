@@ -50,3 +50,5 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 - **Backend tests**: Run `cd backend && npm test -- --runInBand --forceExit`. Tests use separate SQLite databases (auto-cleaned) and set `NODE_ENV=test` to skip `app.listen()`.
 - **Admin route ordering**: The admin router uses `router.use(authMiddleware, adminMiddleware)` which intercepts all unmatched routes. New route modules must be registered in `index.ts` **before** `adminRoutes` to avoid 403 errors for non-admin users.
 - **Payment scheduler**: `startScheduler()` runs on backend startup and checks for overdue payments every hour. It marks late payments and defaults loans with 3+ late payments.
+- **Structured logging**: Backend uses `pino` (with `pino-pretty` in dev). Import `logger` from `src/utils/logger.ts` instead of using `console.log`. Set `LOG_LEVEL` env var to control verbosity.
+- **CI/CD**: GitHub Actions workflow at `.github/workflows/ci.yml` runs on push/PR to `master` — builds and tests both frontend and backend.

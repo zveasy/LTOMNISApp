@@ -140,6 +140,10 @@ import AddPaymentMethod from './screens/PaymentMethods/AddPaymentMethod';
 import CreditDashboard from './screens/Credit/CreditDashboard';
 import CreditHistory from './screens/Credit/CreditHistory';
 import CreditReport from './screens/Credit/CreditReport';
+import {PaymentDetectionProvider} from './services/PaymentDetectionProvider';
+import QuickRecordScreen from './screens/QuickRecord/QuickRecordScreen';
+import ShareReceiver from './screens/QuickRecord/ShareReceiver';
+import DetectionSettings from './screens/Settings/DetectionSettings';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -258,9 +262,11 @@ const App = () => {
 export default function Root() {
   return (
     <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <App />
-      </GestureHandlerRootView>
+      <PaymentDetectionProvider>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <App />
+        </GestureHandlerRootView>
+      </PaymentDetectionProvider>
     </Provider>
   );
 }
@@ -409,6 +415,9 @@ export type HomeStackParamList = {
   BorrowingLimits: undefined;
   LenderExposure: undefined;
   AdminNavigator: undefined;
+  QuickRecordScreen: undefined;
+  ShareReceiver: {sharedText?: string; sharedImageUri?: string};
+  DetectionSettings: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -544,6 +553,9 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       <HomeStack.Screen name="CreditDashboard" component={CreditDashboard} />
       <HomeStack.Screen name="CreditHistory" component={CreditHistory} />
       <HomeStack.Screen name="CreditReport" component={CreditReport} />
+      <HomeStack.Screen name="QuickRecordScreen" component={QuickRecordScreen} />
+      <HomeStack.Screen name="ShareReceiver" component={ShareReceiver} />
+      <HomeStack.Screen name="DetectionSettings" component={DetectionSettings} />
     </HomeStack.Navigator>
   );
 }

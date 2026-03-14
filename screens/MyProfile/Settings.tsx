@@ -69,6 +69,14 @@ export default function Settings() {
         }}>
         <RowWithArrow title="App Feedback" />
       </Pressable>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('HomeStackNavigator', {
+            screen: 'DetectionSettings',
+          });
+        }}>
+        <RowWithArrow title="Payment Detection" />
+      </Pressable>
       <Pressable onPress={handleSignOut}>
         <View style={styles.signOutRow}>
           <Text style={styles.signOutText}>Sign Out</Text>

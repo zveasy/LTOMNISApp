@@ -180,6 +180,56 @@ router.post('/user/:userId/endorsements', authMiddleware, (req: AuthRequest, res
   }
 });
 
+const DEFAULT_DETECTION_PREFERENCES = {
+  enabled: true,
+  monitoredPlatforms: ['venmo', 'zelle', 'cashapp', 'paypal', 'applepay', 'remitly', 'wise', 'worldremit'],
+  smsScanning: false,
+  autoMatch: true,
+  sensitivity: 'medium',
+};
+
+router.get('/user/detection-preferences', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const user = db.prepare('SELECT detection_preferences FROM users WHERE id = ?').get(req.userId) as any;
+    if (!user) {
+      res.status(404).json({error: 'User not found'});
+      return;
+    }
+
+    let prefs = DEFAULT_DETECTION_PREFERENCES;
+    if (user.detection_preferences && user.detection_preferences !== '{}') {
+      try {
+        prefs = {...DEFAULT_DETECTION_PREFERENCES, ...JSON.parse(user.detection_preferences)};
+      } catch {
+        // fall back to defaults
+      }
+    }
+
+    res.json(prefs);
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to fetch detection preferences'});
+  }
+});
+
+router.put('/user/detection-preferences', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const user = db.prepare('SELECT id FROM users WHERE id = ?').get(req.userId) as any;
+    if (!user) {
+      res.status(404).json({error: 'User not found'});
+      return;
+    }
+
+    const prefs = req.body;
+    db.prepare(
+      `UPDATE users SET detection_preferences = ?, updated_at = datetime('now') WHERE id = ?`
+    ).run(JSON.stringify(prefs), req.userId);
+
+    res.json({success: true});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to update detection preferences'});
+  }
+});
+
 router.get('/user/reputation', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.userId) as any;

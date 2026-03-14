@@ -236,4 +236,150 @@ router.post('/payment/request_extension', authMiddleware, (req: AuthRequest, res
   }
 });
 
+const quickRecordSchema = z.object({
+  platform: z.string(),
+  amount: z.number().positive(),
+  direction: z.enum(['sent', 'received']),
+  counterparty: z.string().optional(),
+  referenceNumber: z.string().optional(),
+  loanId: z.string().optional(),
+  rawText: z.string().optional(),
+  confidence: z.number().min(0).max(1).optional(),
+});
+
+router.post('/payment/quick-record', authMiddleware, validate(quickRecordSchema), (req: AuthRequest, res: Response) => {
+  try {
+    const {platform, amount, direction, counterparty, referenceNumber, loanId, rawText, confidence} = req.body;
+
+    let matchedLoanId: string | null = loanId || null;
+    let matched = false;
+
+    if (loanId) {
+      const loan = db.prepare('SELECT * FROM loans WHERE id = ? AND status = ?').get(loanId, 'active') as any;
+      if (loan) {
+        matched = true;
+      } else {
+        matchedLoanId = null;
+      }
+    }
+
+    if (!matchedLoanId) {
+      const roleColumn = direction === 'sent' ? 'borrower_id' : 'lender_id';
+      const activeLoans = db.prepare(
+        `SELECT l.*, rs.amount AS scheduled_amount FROM loans l
+         LEFT JOIN repayment_schedules rs ON rs.loan_id = l.id AND rs.status = 'scheduled'
+         WHERE l.${roleColumn} = ? AND l.status = 'active'
+         ORDER BY rs.due_date ASC`
+      ).all(req.userId) as any[];
+
+      for (const loan of activeLoans) {
+        if (loan.scheduled_amount) {
+          const tolerance = loan.scheduled_amount * 0.05;
+          if (Math.abs(amount - loan.scheduled_amount) <= tolerance) {
+            matchedLoanId = loan.id;
+            matched = true;
+            break;
+          }
+        }
+      }
+    }
+
+    const paymentId = uuidv4();
+    db.prepare(
+      `INSERT INTO payments (id, loan_id, payer_id, amount, method, platform, reference_number, payment_date, direction, counterparty, raw_text, confidence)
+       VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), ?, ?, ?, ?)`
+    ).run(paymentId, matchedLoanId, req.userId, amount, platform, platform, referenceNumber || null, direction, counterparty || null, rawText || null, confidence ?? null);
+
+    const eventId = uuidv4();
+    db.prepare(
+      `INSERT INTO ledger_events (id, loan_id, user_id, event_type, description, amount)
+       VALUES (?, ?, ?, 'payment_detected', ?, ?)`
+    ).run(eventId, matchedLoanId, req.userId, `Payment of ${amount} detected on ${platform}`, amount);
+
+    if (matched && matchedLoanId) {
+      const loan = db.prepare('SELECT * FROM loans WHERE id = ?').get(matchedLoanId) as any;
+      if (loan) {
+        const counterpartyId = direction === 'sent' ? loan.lender_id : loan.borrower_id;
+        createNotification(counterpartyId, 'payment_detected', 'Payment Detected', `A payment of $${amount} was detected on ${platform}. Please confirm.`, paymentId);
+      }
+    }
+
+    res.json({
+      success: true,
+      paymentId,
+      matched,
+      loanId: matchedLoanId,
+      message: matched ? 'Payment recorded' : 'Payment recorded but no matching loan found',
+    });
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to quick-record payment'});
+  }
+});
+
+router.get('/payment/active-loans', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const asBorrower = db.prepare(
+      `SELECT l.id AS loanId, u.first_name || ' ' || u.last_name AS lenderName,
+              l.principal, l.amount_repaid, l.next_payment_date, l.status
+       FROM loans l
+       JOIN users u ON l.lender_id = u.id
+       WHERE l.borrower_id = ? AND l.status = 'active'`
+    ).all(req.userId) as any[];
+
+    const asLender = db.prepare(
+      `SELECT l.id AS loanId, u.first_name || ' ' || u.last_name AS borrowerName,
+              l.principal, l.amount_repaid, l.next_payment_date, l.status
+       FROM loans l
+       JOIN users u ON l.borrower_id = u.id
+       WHERE l.lender_id = ? AND l.status = 'active'`
+    ).all(req.userId) as any[];
+
+    const enrichBorrower = asBorrower.map((loan: any) => {
+      const nextSchedule = db.prepare(
+        `SELECT amount, due_date FROM repayment_schedules WHERE loan_id = ? AND status = 'scheduled' ORDER BY due_date ASC LIMIT 1`
+      ).get(loan.loanId) as any;
+      return {
+        loanId: loan.loanId,
+        lenderName: loan.lenderName,
+        principal: loan.principal,
+        nextPaymentAmount: nextSchedule?.amount || 0,
+        nextPaymentDate: nextSchedule?.due_date || null,
+        remainingAmount: loan.principal - (loan.amount_repaid || 0),
+        status: loan.status,
+      };
+    });
+
+    const enrichLender = asLender.map((loan: any) => {
+      const nextSchedule = db.prepare(
+        `SELECT amount, due_date FROM repayment_schedules WHERE loan_id = ? AND status = 'scheduled' ORDER BY due_date ASC LIMIT 1`
+      ).get(loan.loanId) as any;
+      return {
+        loanId: loan.loanId,
+        borrowerName: loan.borrowerName,
+        principal: loan.principal,
+        nextPaymentAmount: nextSchedule?.amount || 0,
+        nextPaymentDate: nextSchedule?.due_date || null,
+        remainingAmount: loan.principal - (loan.amount_repaid || 0),
+        status: loan.status,
+      };
+    });
+
+    res.json({asBorrower: enrichBorrower, asLender: enrichLender});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to fetch active loans'});
+  }
+});
+
+router.get('/payment/unmatched', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const payments = db.prepare(
+      `SELECT * FROM payments WHERE payer_id = ? AND loan_id IS NULL ORDER BY created_at DESC`
+    ).all(req.userId);
+
+    res.json({payments});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to fetch unmatched payments'});
+  }
+});
+
 export default router;

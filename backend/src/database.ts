@@ -30,6 +30,7 @@ export function initializeDatabase(): void {
       trust_tier INTEGER DEFAULT 1,
       verification_code TEXT,
       phone_verification_code TEXT,
+      detection_preferences TEXT DEFAULT '{}',
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     );
@@ -202,7 +203,7 @@ export function initializeDatabase(): void {
 
     CREATE TABLE IF NOT EXISTS payments (
       id TEXT PRIMARY KEY,
-      loan_id TEXT NOT NULL REFERENCES loans(id),
+      loan_id TEXT REFERENCES loans(id),
       payer_id TEXT NOT NULL REFERENCES users(id),
       amount REAL NOT NULL,
       method TEXT DEFAULT 'bank_transfer',
@@ -211,6 +212,10 @@ export function initializeDatabase(): void {
       payment_date TEXT,
       proof_url TEXT,
       notes TEXT,
+      direction TEXT,
+      counterparty TEXT,
+      raw_text TEXT,
+      confidence REAL,
       status TEXT DEFAULT 'pending',
       confirmed_at TEXT,
       created_at TEXT DEFAULT (datetime('now'))

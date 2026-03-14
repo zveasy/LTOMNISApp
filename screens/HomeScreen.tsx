@@ -8,6 +8,7 @@ import {
   NativeModules,
   ScrollView,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
@@ -123,6 +124,7 @@ export default function HomeScreen({}: {}) {
         setLenderNumOfOffersSent(userData.homeFeedObject.lenderNumOfOffersSent);
       } catch (error) {
         console.error('Error fetching user data:', error);
+        Alert.alert('Error', 'Failed to load home data. Pull to refresh.');
       }
     }, []); // Add any dependencies if needed
   

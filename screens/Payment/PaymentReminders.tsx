@@ -7,6 +7,7 @@ import {
   ScrollView,
   Switch,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
@@ -30,6 +31,7 @@ interface ReminderPreferences {
 
 export default function PaymentReminders() {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [preferences, setPreferences] = useState<ReminderPreferences>({
     email: true,
@@ -49,8 +51,11 @@ export default function PaymentReminders() {
       if (response.data?.preferences) {
         setPreferences(response.data.preferences);
       }
-    } catch (error) {
-      console.error('Error fetching reminders:', error);
+    } catch (err: any) {
+      console.error('Error fetching reminders:', err);
+      const message = err.response?.data?.error || 'Failed to load reminders.';
+      setError(message);
+      Alert.alert('Error', message);
     } finally {
       setLoading(false);
     }
@@ -100,6 +105,22 @@ export default function PaymentReminders() {
           color={GlobalStyles.Colors.primary200}
           style={{marginTop: 40}}
         />
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.background}>
+        <ScreenTitle title="Payment Reminders" showBackArrow />
+        <View style={styles.emptyCard}>
+          <Icon
+            name="alert-circle-outline"
+            size={40}
+            color={GlobalStyles.Colors.primary300}
+          />
+          <Text style={styles.emptyText}>{error}</Text>
+        </View>
       </SafeAreaView>
     );
   }

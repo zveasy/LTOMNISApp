@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -38,6 +39,7 @@ export default function PaymentInstructions({route}: {route: any}) {
       setObligation(response.data);
     } catch (error) {
       console.error('Error fetching loan status:', error);
+      Alert.alert('Error', 'Failed to load payment details. Please try again.');
     } finally {
       setLoading(false);
     }

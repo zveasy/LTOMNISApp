@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import GlobalStyles from '../../assets/constants/colors';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
@@ -48,6 +49,7 @@ const ObligationLedger: React.FC = () => {
   const [obligations, setObligations] = useState<Obligation[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
 
   const fetchData = useCallback(async () => {
@@ -68,8 +70,11 @@ const ObligationLedger: React.FC = () => {
       if (response.data.obligations) {
         setObligations(response.data.obligations);
       }
-    } catch (error) {
-      console.error('Error fetching obligations:', error);
+    } catch (err: any) {
+      console.error('Error fetching obligations:', err);
+      const message = err.response?.data?.error || 'Failed to load obligations.';
+      setError(message);
+      Alert.alert('Error', message);
     } finally {
       setLoading(false);
     }
@@ -134,6 +139,19 @@ const ObligationLedger: React.FC = () => {
             size="large"
             color={GlobalStyles.Colors.primary200}
           />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.background}>
+        <ScreenTitle title="My Obligations" showBackArrow={true} />
+        <View style={styles.loadingContainer}>
+          <Text style={{color: 'red', fontSize: 14, textAlign: 'center', paddingHorizontal: 20}}>
+            {error}
+          </Text>
         </View>
       </SafeAreaView>
     );

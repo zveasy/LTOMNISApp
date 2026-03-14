@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Pressable,
+  Alert,
 } from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
@@ -64,6 +65,7 @@ export default function OMNISScoreScreen() {
         console.log('omnisScore', omnisScore);
       } catch (error) {
         console.error('Error fetching user data:', error);
+        Alert.alert('Error', 'Failed to load OMNIS score. Please try again.');
       }
     };
 

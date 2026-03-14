@@ -70,6 +70,7 @@ const FriendsProfile = () => {
         );
       } catch (error) {
         console.error('Error fetching data: ', error);
+        Alert.alert('Error', 'Failed to load profile data.');
       }
     };
 
@@ -88,6 +89,7 @@ const FriendsProfile = () => {
         setReputationData(response.data);
       } catch (error) {
         console.error('Error fetching reputation data: ', error);
+        Alert.alert('Error', 'Failed to load reputation data.');
       }
     };
 

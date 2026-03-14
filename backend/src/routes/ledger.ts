@@ -88,6 +88,66 @@ router.get('/get/wallets', authMiddleware, (req: AuthRequest, res: Response) => 
   }
 });
 
+router.post('/deposit', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const {amount, method} = req.body;
+    if (!amount || amount <= 0) {
+      res.status(400).json({error: 'Valid amount is required'});
+      return;
+    }
+
+    db.prepare(`UPDATE users SET balance = balance + ? WHERE id = ?`).run(amount, req.userId);
+
+    const walletTxId = uuidv4();
+    db.prepare(
+      `INSERT INTO transactions (id, user_id, type, amount, description) VALUES (?, ?, 'deposit', ?, ?)`
+    ).run(walletTxId, req.userId, amount, `Deposit via ${method || 'bank_transfer'}`);
+
+    const eventId = uuidv4();
+    db.prepare(
+      `INSERT INTO ledger_events (id, user_id, event_type, description, amount) VALUES (?, ?, 'deposit', ?, ?)`
+    ).run(eventId, req.userId, `Deposit of ${amount} via ${method || 'bank_transfer'}`, amount);
+
+    const user = db.prepare('SELECT balance FROM users WHERE id = ?').get(req.userId) as any;
+    res.json({success: true, newBalance: user.balance});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to process deposit'});
+  }
+});
+
+router.post('/withdraw', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const {amount, method} = req.body;
+    if (!amount || amount <= 0) {
+      res.status(400).json({error: 'Valid amount is required'});
+      return;
+    }
+
+    const user = db.prepare('SELECT balance FROM users WHERE id = ?').get(req.userId) as any;
+    if (!user || user.balance < amount) {
+      res.status(400).json({error: 'Insufficient balance'});
+      return;
+    }
+
+    db.prepare(`UPDATE users SET balance = balance - ? WHERE id = ?`).run(amount, req.userId);
+
+    const walletTxId = uuidv4();
+    db.prepare(
+      `INSERT INTO transactions (id, user_id, type, amount, description) VALUES (?, ?, 'withdrawal', ?, ?)`
+    ).run(walletTxId, req.userId, amount, `Withdrawal via ${method || 'bank_transfer'}`);
+
+    const eventId = uuidv4();
+    db.prepare(
+      `INSERT INTO ledger_events (id, user_id, event_type, description, amount) VALUES (?, ?, 'withdrawal', ?, ?)`
+    ).run(eventId, req.userId, `Withdrawal of ${amount} via ${method || 'bank_transfer'}`, amount);
+
+    const updatedUser = db.prepare('SELECT balance FROM users WHERE id = ?').get(req.userId) as any;
+    res.json({success: true, newBalance: updatedUser.balance});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to process withdrawal'});
+  }
+});
+
 router.get('/transactions/mytransactions', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const transactions = db.prepare(

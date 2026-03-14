@@ -1,7 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import rateLimit from 'express-rate-limit';
 import {initializeDatabase} from './database';
+import {startScheduler} from './utils/scheduler';
 
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
@@ -17,9 +22,12 @@ import paymentRoutes from './routes/payment';
 import riskRoutes from './routes/risk';
 import adminRoutes from './routes/admin';
 import loanRoutes from './routes/loan';
+import notificationsRoutes from './routes/notifications';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+const authLimiter = rateLimit({windowMs: 15 * 60 * 1000, max: 20, message: {error: 'Too many attempts, try again later'}});
 
 app.use(cors());
 app.use(express.json());
@@ -27,8 +35,10 @@ app.use(express.urlencoded({extended: true}));
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 initializeDatabase();
+startScheduler();
 
 const api = express.Router();
+api.use('/account', authLimiter);
 api.use(authRoutes);
 api.use(userRoutes);
 api.use(identityRoutes);
@@ -43,6 +53,7 @@ api.use(paymentRoutes);
 api.use(riskRoutes);
 api.use(adminRoutes);
 api.use(loanRoutes);
+api.use(notificationsRoutes);
 
 app.use('/api/omnis', api);
 

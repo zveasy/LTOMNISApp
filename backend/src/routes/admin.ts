@@ -211,6 +211,72 @@ router.post('/admin/fraud/:flagId/action', (req: AuthRequest, res: Response) => 
   }
 });
 
+router.get('/admin/loans/search', (req: AuthRequest, res: Response) => {
+  try {
+    const {query, status} = req.query;
+
+    let sql = `
+      SELECT l.*,
+             b.first_name AS borrower_first_name, b.last_name AS borrower_last_name,
+             le.first_name AS lender_first_name, le.last_name AS lender_last_name
+      FROM loans l
+      JOIN users b ON l.borrower_id = b.id
+      JOIN users le ON l.lender_id = le.id
+      WHERE 1=1
+    `;
+    const params: any[] = [];
+
+    if (query && typeof query === 'string') {
+      sql += ` AND (l.id LIKE ? OR b.first_name LIKE ? OR b.last_name LIKE ? OR le.first_name LIKE ? OR le.last_name LIKE ?)`;
+      const pattern = `%${query}%`;
+      params.push(pattern, pattern, pattern, pattern, pattern);
+    }
+    if (status && typeof status === 'string') {
+      sql += ` AND l.status = ?`;
+      params.push(status);
+    }
+
+    sql += ` ORDER BY l.created_at DESC`;
+
+    const loans = db.prepare(sql).all(...params);
+    res.json(loans);
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to search loans'});
+  }
+});
+
+router.post('/admin/loans/:loanId/action', (req: AuthRequest, res: Response) => {
+  try {
+    const {loanId} = req.params;
+    const {action, amount, reason} = req.body;
+
+    if (!['force_complete', 'mark_defaulted', 'apply_adjustment'].includes(action)) {
+      res.status(400).json({error: 'Invalid action. Must be force_complete, mark_defaulted, or apply_adjustment'});
+      return;
+    }
+
+    if (action === 'force_complete') {
+      db.prepare(`UPDATE loans SET status = 'completed', completed_at = datetime('now') WHERE id = ?`).run(loanId);
+    } else if (action === 'mark_defaulted') {
+      db.prepare(`UPDATE loans SET status = 'defaulted' WHERE id = ?`).run(loanId);
+    } else if (action === 'apply_adjustment') {
+      if (amount !== undefined) {
+        db.prepare(`UPDATE loans SET amount_repaid = amount_repaid + ? WHERE id = ?`).run(amount, loanId);
+      }
+    }
+
+    const actionId = uuidv4();
+    db.prepare(
+      `INSERT INTO admin_actions (id, admin_id, target_type, target_id, action, details)
+       VALUES (?, ?, 'loan', ?, ?, ?)`
+    ).run(actionId, req.userId, loanId, action, reason || `Admin action: ${action}`);
+
+    res.json({success: true});
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to perform loan action'});
+  }
+});
+
 router.get('/admin/analytics', (req: AuthRequest, res: Response) => {
   try {
     const totalActiveLoans = (db.prepare(`SELECT COUNT(*) AS count FROM loans WHERE status = 'active'`).get() as any).count;

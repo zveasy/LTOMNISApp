@@ -1,21 +1,30 @@
 import express, {Response} from 'express';
 import bcrypt from 'bcryptjs';
 import {v4 as uuidv4} from 'uuid';
+import {z} from 'zod';
 import db from '../database';
 import {generateToken} from '../utils/jwt';
 import {authMiddleware, AuthRequest} from '../middleware/auth';
+import {validate} from '../middleware/validate';
 
 const router = express.Router();
+
+const registerLoginSchema = z.object({email: z.string().email(), password: z.string().min(8)});
+const loginSchema = z.object({email: z.string().email(), password: z.string().min(1)});
+const verifySchema = z.object({code: z.string().length(6)});
+const forgotPasswordSchema = z.object({email: z.string().email()});
+const updatePasswordSchema = z.object({password: z.string().min(8)});
 
 function generateVerificationCode(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-router.post('/account/register_login', (req: AuthRequest, res: Response) => {
+router.post('/account/register_login', validate(registerLoginSchema), (req: AuthRequest, res: Response) => {
   try {
     const {email, password} = req.body;
-    if (!email || !password) {
-      res.status(400).json({error: 'Email and password are required'});
+
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+      res.status(400).json({error: 'Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 digit'});
       return;
     }
 
@@ -35,13 +44,9 @@ router.post('/account/register_login', (req: AuthRequest, res: Response) => {
   }
 });
 
-router.post('/account/login', (req: AuthRequest, res: Response) => {
+router.post('/account/login', validate(loginSchema), (req: AuthRequest, res: Response) => {
   try {
     const {email, password} = req.body;
-    if (!email || !password) {
-      res.status(400).json({error: 'Email and password are required'});
-      return;
-    }
 
     const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email) as any;
     if (!user) {
@@ -62,7 +67,7 @@ router.post('/account/login', (req: AuthRequest, res: Response) => {
   }
 });
 
-router.post('/account/verify', authMiddleware, (req: AuthRequest, res: Response) => {
+router.post('/account/verify', authMiddleware, validate(verifySchema), (req: AuthRequest, res: Response) => {
   try {
     const {code} = req.body;
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.userId) as any;
@@ -93,7 +98,7 @@ router.post('/account/resend_code', authMiddleware, (req: AuthRequest, res: Resp
   }
 });
 
-router.post('/account/forgot_password', (req: AuthRequest, res: Response) => {
+router.post('/account/forgot_password', validate(forgotPasswordSchema), (req: AuthRequest, res: Response) => {
   try {
     const {email} = req.body;
     const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email) as any;
@@ -110,7 +115,7 @@ router.post('/account/forgot_password', (req: AuthRequest, res: Response) => {
   }
 });
 
-router.post('/account/update_password', authMiddleware, (req: AuthRequest, res: Response) => {
+router.post('/account/update_password', authMiddleware, validate(updatePasswordSchema), (req: AuthRequest, res: Response) => {
   try {
     const {password} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);

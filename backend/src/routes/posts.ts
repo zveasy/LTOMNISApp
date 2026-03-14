@@ -38,7 +38,7 @@ router.post('/post/create', authMiddleware, upload.single('image'), (req: AuthRe
 });
 
 // GET /posts/featured
-router.get('/posts/featured', (_req: AuthRequest, res: Response) => {
+router.get('/posts/featured', authMiddleware, (_req: AuthRequest, res: Response) => {
   try {
     const posts = db.prepare(`
       SELECT p.*, u.first_name, u.last_name, u.email, u.avatar_url, u.omnis_score
@@ -55,7 +55,7 @@ router.get('/posts/featured', (_req: AuthRequest, res: Response) => {
 });
 
 // GET /posts/all
-router.get('/posts/all', (_req: AuthRequest, res: Response) => {
+router.get('/posts/all', authMiddleware, (_req: AuthRequest, res: Response) => {
   try {
     const posts = db.prepare(`
       SELECT p.*, u.first_name, u.last_name, u.email, u.avatar_url, u.omnis_score
@@ -109,7 +109,7 @@ router.get('/posts/mypost', authMiddleware, (req: AuthRequest, res: Response) =>
 });
 
 // GET /post/:postId
-router.get('/post/:postId', (req: AuthRequest, res: Response) => {
+router.get('/post/:postId', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const { postId } = req.params;
 
@@ -132,7 +132,7 @@ router.get('/post/:postId', (req: AuthRequest, res: Response) => {
 });
 
 // GET /posts/search
-router.get('/posts/search', (req: AuthRequest, res: Response) => {
+router.get('/posts/search', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const { query, minAmount, maxAmount, minScore, visibility, status, sort } = req.query;
 

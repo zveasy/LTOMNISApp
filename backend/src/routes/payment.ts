@@ -1,19 +1,21 @@
 import express, {Response} from 'express';
 import {v4 as uuidv4} from 'uuid';
 import multer from 'multer';
+import {z} from 'zod';
 import db from '../database';
 import {authMiddleware, AuthRequest} from '../middleware/auth';
+import {validate} from '../middleware/validate';
+import {updateUserScore} from '../utils/scoreEngine';
+import {createNotification} from '../utils/notifications';
 
 const router = express.Router();
 const upload = multer({dest: 'uploads/'});
 
-router.post('/payment/mark_paid', authMiddleware, (req: AuthRequest, res: Response) => {
+const markPaidSchema = z.object({loanId: z.string(), amount: z.number().positive(), method: z.string(), referenceNumber: z.string().optional(), paymentDate: z.string().optional()});
+
+router.post('/payment/mark_paid', authMiddleware, validate(markPaidSchema), (req: AuthRequest, res: Response) => {
   try {
     const {loanId, amount, method, referenceNumber, paymentDate} = req.body;
-    if (!loanId || !amount) {
-      res.status(400).json({error: 'loanId and amount are required'});
-      return;
-    }
 
     const paymentId = uuidv4();
     db.prepare(
@@ -96,6 +98,13 @@ router.post('/payment/confirm_receipt', authMiddleware, (req: AuthRequest, res: 
       `INSERT INTO ledger_events (id, loan_id, user_id, event_type, description, amount, reference_id)
        VALUES (?, ?, ?, 'payment_confirmed', ?, ?, ?)`
     ).run(eventId, payment.loan_id, req.userId, `Payment of ${payment.amount} confirmed`, payment.amount, paymentId);
+
+    const loan = db.prepare('SELECT * FROM loans WHERE id = ?').get(payment.loan_id) as any;
+    if (loan) {
+      db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.borrower_id, 'repayment', payment.amount, 'Loan repayment confirmed', loan.lender_id);
+      db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.lender_id, 'received_repayment', payment.amount, 'Loan repayment received', loan.borrower_id);
+      updateUserScore(loan.borrower_id);
+    }
 
     res.json({success: true});
   } catch (err: any) {

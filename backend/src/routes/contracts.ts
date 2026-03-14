@@ -62,7 +62,7 @@ router.get('/contract/:contractId', authMiddleware, (req: AuthRequest, res: Resp
   }
 });
 
-router.get('/contract/:contractId/pdf', (req: AuthRequest, res: Response) => {
+router.get('/contract/:contractId/pdf', authMiddleware, (req: AuthRequest, res: Response) => {
   try {
     const {contractId} = req.params;
 
@@ -185,6 +185,20 @@ router.post('/contract/:contractId/amend', authMiddleware, (req: AuthRequest, re
     res.json({success: true});
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to amend contract'});
+  }
+});
+
+router.get('/contract/:contractId/amendments', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const {contractId} = req.params;
+
+    const amendments = db.prepare(
+      `SELECT * FROM contract_amendments WHERE contract_id = ? ORDER BY created_at DESC`
+    ).all(contractId);
+
+    res.json(amendments);
+  } catch (err: any) {
+    res.status(500).json({error: err.message || 'Failed to get amendments'});
   }
 });
 

@@ -1,11 +1,17 @@
 import express, {Response} from 'express';
 import {v4 as uuidv4} from 'uuid';
+import {z} from 'zod';
 import db from '../database';
 import {authMiddleware, AuthRequest} from '../middleware/auth';
+import {validate} from '../middleware/validate';
+import {createNotification} from '../utils/notifications';
 
 const router = express.Router();
 
-router.post('/offer/create', authMiddleware, (req: AuthRequest, res: Response) => {
+const offerCreateSchema = z.object({postId: z.string().uuid(), amount: z.number().positive(), interestPercentage: z.number().min(0).max(100)});
+const offerAcceptSchema = z.object({offerId: z.string().uuid(), paymentPlan: z.object({ppm: z.number().positive(), months: z.number().int().positive()})});
+
+router.post('/offer/create', authMiddleware, validate(offerCreateSchema), (req: AuthRequest, res: Response) => {
   try {
     const {postId, amount, interestPercentage} = req.body;
 
@@ -26,13 +32,15 @@ router.post('/offer/create', authMiddleware, (req: AuthRequest, res: Response) =
 
     db.prepare('UPDATE posts SET current_amount = current_amount + ? WHERE id = ?').run(amount, postId);
 
+    createNotification(borrowerId, 'new_offer', 'New Offer', 'New offer on your post', offerId);
+
     res.json({success: true, offerId});
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to create offer'});
   }
 });
 
-router.post('/offer/accept', authMiddleware, (req: AuthRequest, res: Response) => {
+router.post('/offer/accept', authMiddleware, validate(offerAcceptSchema), (req: AuthRequest, res: Response) => {
   try {
     const {offerId, paymentPlan} = req.body;
     const {ppm, months} = paymentPlan;
@@ -66,6 +74,8 @@ router.post('/offer/accept', authMiddleware, (req: AuthRequest, res: Response) =
       `INSERT INTO ledger_events (id, loan_id, user_id, event_type, description, amount)
        VALUES (?, ?, ?, 'loan_funded', 'Loan funded from accepted offer', ?)`
     ).run(ledgerId, loanId, offer.lender_id, offer.amount);
+
+    createNotification(offer.lender_id, 'offer_accepted', 'Offer Accepted', 'Your offer was accepted', offerId);
 
     res.json({success: true});
   } catch (err: any) {

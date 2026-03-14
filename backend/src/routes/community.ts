@@ -76,7 +76,7 @@ router.get('/groups/mygroups', authMiddleware, (req: AuthRequest, res: Response)
 });
 
 // GET /groups/featured
-router.get('/groups/featured', (_req: AuthRequest, res: Response) => {
+router.get('/groups/featured', authMiddleware, (_req: AuthRequest, res: Response) => {
   try {
     const groups = db.prepare(`
       SELECT * FROM communities ORDER BY member_count DESC
@@ -89,7 +89,7 @@ router.get('/groups/featured', (_req: AuthRequest, res: Response) => {
 });
 
 // GET /groups/all
-router.get('/groups/all', (_req: AuthRequest, res: Response) => {
+router.get('/groups/all', authMiddleware, (_req: AuthRequest, res: Response) => {
   try {
     const groups = db.prepare(`SELECT * FROM communities`).all();
     res.json(groups);
@@ -130,6 +130,26 @@ router.post('/group/creategroup', authMiddleware, (req: AuthRequest, res: Respon
     res.json({ success: true, groupId });
   } catch (error) {
     res.status(500).json({ error: 'Failed to create group' });
+  }
+});
+
+// GET /group/:groupId
+router.get('/group/:groupId', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { groupId } = req.params;
+
+    const group = db.prepare(`SELECT * FROM communities WHERE id = ?`).get(groupId) as any;
+    if (!group) {
+      res.status(404).json({ error: 'Group not found' });
+      return;
+    }
+
+    const memberCount = (db.prepare(`SELECT COUNT(*) AS count FROM community_memberships WHERE community_id = ?`).get(groupId) as any).count;
+    group.member_count = memberCount;
+
+    res.json(group);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get group details' });
   }
 });
 
@@ -269,6 +289,8 @@ router.get('/group/:groupId/pool', authMiddleware, (req: AuthRequest, res: Respo
   try {
     const { groupId } = req.params;
 
+    const group = db.prepare(`SELECT * FROM communities WHERE id = ?`).get(groupId) as any;
+
     const transactions = db.prepare(`
       SELECT pt.*, u.first_name, u.last_name
       FROM pool_transactions pt
@@ -293,9 +315,46 @@ router.get('/group/:groupId/pool', authMiddleware, (req: AuthRequest, res: Respo
       WHERE cm.community_id = ?
     `).all(groupId);
 
-    res.json({ balance, transactions, members });
+    res.json({
+      balance,
+      activities: transactions,
+      members,
+      poolRules: {
+        maxContribution: group ? group.max_loan_amount : 5000,
+        minContribution: 10,
+        maxRequestAmount: group ? group.max_loan_amount : 5000,
+        requireApproval: true,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: 'Failed to get pool info' });
+  }
+});
+
+// POST /group/:groupId/pool (unified endpoint)
+router.post('/group/:groupId/pool', authMiddleware, (req: AuthRequest, res: Response) => {
+  try {
+    const { groupId } = req.params;
+    const { type, amount, reason } = req.body;
+
+    if (!type || !amount) {
+      res.status(400).json({ error: 'type and amount are required' });
+      return;
+    }
+
+    if (type !== 'contribution' && type !== 'request') {
+      res.status(400).json({ error: 'type must be contribution or request' });
+      return;
+    }
+
+    const id = uuidv4();
+    db.prepare(`
+      INSERT INTO pool_transactions (id, community_id, user_id, type, amount, reason) VALUES (?, ?, ?, ?, ?, ?)
+    `).run(id, groupId, req.userId, type, amount, reason || '');
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to process pool transaction' });
   }
 });
 

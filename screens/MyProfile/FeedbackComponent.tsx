@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import GlobalStyles from '../../assets/constants/colors';
 
-export default function FeedbackComponent() {
+interface FeedbackComponentProps {
+  onFeedbackChange?: (text: string) => void;
+}
+
+export default function FeedbackComponent({onFeedbackChange}: FeedbackComponentProps) {
   const [feedback, setFeedback] = useState(''); // Holds the user's input
 
   return (
@@ -14,7 +18,10 @@ export default function FeedbackComponent() {
         numberOfLines={10} 
         placeholder="Tell us how we can improve..."
         placeholderTextColor={GlobalStyles.Colors.accent100}
-        onChangeText={text => setFeedback(text)}
+        onChangeText={text => {
+          setFeedback(text);
+          onFeedbackChange?.(text);
+        }}
         value={feedback}
       />
     </View>

@@ -9,6 +9,7 @@ import CustomPaymentBlock, { OfferStatus } from '../../assets/constants/Componen
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../ReduxStore';
+import {useNavigation} from '@react-navigation/native';
 
 interface PaymentReminder {
   firstname: string;
@@ -18,6 +19,7 @@ interface PaymentReminder {
 }
 
 export default function PaymentStatus() {
+  const navigation = useNavigation<any>();
   const token = useSelector((state: AppState) => state.token);
   const [reminders, setReminders] = useState<PaymentReminder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -115,7 +117,12 @@ export default function PaymentStatus() {
       <CompleteButton
         text="Make a payment"
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={() =>
+          navigation.navigate('HomeStackNavigator', {
+            screen: 'PaymentInstructions',
+            params: {loanId: '', amountDue: 0, dueDate: ''},
+          })
+        }
       />
     </SafeAreaView>
   );

@@ -6,6 +6,7 @@ import GlobalStyles from '../../assets/constants/colors';
 import CustomOfferBlock from '../../assets/constants/Components/CustomOfferBlock';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import SmallOfferDetailsVFour from '../../assets/constants/Components/SmallOfferDetailsVFour';
+import {useNavigation} from '@react-navigation/native';
 
 type OfferSentSuccessfulProps = {
   receivedAmount?: string;
@@ -14,6 +15,8 @@ type OfferSentSuccessfulProps = {
 const OfferSentSuccessful: React.FC<OfferSentSuccessfulProps> = ({
   receivedAmount = '$399.78',
 }) => {
+  const navigation = useNavigation<any>();
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -67,7 +70,7 @@ const OfferSentSuccessful: React.FC<OfferSentSuccessfulProps> = ({
         iconSet="Ionicons"
         iconColor={GlobalStyles.Colors.primary100}
         color={GlobalStyles.Colors.primary200}
-        onPress={() => {}}
+        onPress={() => navigation.popToTop()}
       />
     </SafeAreaView>
   );

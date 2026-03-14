@@ -1,6 +1,7 @@
 module.exports = {
   preset: 'react-native',
   testMatch: ['**/__tests__/**/*.(test|spec).(js|jsx|ts|tsx)'],
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/backend/'],
   moduleNameMapper: {
     "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
     "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"

@@ -2,6 +2,7 @@ import { Router, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import db from '../database';
 import { authMiddleware, AuthRequest } from '../middleware/auth';
+import { createNotification } from '../utils/notifications';
 
 const router = Router();
 
@@ -53,6 +54,8 @@ router.post('/friend/send/request', authMiddleware, (req: AuthRequest, res: Resp
     db.prepare(`
       INSERT INTO friends (id, requester_id, receiver_id, status) VALUES (?, ?, ?, 'pending')
     `).run(id, req.userId, friendId);
+
+    createNotification(friendId, 'friend_request', 'Friend Request', 'New friend request', id);
 
     res.json({ success: true });
   } catch (error) {
@@ -166,6 +169,11 @@ router.post('/group/:groupId/join', authMiddleware, (req: AuthRequest, res: Resp
     db.prepare(`
       UPDATE communities SET member_count = member_count + 1 WHERE id = ?
     `).run(groupId);
+
+    const group = db.prepare('SELECT creator_id FROM communities WHERE id = ?').get(groupId) as any;
+    if (group) {
+      createNotification(group.creator_id, 'member_joined', 'New Member', 'New member joined your group', groupId);
+    }
 
     res.json({ success: true });
   } catch (error) {

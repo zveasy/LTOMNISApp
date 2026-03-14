@@ -1,11 +1,13 @@
 import express from 'express';
 import db from '../database';
 import {authMiddleware, AuthRequest} from '../middleware/auth';
+import {updateUserScore} from '../utils/scoreEngine';
 
 const router = express.Router();
 
 router.get('/score', authMiddleware, (req: AuthRequest, res) => {
   try {
+    updateUserScore(req.userId!);
     const user = db.prepare('SELECT omnis_score FROM users WHERE id = ?').get(req.userId) as any;
     if (!user) { res.status(404).json({error: 'User not found'}); return; }
     res.json({scoreObject: {score: user.omnis_score}});

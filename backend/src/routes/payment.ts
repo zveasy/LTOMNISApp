@@ -29,6 +29,11 @@ router.post('/payment/mark_paid', authMiddleware, validate(markPaidSchema), (req
        VALUES (?, ?, ?, 'repayment_marked_paid', ?, ?)`
     ).run(eventId, loanId, req.userId, `Payment of ${amount} marked as paid`, amount);
 
+    const loan = db.prepare('SELECT * FROM loans WHERE id = ?').get(loanId) as any;
+    if (loan) {
+      createNotification(loan.lender_id, 'payment_marked', 'Payment Marked', 'Payment marked as paid, please confirm', paymentId);
+    }
+
     res.json({success: true, paymentId});
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to mark payment'});
@@ -104,6 +109,7 @@ router.post('/payment/confirm_receipt', authMiddleware, (req: AuthRequest, res: 
       db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.borrower_id, 'repayment', payment.amount, 'Loan repayment confirmed', loan.lender_id);
       db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.lender_id, 'received_repayment', payment.amount, 'Loan repayment received', loan.borrower_id);
       updateUserScore(loan.borrower_id);
+      createNotification(loan.borrower_id, 'payment_confirmed', 'Payment Confirmed', 'Payment confirmed', paymentId);
     }
 
     res.json({success: true});

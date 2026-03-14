@@ -1,5 +1,6 @@
 import express, {Response} from 'express';
 import {v4 as uuidv4} from 'uuid';
+import PDFDocument from 'pdfkit';
 import db from '../database';
 import {authMiddleware, AuthRequest} from '../middleware/auth';
 
@@ -81,20 +82,36 @@ router.get('/contract/:contractId/pdf', authMiddleware, (req: AuthRequest, res: 
       return;
     }
 
-    res.json({
-      title: 'Loan Contract',
-      contractId: contract.id,
-      lender: `${contract.lender_first_name} ${contract.lender_last_name}`,
-      borrower: `${contract.borrower_first_name} ${contract.borrower_last_name}`,
-      principal: contract.principal,
-      interestRate: contract.interest_rate,
-      totalRepayment: contract.total_repayment,
-      monthlyPayment: contract.monthly_payment,
-      termMonths: contract.term_months,
-      lateFeePercentage: contract.late_fee_percentage,
-      status: contract.status,
-      createdAt: contract.created_at,
-    });
+    const doc = new PDFDocument();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=contract-${contractId}.pdf`);
+    doc.pipe(res);
+
+    doc.fontSize(20).text('OMNIS Loan Contract', {align: 'center'});
+    doc.moveDown();
+    doc.fontSize(12).text(`Contract ID: ${contract.id}`);
+    doc.text(`Date: ${contract.created_at}`);
+    doc.text(`Status: ${contract.status}`);
+    doc.moveDown();
+    doc.text(`Borrower: ${contract.borrower_first_name} ${contract.borrower_last_name}`);
+    doc.text(`Lender: ${contract.lender_first_name} ${contract.lender_last_name}`);
+    doc.moveDown();
+    doc.text(`Principal: $${contract.principal}`);
+    doc.text(`Interest Rate: ${contract.interest_rate}%`);
+    doc.text(`Total Repayment: $${contract.total_repayment}`);
+    doc.text(`Monthly Payment: $${contract.monthly_payment}`);
+    doc.text(`Term: ${contract.term_months} months`);
+    doc.text(`Late Fee: ${contract.late_fee_percentage}%`);
+    doc.moveDown();
+    if (contract.terms_text) {
+      doc.text('Terms:', {underline: true});
+      doc.text(contract.terms_text);
+    }
+    doc.moveDown();
+    doc.text(`Borrower Signed: ${contract.borrower_signed ? 'Yes' : 'No'}`);
+    doc.text(`Lender Signed: ${contract.lender_signed ? 'Yes' : 'No'}`);
+
+    doc.end();
   } catch (err: any) {
     res.status(500).json({error: err.message || 'Failed to generate contract PDF'});
   }

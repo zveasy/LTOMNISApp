@@ -51,9 +51,9 @@ api.use(disputesRoutes);
 api.use(ledgerRoutes);
 api.use(paymentRoutes);
 api.use(riskRoutes);
-api.use(adminRoutes);
 api.use(loanRoutes);
 api.use(notificationsRoutes);
+api.use(adminRoutes);
 
 app.use('/api/omnis', api);
 
@@ -61,8 +61,10 @@ app.get('/health', (_req, res) => {
   res.json({status: 'ok', timestamp: new Date().toISOString()});
 });
 
-app.listen(PORT, () => {
-  console.log(`OMNIS backend running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`OMNIS backend running on port ${PORT}`);
+  });
+}
 
 export default app;

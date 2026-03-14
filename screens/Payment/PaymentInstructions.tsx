@@ -15,22 +15,44 @@ import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import api from '../../services/api';
 
+type PaymentHandle = {
+  platform: string;
+  handle: string;
+};
+
+const PLATFORM_ICONS: Record<string, string> = {
+  zelle: 'flash-outline',
+  venmo: 'logo-venmo',
+  paypal: 'logo-paypal',
+  cashapp: 'cash-outline',
+  applepay: 'logo-apple',
+  remitly: 'send-outline',
+  wise: 'swap-horizontal-outline',
+  worldremit: 'globe-outline',
+  other: 'ellipsis-horizontal-outline',
+};
+
 export default function PaymentInstructions({route}: {route: any}) {
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState(false);
   const [obligation, setObligation] = useState<any>(null);
+  const [lenderMethods, setLenderMethods] = useState<PaymentHandle[]>([]);
 
   const loanId = route?.params?.loanId;
   const amountDue = route?.params?.amountDue ?? 171.23;
   const dueDate = route?.params?.dueDate ?? '2025-07-15';
   const counterparty = route?.params?.counterparty ?? 'Zak Veasy';
+  const lenderId = route?.params?.lenderId;
 
   useEffect(() => {
     if (loanId) {
       fetchLoanStatus();
     }
+    if (lenderId) {
+      fetchLenderMethods();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loanId]);
+  }, [loanId, lenderId]);
 
   const fetchLoanStatus = async () => {
     try {
@@ -45,9 +67,21 @@ export default function PaymentInstructions({route}: {route: any}) {
     }
   };
 
-  const copyToClipboard = (text: string) => {
-    console.log('Copied:', text);
+  const fetchLenderMethods = async () => {
+    try {
+      const response = await api.get(
+        `/payment-methods/user/${lenderId}`,
+      );
+      setLenderMethods(response.data?.methods ?? response.data ?? []);
+    } catch (error) {
+      console.error('Error fetching lender payment methods:', error);
+    }
   };
+
+  const getPlatformIcon = (platform: string) =>
+    PLATFORM_ICONS[platform.toLowerCase()] ?? 'ellipsis-horizontal-outline';
+
+  const lenderName = obligation?.counterparty ?? counterparty;
 
   if (loading) {
     return (
@@ -87,83 +121,84 @@ export default function PaymentInstructions({route}: {route: any}) {
           <View style={styles.divider} />
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>Pay To</Text>
-            <Text style={styles.summaryValue}>
-              {obligation?.counterparty ?? counterparty}
+            <Text style={styles.summaryValue}>{lenderName}</Text>
+          </View>
+        </View>
+
+        {/* Lender Payment Handles */}
+        <View style={styles.sectionCard}>
+          <View style={styles.sectionHeader}>
+            <Icon
+              name="person-outline"
+              size={20}
+              color={GlobalStyles.Colors.primary200}
+            />
+            <Text style={styles.sectionTitle}>
+              Pay {lenderName} through any of these platforms:
             </Text>
           </View>
+
+          {lenderMethods.length > 0 ? (
+            lenderMethods.map((method, index) => (
+              <View key={index} style={styles.handleRow}>
+                <View style={styles.handleLeft}>
+                  <View style={styles.handleIconCircle}>
+                    <Icon
+                      name={getPlatformIcon(method.platform)}
+                      size={18}
+                      color={GlobalStyles.Colors.primary200}
+                    />
+                  </View>
+                  <View>
+                    <Text style={styles.handlePlatform}>
+                      {method.platform}
+                    </Text>
+                    <Text style={styles.handleValue}>{method.handle}</Text>
+                  </View>
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noMethodsText}>
+              No payment handles available for this lender. Contact them
+              directly.
+            </Text>
+          )}
         </View>
 
-        {/* Bank Transfer Details */}
-        <View style={styles.sectionCard}>
-          <View style={styles.sectionHeader}>
-            <Icon
-              name="business-outline"
-              size={20}
-              color={GlobalStyles.Colors.primary200}
-            />
-            <Text style={styles.sectionTitle}>Bank Transfer</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Account Name</Text>
-            <View style={styles.detailValueRow}>
-              <Text style={styles.detailValue}>LTOMNIS Escrow</Text>
+        {/* Pay via platform buttons */}
+        {lenderMethods.length > 0 && (
+          <View style={styles.sectionCard}>
+            <Text style={styles.payViaTitle}>Mark payment as sent</Text>
+            {lenderMethods.map((method, index) => (
               <TouchableOpacity
-                onPress={() => copyToClipboard('LTOMNIS Escrow')}>
+                key={index}
+                style={styles.payViaButton}
+                onPress={() =>
+                  navigation.navigate('MarkAsPaid', {
+                    loanId,
+                    amountDue: obligation?.amountDue ?? amountDue,
+                    counterpartyName: lenderName,
+                    platform: method.platform.toLowerCase(),
+                  })
+                }>
                 <Icon
-                  name="copy-outline"
-                  size={16}
+                  name={getPlatformIcon(method.platform)}
+                  size={18}
+                  color={GlobalStyles.Colors.primary200}
+                />
+                <Text style={styles.payViaButtonText}>
+                  I've paid via {method.platform}
+                </Text>
+                <Icon
+                  name="chevron-forward"
+                  size={18}
                   color={GlobalStyles.Colors.accent110}
                 />
               </TouchableOpacity>
-            </View>
+            ))}
           </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Routing Number</Text>
-            <View style={styles.detailValueRow}>
-              <Text style={styles.detailValue}>021000021</Text>
-              <TouchableOpacity onPress={() => copyToClipboard('021000021')}>
-                <Icon
-                  name="copy-outline"
-                  size={16}
-                  color={GlobalStyles.Colors.accent110}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Account Number</Text>
-            <View style={styles.detailValueRow}>
-              <Text style={styles.detailValue}>4829103756</Text>
-              <TouchableOpacity onPress={() => copyToClipboard('4829103756')}>
-                <Icon
-                  name="copy-outline"
-                  size={16}
-                  color={GlobalStyles.Colors.accent110}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* External Payment Apps */}
-        <View style={styles.sectionCard}>
-          <View style={styles.sectionHeader}>
-            <Icon
-              name="phone-portrait-outline"
-              size={20}
-              color={GlobalStyles.Colors.primary200}
-            />
-            <Text style={styles.sectionTitle}>External Payment Apps</Text>
-          </View>
-          <Text style={styles.infoText}>
-            You can also pay using Venmo, Zelle, CashApp, or PayPal. Please use
-            the recipient's registered email or phone number and include your
-            loan reference ID in the notes.
-          </Text>
-        </View>
+        )}
 
         {/* Important Notes */}
         <View style={styles.sectionCard}>
@@ -174,12 +209,6 @@ export default function PaymentInstructions({route}: {route: any}) {
               color={GlobalStyles.Colors.primary300}
             />
             <Text style={styles.sectionTitle}>Important Notes</Text>
-          </View>
-          <View style={styles.noteItem}>
-            <Text style={styles.bullet}>•</Text>
-            <Text style={styles.noteText}>
-              Bank transfers may take 1-3 business days to process.
-            </Text>
           </View>
           <View style={styles.noteItem}>
             <Text style={styles.bullet}>•</Text>
@@ -201,6 +230,12 @@ export default function PaymentInstructions({route}: {route: any}) {
               score.
             </Text>
           </View>
+          <View style={styles.noteItem}>
+            <Text style={styles.bullet}>•</Text>
+            <Text style={styles.noteText}>
+              Your OMNIS credit score grows with each confirmed on-time payment.
+            </Text>
+          </View>
         </View>
 
         <View style={{height: 100}} />
@@ -213,7 +248,7 @@ export default function PaymentInstructions({route}: {route: any}) {
           navigation.navigate('MarkAsPaid', {
             loanId,
             amountDue: obligation?.amountDue ?? amountDue,
-            counterpartyName: obligation?.counterparty ?? counterparty,
+            counterpartyName: lenderName,
           })
         }>
         <Text style={styles.primaryButtonText}>I've Made the Payment</Text>
@@ -275,32 +310,70 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: GlobalStyles.Colors.primary100,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
     marginLeft: 8,
+    flex: 1,
   },
-  detailRow: {
-    marginBottom: 14,
-  },
-  detailLabel: {
-    color: GlobalStyles.Colors.accent110,
-    fontSize: 12,
-    marginBottom: 4,
-  },
-  detailValueRow: {
+  handleRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.05)',
+  },
+  handleLeft: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  detailValue: {
-    color: GlobalStyles.Colors.primary100,
-    fontSize: 16,
-    fontWeight: '500',
+  handleIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(189,174,141,0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
   },
-  infoText: {
+  handlePlatform: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
+  handleValue: {
+    color: GlobalStyles.Colors.accent110,
+    fontSize: 13,
+    marginTop: 2,
+  },
+  noMethodsText: {
     color: GlobalStyles.Colors.accent110,
     fontSize: 14,
     lineHeight: 20,
+  },
+  payViaTitle: {
+    color: GlobalStyles.Colors.primary200,
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  payViaButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(189,174,141,0.1)',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(189,174,141,0.2)',
+  },
+  payViaButtonText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    fontWeight: '500',
+    flex: 1,
+    marginLeft: 10,
   },
   noteItem: {
     flexDirection: 'row',

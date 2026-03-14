@@ -12,17 +12,17 @@ import {checkAndAwardBadges} from '../utils/badges';
 const router = express.Router();
 const upload = multer({dest: 'uploads/'});
 
-const markPaidSchema = z.object({loanId: z.string(), amount: z.number().positive(), method: z.string(), referenceNumber: z.string().optional(), paymentDate: z.string().optional()});
+const markPaidSchema = z.object({loanId: z.string(), amount: z.number().positive(), method: z.string().optional(), platform: z.string().optional(), referenceNumber: z.string().optional(), paymentDate: z.string().optional()});
 
 router.post('/payment/mark_paid', authMiddleware, validate(markPaidSchema), (req: AuthRequest, res: Response) => {
   try {
-    const {loanId, amount, method, referenceNumber, paymentDate} = req.body;
+    const {loanId, amount, method, platform, referenceNumber, paymentDate} = req.body;
 
     const paymentId = uuidv4();
     db.prepare(
-      `INSERT INTO payments (id, loan_id, payer_id, amount, method, reference_number, payment_date)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
-    ).run(paymentId, loanId, req.userId, amount, method || 'bank_transfer', referenceNumber || null, paymentDate || null);
+      `INSERT INTO payments (id, loan_id, payer_id, amount, method, platform, reference_number, payment_date)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    ).run(paymentId, loanId, req.userId, amount, method || platform || 'bank_transfer', platform || null, referenceNumber || null, paymentDate || null);
 
     const eventId = uuidv4();
     db.prepare(
@@ -109,7 +109,14 @@ router.post('/payment/confirm_receipt', authMiddleware, (req: AuthRequest, res: 
     if (loan) {
       db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.borrower_id, 'repayment', payment.amount, 'Loan repayment confirmed', loan.lender_id);
       db.prepare('INSERT INTO transactions (id, user_id, type, amount, description, counterparty_id) VALUES (?, ?, ?, ?, ?, ?)').run(uuidv4(), loan.lender_id, 'received_repayment', payment.amount, 'Loan repayment received', loan.borrower_id);
-      updateUserScore(loan.borrower_id);
+
+      const platformName = payment.platform || payment.method || 'bank_transfer';
+      const scoreAfter = updateUserScore(loan.borrower_id);
+      db.prepare(
+        `INSERT INTO credit_history (id, user_id, event_type, description, score_change, score_after, loan_id, payment_id, platform)
+         VALUES (?, ?, 'payment_confirmed', ?, 2, ?, ?, ?, ?)`
+      ).run(uuidv4(), loan.borrower_id, `Payment of $${payment.amount} confirmed via ${platformName}`, scoreAfter, payment.loan_id, paymentId, platformName);
+
       createNotification(loan.borrower_id, 'payment_confirmed', 'Payment Confirmed', 'Payment confirmed', paymentId);
 
       const updatedLoan = db.prepare('SELECT * FROM loans WHERE id = ?').get(payment.loan_id) as any;

@@ -27,8 +27,17 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import axios from 'axios';
 // import { hideTabBar, showTabBar } from '../appReducer';
 
+const getScoreColor = (score: number): string => {
+  if (score < 35) return '#E53935';
+  if (score < 50) return '#FDD835';
+  if (score < 70) return '#43A047';
+  return GlobalStyles.Colors.primary200;
+};
+
 export default function HomeScreen({}: {}) {
   const [balance, setBalance] = useState('0.00'); // Default balance
+  const [omnisScore, setOmnisScore] = useState(0);
+  const [trustTier, setTrustTier] = useState(1);
   const [OfferSent, setOfferSent] = useState(0);
   const [AcceptedOffers, setAcceptedOffers] = useState(0);
   const [OffersAccepted, setOffersAccepted] = useState(0);
@@ -60,14 +69,12 @@ export default function HomeScreen({}: {}) {
     dispatch(setUserId(newId));
   };
 
-  const handleDeposit = () => {
-    console.log('Deposit button pressed');
-    navigation.navigate('DepositMoneyScreen');
+  const handlePaymentMethods = () => {
+    navigation.navigate('ManagePaymentMethods');
   };
 
-  const handleWithdraw = () => {
-    console.log('Withdraw button pressed');
-    navigation.navigate('WithdrawMoneyScreen');
+  const handleCreditDashboard = () => {
+    navigation.navigate('CreditDashboard');
   };
 
   const handleTransaction = () => {
@@ -127,26 +134,45 @@ export default function HomeScreen({}: {}) {
         Alert.alert('Error', 'Failed to load home data. Pull to refresh.');
       }
     }, []); // Add any dependencies if needed
+
+    const fetchScore = useCallback(async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/omnis/score`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+        setOmnisScore(response.data?.score ?? 0);
+        setTrustTier(response.data?.tier ?? 1);
+      } catch (error) {
+        console.error('Error fetching score:', error);
+      }
+    }, []);
   
     useEffect(() => {
       fetchUserData();
-    }, [fetchUserData]);
+      fetchScore();
+    }, [fetchUserData, fetchScore]);
   
     const onRefresh = useCallback(async () => {
       setRefreshing(true);
       try {
-        await fetchUserData();
+        await Promise.all([fetchUserData(), fetchScore()]);
       } catch (error) {
         console.error('Error on refresh:', error);
       } finally {
         setRefreshing(false);
       }
-    }, [fetchUserData]);
+    }, [fetchUserData, fetchScore]);
   
   console.log('This is After the First UseEffect');
 
   console.log('this home firstName', firstName)
   console.log('this home firstName', firstName)
+
+  const scoreColor = getScoreColor(omnisScore);
 
   const NotificationIcon = () => {
     return (
@@ -195,43 +221,47 @@ export default function HomeScreen({}: {}) {
         </Pressable>
       </View>
 
-      {/* Balance or Credit */}
+      {/* OMNIS Credit Score */}
 
-      <View>
-        <Text style={styles.LoanTitle}>Balance</Text>
-      </View>
-      <View>
-        <Text style={styles.LoanNumber}>{`$${balance}`}</Text>
+      <View style={styles.scoreSection}>
+        <Text style={styles.LoanTitle}>OMNIS Credit Score</Text>
+        <View style={[styles.scoreCircle, {borderColor: scoreColor}]}>
+          <Text style={[styles.scoreNumber, {color: scoreColor}]}>{omnisScore}</Text>
+        </View>
+        <View style={styles.tierBadge}>
+          <IonIcon name="shield-checkmark-outline" size={16} color={GlobalStyles.Colors.primary200} />
+          <Text style={styles.tierText}>Tier {trustTier}</Text>
+        </View>
       </View>
 
-      {/* Deposit & Withdraw */}
+      {/* Payment Methods & Credit Dashboard */}
 
       <View style={styles.headerContainer}>
         <Pressable
-          onPress={handleDeposit}
+          onPress={handlePaymentMethods}
           style={styles.DepositWithdrawContainer}
-          accessibilityLabel="Deposit"
+          accessibilityLabel="My Payment Methods"
           accessibilityRole="button">
           <IonIcon
-            name="add"
-            size={24}
+            name="wallet-outline"
+            size={22}
             style={{alignSelf: 'center'}}
             color={GlobalStyles.Colors.primary100}
           />
-          <Text style={styles.DepositWithdrawText}>Deposit</Text>
+          <Text style={styles.DepositWithdrawText}>Payment Methods</Text>
         </Pressable>
         <Pressable
-          onPress={handleWithdraw}
+          onPress={handleCreditDashboard}
           style={styles.DepositWithdrawContainer}
-          accessibilityLabel="Withdraw"
+          accessibilityLabel="Credit Dashboard"
           accessibilityRole="button">
           <IonIcon
-            name="download-outline"
-            size={24}
+            name="stats-chart-outline"
+            size={22}
             style={{alignSelf: 'center'}}
             color={GlobalStyles.Colors.primary100}
           />
-          <Text style={styles.DepositWithdrawText}>Withdraw</Text>
+          <Text style={styles.DepositWithdrawText}>Credit Dashboard</Text>
         </Pressable>
       </View>
 
@@ -357,11 +387,9 @@ const styles = StyleSheet.create({
   },
   LoanTitle: {
     color: GlobalStyles.Colors.accent110,
-    fontSize: 16,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    textAlign: 'left',
-    marginBottom: 8,
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 12,
   },
   LoanNumber: {
     color: GlobalStyles.Colors.primary100,
@@ -370,6 +398,38 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlign: 'left',
     marginBottom: 8,
+  },
+  scoreSection: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  scoreCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+  },
+  scoreNumber: {
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  tierBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(189,174,141,0.15)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginTop: 10,
+  },
+  tierText: {
+    color: GlobalStyles.Colors.primary200,
+    fontSize: 13,
+    fontWeight: '600',
+    marginLeft: 6,
   },
   emailButton: {
     width: '90%',
@@ -429,8 +489,8 @@ const styles = StyleSheet.create({
 
   DepositWithdrawText: {
     alignSelf: 'center',
-    marginLeft: 10,
-    fontSize: 16,
+    marginLeft: 8,
+    fontSize: 13,
     color: GlobalStyles.Colors.primary100,
     fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
     fontWeight: 'bold',

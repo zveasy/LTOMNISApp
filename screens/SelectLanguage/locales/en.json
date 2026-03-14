@@ -154,6 +154,29 @@
     "Approve": "Approve",
     "Reject": "Reject",
     "Resolve": "Resolve",
-    "Dismiss": "Dismiss"
+    "Dismiss": "Dismiss",
+
+    "paymentMethods": "Payment Methods",
+    "addPaymentMethod": "Add Payment Method",
+    "managePaymentMethods": "Manage Payment Methods",
+    "selectPlatform": "Select Platform",
+    "creditDashboard": "Credit Dashboard",
+    "creditHistory": "Credit History",
+    "creditReport": "Credit Report",
+    "omnisCredit": "OMNIS Credit",
+    "payVia": "Pay via {{platform}}",
+    "markAsPaidVia": "Mark as paid via {{platform}}",
+    "paymentConfirmed": "Payment confirmed",
+    "creditScoreGrew": "Your credit score grew!",
+    "howItWorks": "How It Works",
+    "externalPaymentExplanation": "OMNIS doesn't hold your money. Pay and get paid through the apps you already use.",
+    "zelle": "Zelle",
+    "venmo": "Venmo",
+    "paypal": "PayPal",
+    "cashapp": "Cash App",
+    "applepay": "Apple Pay",
+    "remitly": "Remitly",
+    "wise": "Wise",
+    "worldremit": "WorldRemit"
   }
   

@@ -135,6 +135,11 @@ import RiskDashboard from './screens/Risk/RiskDashboard';
 import BorrowingLimits from './screens/Risk/BorrowingLimits';
 import LenderExposure from './screens/Risk/LenderExposure';
 import AdminNavigator from './navigation/AdminNavigator';
+import ManagePaymentMethods from './screens/PaymentMethods/ManagePaymentMethods';
+import AddPaymentMethod from './screens/PaymentMethods/AddPaymentMethod';
+import CreditDashboard from './screens/Credit/CreditDashboard';
+import CreditHistory from './screens/Credit/CreditHistory';
+import CreditReport from './screens/Credit/CreditReport';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -388,8 +393,13 @@ export type HomeStackParamList = {
   ObligationLedger: undefined;
   TransactionJournal: undefined;
   AuditTrail: {loanId: string};
-  PaymentInstructions: {loanId: string; amountDue: number; dueDate: string};
-  MarkAsPaid: {loanId: string; amountDue: number; counterpartyName: string};
+  PaymentInstructions: {loanId: string; amountDue: number; dueDate: string; lenderId?: string; counterparty?: string};
+  MarkAsPaid: {loanId: string; amountDue: number; counterpartyName: string; platform?: string};
+  ManagePaymentMethods: undefined;
+  AddPaymentMethod: undefined;
+  CreditDashboard: undefined;
+  CreditHistory: undefined;
+  CreditReport: undefined;
   UploadProof: {paymentId: string};
   LenderConfirmReceipt: undefined;
   PaymentReminders: undefined;
@@ -529,6 +539,11 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       <HomeStack.Screen name="BorrowingLimits" component={BorrowingLimits} />
       <HomeStack.Screen name="LenderExposure" component={LenderExposure} />
       <HomeStack.Screen name="AdminNavigator" component={AdminNavigator} />
+      <HomeStack.Screen name="ManagePaymentMethods" component={ManagePaymentMethods} />
+      <HomeStack.Screen name="AddPaymentMethod" component={AddPaymentMethod} />
+      <HomeStack.Screen name="CreditDashboard" component={CreditDashboard} />
+      <HomeStack.Screen name="CreditHistory" component={CreditHistory} />
+      <HomeStack.Screen name="CreditReport" component={CreditReport} />
     </HomeStack.Navigator>
   );
 }

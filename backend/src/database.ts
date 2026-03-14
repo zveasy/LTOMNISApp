@@ -206,6 +206,7 @@ export function initializeDatabase(): void {
       payer_id TEXT NOT NULL REFERENCES users(id),
       amount REAL NOT NULL,
       method TEXT DEFAULT 'bank_transfer',
+      platform TEXT,
       reference_number TEXT,
       payment_date TEXT,
       proof_url TEXT,
@@ -307,6 +308,31 @@ export function initializeDatabase(): void {
       target_id TEXT NOT NULL,
       action TEXT NOT NULL,
       details TEXT,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS payment_methods (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id),
+      platform TEXT NOT NULL,
+      handle TEXT NOT NULL,
+      display_name TEXT,
+      is_primary INTEGER DEFAULT 0,
+      is_verified INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(user_id, platform, handle)
+    );
+
+    CREATE TABLE IF NOT EXISTS credit_history (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id),
+      event_type TEXT NOT NULL,
+      description TEXT,
+      score_change INTEGER DEFAULT 0,
+      score_after INTEGER,
+      loan_id TEXT,
+      payment_id TEXT,
+      platform TEXT,
       created_at TEXT DEFAULT (datetime('now'))
     );
   `);

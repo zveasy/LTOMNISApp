@@ -15,6 +15,18 @@ import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import api from '../../services/api';
 
+const PLATFORMS = [
+  {id: 'zelle', name: 'Zelle', icon: 'flash-outline'},
+  {id: 'venmo', name: 'Venmo', icon: 'logo-venmo'},
+  {id: 'paypal', name: 'PayPal', icon: 'logo-paypal'},
+  {id: 'cashapp', name: 'Cash App', icon: 'cash-outline'},
+  {id: 'applepay', name: 'Apple Pay', icon: 'logo-apple'},
+  {id: 'remitly', name: 'Remitly', icon: 'send-outline'},
+  {id: 'wise', name: 'Wise', icon: 'swap-horizontal-outline'},
+  {id: 'worldremit', name: 'WorldRemit', icon: 'globe-outline'},
+  {id: 'other', name: 'Other', icon: 'ellipsis-horizontal-outline'},
+];
+
 const PAYMENT_METHODS = [
   {id: 'bank_transfer', label: 'Bank Transfer', icon: 'business-outline'},
   {id: 'cash', label: 'Cash', icon: 'cash-outline'},
@@ -27,14 +39,25 @@ export default function MarkAsPaid({route}: {route: any}) {
   const loanId = route?.params?.loanId;
   const amountDue = route?.params?.amountDue ?? 171.23;
   const counterpartyName = route?.params?.counterpartyName ?? 'Zak Veasy';
+  const preSelectedPlatform = route?.params?.platform ?? null;
 
   const [paymentAmount, setPaymentAmount] = useState(amountDue.toString());
-  const [selectedMethod, setSelectedMethod] = useState('bank_transfer');
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
+    preSelectedPlatform,
+  );
+  const [selectedMethod, setSelectedMethod] = useState(
+    preSelectedPlatform ? 'external_app' : 'bank_transfer',
+  );
   const [paymentDate, setPaymentDate] = useState(
     new Date().toISOString().split('T')[0],
   );
   const [referenceNumber, setReferenceNumber] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const handlePlatformSelect = (platformId: string) => {
+    setSelectedPlatform(platformId);
+    setSelectedMethod('external_app');
+  };
 
   const handleMarkAsPaid = async () => {
     if (!paymentAmount || parseFloat(paymentAmount) <= 0) {
@@ -48,6 +71,7 @@ export default function MarkAsPaid({route}: {route: any}) {
         loanId,
         amount: parseFloat(paymentAmount),
         method: selectedMethod,
+        platform: selectedPlatform,
         paymentDate,
         referenceNumber,
       });
@@ -79,6 +103,41 @@ export default function MarkAsPaid({route}: {route: any}) {
           <View style={styles.row}>
             <Text style={styles.label}>Amount Due</Text>
             <Text style={styles.valueGold}>${amountDue.toFixed(2)}</Text>
+          </View>
+        </View>
+
+        {/* Platform Used */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Platform Used</Text>
+          <View style={styles.platformGrid}>
+            {PLATFORMS.map(platform => (
+              <TouchableOpacity
+                key={platform.id}
+                style={[
+                  styles.platformChip,
+                  selectedPlatform === platform.id &&
+                    styles.platformChipSelected,
+                ]}
+                onPress={() => handlePlatformSelect(platform.id)}>
+                <Icon
+                  name={platform.icon}
+                  size={18}
+                  color={
+                    selectedPlatform === platform.id
+                      ? GlobalStyles.Colors.primary200
+                      : GlobalStyles.Colors.accent110
+                  }
+                />
+                <Text
+                  style={[
+                    styles.platformChipText,
+                    selectedPlatform === platform.id &&
+                      styles.platformChipTextSelected,
+                  ]}>
+                  {platform.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
@@ -180,7 +239,9 @@ export default function MarkAsPaid({route}: {route: any}) {
         {/* Upload Proof */}
         <TouchableOpacity
           style={styles.uploadButton}
-          onPress={() => navigation.navigate('UploadProof', {paymentId: loanId})}>
+          onPress={() =>
+            navigation.navigate('UploadProof', {paymentId: loanId})
+          }>
           <Icon
             name="cloud-upload-outline"
             size={20}
@@ -255,6 +316,35 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'rgba(255,255,255,0.1)',
     marginVertical: 4,
+  },
+  platformGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  platformChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginRight: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  platformChipSelected: {
+    borderColor: GlobalStyles.Colors.primary200,
+    backgroundColor: 'rgba(189,174,141,0.15)',
+  },
+  platformChipText: {
+    color: GlobalStyles.Colors.accent110,
+    fontSize: 13,
+    marginLeft: 6,
+  },
+  platformChipTextSelected: {
+    color: GlobalStyles.Colors.primary200,
+    fontWeight: '600',
   },
   inputContainer: {
     flexDirection: 'row',

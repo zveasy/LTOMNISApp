@@ -1,146 +1,104 @@
-import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {SafeAreaView} from 'react-native';
-import {Divider} from 'react-native-elements';
-import CardInfoComponent from '../../assets/constants/Components/CardInfoComponent';
-import IconButtonComponent from '../../assets/constants/Components/IconButtonComponent';
-import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {AppState} from '../../ReduxStore';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../App';
 
-export default function DepositMoneyScreen() {
-  const [amount, setAmount] = useState('');
-  const [loading, setLoading] = useState(false);
-  const token = useSelector((state: AppState) => state.token);
-  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+const SUPPORTED_PLATFORMS = [
+  {id: 'zelle', name: 'Zelle', icon: 'flash-outline'},
+  {id: 'venmo', name: 'Venmo', icon: 'logo-venmo'},
+  {id: 'paypal', name: 'PayPal', icon: 'logo-paypal'},
+  {id: 'cashapp', name: 'Cash App', icon: 'cash-outline'},
+  {id: 'applepay', name: 'Apple Pay', icon: 'logo-apple'},
+  {id: 'remitly', name: 'Remitly', icon: 'send-outline'},
+  {id: 'wise', name: 'Wise', icon: 'swap-horizontal-outline'},
+  {id: 'worldremit', name: 'WorldRemit', icon: 'globe-outline'},
+];
 
-  const handleTrashPress = () => {
-    navigation.goBack();
-  };
+const HOW_IT_WORKS = [
+  'Add your payment handles (Venmo, Zelle, etc.)',
+  'When you owe a payment, your lender sees how to pay you',
+  'Make the payment on that platform',
+  'Mark it as paid in OMNIS',
+  'Your lender confirms receipt',
+  'Your credit score grows!',
+];
+
+export default function DepositMoneyScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <SafeAreaView style={styles.background}>
       <ScreenTitle
-        title="Deposit money"
+        title="Deposit"
         showBackArrow={true}
-        onBackPress={() => {
-          navigation.goBack();
-        }}
+        onBackPress={() => navigation.goBack()}
       />
-
-      <View style={styles.contentContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.leftAlignedText}>Enter Amount</Text>
-        </View>
-        <View style={styles.amountButton}>
-          <Text style={styles.dollarSign}>$</Text>
-          <TextInput
-            style={[styles.textInput, amount ? styles.textActive : null]}
-            placeholder="amount"
-            placeholderTextColor="rgba(255,255,255, 0.6)"
-            keyboardType="numeric"
-            onChangeText={text => setAmount(text)}
-            value={amount}
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}>
+        {/* Explanation Banner */}
+        <View style={styles.banner}>
+          <Icon
+            name="information-circle-outline"
+            size={24}
+            color={GlobalStyles.Colors.primary200}
           />
+          <Text style={styles.bannerText}>
+            OMNIS doesn't hold your money. Pay and get paid through the apps you
+            already use.
+          </Text>
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.leftAlignedText}>Payment methods</Text>
-        </View>
-        <CardInfoComponent
-          cardType="visa"
-          cardNumber="2515"
-          onTrashPress={handleTrashPress}
-        />
-      </View>
-      <View style={{marginTop: 16, alignItems: 'center'}}>
-        <IconButtonComponent
-          backgroundColor="rgba(118,118,128, 0.24)"
-          text="Add card"
-          iconSet="Ionicons"
-          iconName="add"
-          textColor={GlobalStyles.Colors.primary200}
-          iconColor={GlobalStyles.Colors.primary200}
-          onPress={() => {
-            // handle button press
-          }}
-        />
-      </View>
 
-      <View
-        style={{
-          justifyContent: 'center',
-          alignSelf: 'center',
-          width: '90%',
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 24,
-          }}>
-          <Divider
-            style={{flex: 1, height: 1}}
-            color={'rgba(256, 256, 256, 0.6)'}
-          />
-          <Text style={{marginHorizontal: 10, color: 'white'}}>Or</Text>
-          <Divider
-            style={{flex: 1, height: 1}}
-            color={'rgba(256, 256, 256, 0.6)'}
-          />
+        {/* Supported Platforms */}
+        <Text style={styles.sectionTitle}>Supported Platforms</Text>
+        <View style={styles.platformGrid}>
+          {SUPPORTED_PLATFORMS.map(platform => (
+            <View key={platform.id} style={styles.platformCard}>
+              <Icon
+                name={platform.icon}
+                size={28}
+                color={GlobalStyles.Colors.primary200}
+              />
+              <Text style={styles.platformName}>{platform.name}</Text>
+            </View>
+          ))}
         </View>
-      </View>
 
-      <View style={{marginTop: 16, alignItems: 'center'}}>
-        <IconButtonComponent
-          backgroundColor={GlobalStyles.Colors.primary100}
-          text="Apple pay" // This is now optional
-          textColor="black"
-          iconColor="black"
-          onPress={() => {
-            // handle button press
-          }}
-        />
-      </View>
-      <CompleteButton
-        text={loading ? 'Processing...' : 'Transfer'}
-        color={GlobalStyles.Colors.primary200}
-        onPress={async () => {
-          if (loading) return;
-          if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
-            Alert.alert('Invalid Amount', 'Please enter a valid amount.');
-            return;
-          }
-          setLoading(true);
-          try {
-            await axios.post(
-              'http://localhost:8080/api/omnis/deposit',
-              {amount: parseFloat(amount), method: 'bank_transfer'},
-              {
-                headers: {
-                  Authorization: `Bearer ${token.token}`,
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                },
-              },
-            );
-            navigation.navigate('DepositSuccessful');
-          } catch (error: any) {
-            const message =
-              error?.response?.data?.message ||
-              error?.message ||
-              'Deposit failed. Please try again.';
-            Alert.alert('Error', message);
-          } finally {
-            setLoading(false);
-          }
-        }}
-      />
+        {/* Manage Payment Methods Button */}
+        <TouchableOpacity
+          style={styles.manageButton}
+          onPress={() => navigation.navigate('ManagePaymentMethods')}>
+          <Icon
+            name="wallet-outline"
+            size={22}
+            color={GlobalStyles.Colors.primary100}
+          />
+          <Text style={styles.manageButtonText}>
+            Manage My Payment Methods
+          </Text>
+        </TouchableOpacity>
+
+        {/* How It Works */}
+        <Text style={styles.sectionTitle}>How It Works</Text>
+        <View style={styles.howItWorksCard}>
+          {HOW_IT_WORKS.map((step, index) => (
+            <View key={index} style={styles.stepRow}>
+              <View style={styles.stepNumberCircle}>
+                <Text style={styles.stepNumber}>{index + 1}</Text>
+              </View>
+              <Text style={styles.stepText}>{step}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={{height: 40}} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -150,43 +108,96 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GlobalStyles.Colors.primary800,
   },
-  contentContainer: {
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 20, // to give some padding on the sides
+  scrollContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
-  textContainer: {
-    width: '98%',
-    alignItems: 'flex-start',
-  },
-  leftAlignedText: {
-    marginBottom: 10,
-    color: GlobalStyles.Colors.primary100,
-  },
-  amountButton: {
-    width: '98%',
-    height: 50,
-    borderColor: 'rgba(255,255,255, 0.6)',
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    color: 'black',
+  banner: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(189,174,141,0.15)',
     borderRadius: 16,
-    marginBottom: 20,
-    paddingHorizontal: 10, // to give some padding inside the button
+    padding: 16,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(189,174,141,0.3)',
   },
-  dollarSign: {
-    color: 'black',
+  bannerText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    lineHeight: 20,
+    flex: 1,
+    marginLeft: 12,
+  },
+  sectionTitle: {
+    color: GlobalStyles.Colors.primary200,
     fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 24,
+    marginBottom: 12,
   },
-  textInput: {
-    color: 'black',
+  platformGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  platformCard: {
+    width: '23%',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  platformName: {
+    color: GlobalStyles.Colors.accent110,
+    fontSize: 11,
+    marginTop: 6,
+    textAlign: 'center',
+  },
+  manageButton: {
+    backgroundColor: GlobalStyles.Colors.primary200,
+    borderRadius: 16,
+    height: 56,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  manageButtonText: {
+    color: GlobalStyles.Colors.primary100,
     fontSize: 16,
-    flex: 1, // to take up all the available space
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
-  textActive: {
-    color: 'black',
+  howItWorksCard: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 16,
+    padding: 20,
   },
-  // ...rest of your styles
+  stepRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  stepNumberCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(189,174,141,0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  stepNumber: {
+    color: GlobalStyles.Colors.primary200,
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  stepText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    flex: 1,
+    lineHeight: 20,
+  },
 });

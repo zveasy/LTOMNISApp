@@ -21,7 +21,7 @@ export default function DepositMoneyScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const handleTrashPress = () => {
-    // Handle the trash button press here, e.g., remove the card info
+    navigation.goBack();
   };
 
   return (
@@ -30,7 +30,7 @@ export default function DepositMoneyScreen() {
         title="Deposit money"
         showBackArrow={true}
         onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
+          navigation.goBack();
         }}
       />
 

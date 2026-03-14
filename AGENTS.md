@@ -23,6 +23,7 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 | Start server | `cd backend && npm start` (port 8080) |
 | Dev server | `cd backend && npm run dev` (port 8080, ts-node) |
 | TypeScript check | `cd backend && npx tsc --noEmit` |
+| Test | `cd backend && npm test -- --runInBand --forceExit` |
 
 ### Backend architecture
 
@@ -31,7 +32,7 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 - **Database**: SQLite file at `backend/omnis.db` (auto-created on first run)
 - **Auth**: JWT tokens via `Authorization: Bearer <token>` header; admin routes require `role: 'admin'`
 - **File uploads**: Multer saves to `backend/uploads/`
-- **Route modules**: auth, user, identity, score, community, posts, offers, contracts, disputes, ledger, payment, risk, admin, loan
+- **Route modules**: auth, user, identity, score, community, posts, offers, contracts, disputes, ledger, payment, risk, loan, notifications, admin
 
 ### Non-obvious caveats
 
@@ -45,4 +46,7 @@ This is a React Native mobile app (LTOMNISApp) with an Express.js/TypeScript bac
 - **Rate limiting**: Auth routes (`/account/*`) are rate-limited to 20 requests per 15-minute window.
 - **Input validation**: Critical auth, offer, and payment routes use Zod schemas via `validate()` middleware. Registration also enforces password strength (uppercase + lowercase + digit).
 - **ESLint warnings/errors**: `npm run lint` exits with code 1 due to ~3700 existing prettier/style issues. This is expected and not a setup failure.
-- **Jest setup**: Tests use extensive React Native mocks defined in `jestSetup.js`. The mock file at `__mocks__/fileMock.js` handles static assets.
+- **Jest setup**: Tests use extensive React Native mocks defined in `jestSetup.js`. The mock file at `__mocks__/fileMock.js` handles static assets. The root `jest.config.js` excludes `backend/` via `testPathIgnorePatterns`.
+- **Backend tests**: Run `cd backend && npm test -- --runInBand --forceExit`. Tests use separate SQLite databases (auto-cleaned) and set `NODE_ENV=test` to skip `app.listen()`.
+- **Admin route ordering**: The admin router uses `router.use(authMiddleware, adminMiddleware)` which intercepts all unmatched routes. New route modules must be registered in `index.ts` **before** `adminRoutes` to avoid 403 errors for non-admin users.
+- **Payment scheduler**: `startScheduler()` runs on backend startup and checks for overdue payments every hour. It marks late payments and defaults loans with 3+ late payments.

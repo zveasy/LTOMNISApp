@@ -27,6 +27,7 @@ import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TransactionHistoryTax from './screens/TransactionHistory/TransactionHistoryTax';
+import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHistoryFilter';
 import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
@@ -78,6 +79,8 @@ import PrivacyPolicy from './screens/MyProfile/PrivacyPolicy';
 import EditProfile from './screens/MyProfile/EditProfile';
 import AppFeedBack from './screens/MyProfile/AppFeedBack';
 import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
+import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
+import WithdrawSuccessful from './screens/WithdrawMoney/WithdrawSuccessful';
 import BeforeYouGo from './screens/DeactivateAccount/BeforeYouGo';
 import BeforeYouGoAgain from './screens/DeactivateAccount/BeforeYouGoAgain';
 import PostOfferSummary from './screens/MyFeed/Borrower/PostOfferSummary';
@@ -264,10 +267,13 @@ export type HomeStackParamList = {
   Wallets: undefined;
   TransactionHistoryDetails: {transactionId: string};
   TransactionHistoryTax: {transactionId: string};
+  TransactionHistoryFilter: undefined;
   OfferScreenLender: undefined;
   OfferTransactionHistory: undefined;
   DepositMoneyScreen: undefined;
+  DepositSuccessful: undefined;
   WithdrawMoneyScreen: undefined;
+  WithdrawSuccessful: undefined;
   ClosedOfferGiftAccepted: undefined;
   LoanDetailsScreen: undefined;
   OfferScreen: undefined;
@@ -437,6 +443,10 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         component={TransactionHistoryTax}
       />
       <HomeStack.Screen
+        name="TransactionHistoryFilter"
+        component={TransactionHistoryFilter}
+      />
+      <HomeStack.Screen
         name="LoanDetailsScreen"
         component={LoanDetailsScreen}
       />
@@ -485,6 +495,8 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         name="DepositMoneyScreen"
         component={DepositMoneyScreen}
       />
+      <HomeStack.Screen name="DepositSuccessful" component={DepositSuccessful} />
+      <HomeStack.Screen name="WithdrawSuccessful" component={WithdrawSuccessful} />
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
       <HomeStack.Screen name="NewOffersLender" component={NewOffersLender} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
